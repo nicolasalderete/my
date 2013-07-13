@@ -3,13 +3,20 @@
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="fechaEmision" class="java.util.Date"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="mail" class="java.lang.String"/>
+	<parameter name="cuota" class="java.lang.String"/>
+	<parameter name="importe" class="java.math.BigDecimal"/>
+	<parameter name="total" class="java.math.BigDecimal"/>
+	<parameter name="fechaVto" class="java.util.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="49" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="49"/>
+				<reportElement x="0" y="0" width="555" height="24"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 					<font size="18" isBold="true" isItalic="false" isUnderline="true"/>
 				</textElement>
@@ -18,97 +25,103 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="22" splitType="Stretch">
+		<band height="16" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="105" height="15"/>
+				<reportElement x="0" y="0" width="106" height="15"/>
 				<textElement lineSpacing="Single">
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Fecha de emision:]]></text>
 			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="106" y="0" width="291" height="15"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaEmision}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="48" splitType="Stretch">
+		<band height="17" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="45" height="15"/>
+				<reportElement x="0" y="2" width="45" height="15"/>
 				<textElement lineSpacing="Single">
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="281" y="0" width="37" height="15"/>
+				<reportElement x="281" y="2" width="37" height="15"/>
 				<textElement lineSpacing="Single">
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="25" width="387" height="23" forecolor="#FFFFFF" backcolor="#000000"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Detalle]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="397" y="25" width="158" height="23" forecolor="#FFFFFF" backcolor="#000000"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Importe]]></text>
-			</staticText>
+			<textField>
+				<reportElement x="45" y="2" width="223" height="15"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="2" width="237" height="15"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{mail}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="157" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="17" width="387" height="1"/>
-			</line>
-			<line>
-				<reportElement x="0" y="41" width="387" height="1"/>
-			</line>
-			<line>
-				<reportElement x="397" y="18" width="158" height="1"/>
-			</line>
-			<line>
-				<reportElement x="397" y="41" width="158" height="1"/>
-			</line>
-			<line>
-				<reportElement x="0" y="62" width="387" height="1"/>
-			</line>
-			<line>
-				<reportElement x="397" y="61" width="158" height="1"/>
-			</line>
-		</band>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="397" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="57" width="397" height="20" forecolor="#010101" backcolor="#FEFEFE"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
-					<font isBold="true"/>
+					<font isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Total:]]></text>
+				<text><![CDATA[Total a pagar:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="397" y="0" width="158" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
-				<text><![CDATA[$ 120000]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="25" width="397" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+				<reportElement mode="Opaque" x="0" y="82" width="397" height="20" forecolor="#010101" backcolor="#FEFEFE"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
-					<font isBold="true"/>
+					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Fecha de vencimiento:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="397" y="25" width="158" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
-				<text><![CDATA[12/07/2013]]></text>
+				<reportElement x="0" y="10" width="78" height="15"/>
+				<textElement lineSpacing="Single">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Descripción :]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="78" y="10" width="463" height="15"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cuota}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="31" width="57" height="15"/>
+				<textElement lineSpacing="Single">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Importe :]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="57" y="31" width="340" height="15"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{importe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="407" y="57" width="148" height="20"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="407" y="82" width="148" height="20"/>
+				<textElement lineSpacing="Single"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaVto}]]></textFieldExpression>
+			</textField>
 		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="65" splitType="Stretch"/>

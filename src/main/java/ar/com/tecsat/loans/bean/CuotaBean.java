@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +128,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void exportPdf() throws JRException, IOException {
 		String path = "/WEB-INF/reportes/reporteCuota.jrxml";
 
@@ -136,6 +138,14 @@ public class CuotaBean extends BasicController implements Serializable {
 
 		@SuppressWarnings("rawtypes")
 		Map parameters = new HashMap();
+		parameters.put("fechaEmision", Calendar.getInstance().getTime());
+		parameters.put("cliente", cuota.getPrestamo().getCliente().getCliNombre());
+		parameters.put("mail", cuota.getPrestamo().getCliente().getCliMail());
+		parameters.put("cuota", cuota.toString());
+		parameters.put("importe", cuota.getCuoImporte());
+		parameters.put("total", cuota.getCuoTotalPagar());
+		parameters.put("fechaVto", cuota.getCuoFechaVencimiento());
+		
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
