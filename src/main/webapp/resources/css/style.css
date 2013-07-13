@@ -1,0 +1,35 @@
+.errorMessage {
+	color: red;
+	padding: 10px;
+	font-family: monospace;
+	font-weight: bold;
+}
+
+.infoMessage {
+	color: green;
+	padding: 10px;
+	font-family: monospace;
+	font-weight: bold;
+}
+
+.warnMessage {
+	color: green;
+	padding: 10px;
+	font-family: monospace;
+	font-weight: bold;
+}
+
+.container-body {
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 10px;
+}
+
+th {
+	background-color: #f5f5f5;
+}
+
+

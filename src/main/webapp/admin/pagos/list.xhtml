@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<ui:define name="pageTitle">Pago</ui:define>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/template/common.xhtml">
+		<ui:define name="header">
+			<ui:include src="/WEB-INF/template/commonHeader.xhtml" />
+		</ui:define>
+		<ui:define name="body">
+
+			<h:form styleClass="form-horizontal">
+
+				<h4>Listado de pagos</h4>
+				<hr />
+				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+
+				<h:dataTable value="#{pagoBean.listaPagos}" var="pago" styleClass="table table-hover">
+
+					<h:column>
+						<f:facet name="header">Nombre del cliente</f:facet>
+						<h:outputText value="#{pago.cliente.cliNombre}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Importe de la Cuota</f:facet>
+						<h:outputText value="#{pago.prestamo.preImporteCuota}" >
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nro. de Cuota</f:facet>
+						<h:outputText value="#{pago.cuota.cuoNumero}" >
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Fecha de vto. de Cuota</f:facet>
+						<h:outputText value="#{pago.cuota.cuoFechaVencimiento}" >
+						<f:convertDateTime dateStyle="medium"/> 
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Monto del pago</f:facet>
+						<h:outputText value="#{pago.pagMonto}" >
+							<f:convertNumber type="currency"/>
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Fecha de pago</f:facet>
+						<h:outputText value="#{pago.pagFestado}" >
+							<f:convertDateTime dateStyle="medium"/> 
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Acciones</f:facet>
+						<h:commandLink value="Detalle" action="#{pagoBean.detail(pago)}" />
+					</h:column>
+				</h:dataTable>
+
+				<div class="row-fluid show-grid">
+					<div class="span8"></div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton value="Volver" action="#{pagoBean.stepBack()}" styleClass="btn"/>
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="foot">
+			<ui:include src="/WEB-INF/template/commonFooter.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

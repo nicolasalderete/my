@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+<ui:composition>
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<h:form>
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+					<h:link styleClass="brand" outcome="/admin/home.xhtml" value="Loans"/>
+					<div class="nav-collapse collapse">
+						<p class="navbar-text pull-right">
+							<h:commandLink styleClass="navbar-link" value="Cerrar sesión" action="#{loginController.logOut()}" />
+						</p>
+						<ul class="nav">
+							<li><h:commandLink value="Clientes" action="#{clienteBean.init()}"  /></li>
+							<li><h:commandLink value="Prestamos" action="#{prestamoBean.init()}" /></li>
+							<li><h:commandLink value="Cuotas" action="#{cuotaBean.init()}" /></li>
+							<li><h:commandLink value="Pagos" action="#{pagoBean.init()}" /></li>
+							<li><h:commandLink value="Reportes" action="#{reporteBean.init()}" /></li>
+							<li><h:commandLink value="Perfil" action="#{perfilBean.init()}" /></li>
+						</ul>
+
+					</div>
+					<!--/.nav-collapse -->
+				</h:form>
+			</div>
+		</div>
+	</div>
+</ui:composition>
+
+</html>

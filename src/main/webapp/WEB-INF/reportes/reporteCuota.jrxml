@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteCuota" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font size="18" isBold="true" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Recibo de cuota]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="105" height="15"/>
+				<textElement lineSpacing="Single">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de emision:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="45" height="15"/>
+				<textElement lineSpacing="Single">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="0" width="37" height="15"/>
+				<textElement lineSpacing="Single">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="25" width="387" height="23" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="397" y="25" width="158" height="23" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="157" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="17" width="387" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="41" width="387" height="1"/>
+			</line>
+			<line>
+				<reportElement x="397" y="18" width="158" height="1"/>
+			</line>
+			<line>
+				<reportElement x="397" y="41" width="158" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="62" width="387" height="1"/>
+			</line>
+			<line>
+				<reportElement x="397" y="61" width="158" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="397" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="0" width="158" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
+				<text><![CDATA[$ 120000]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="25" width="397" height="20" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de vencimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="25" width="158" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
+				<text><![CDATA[12/07/2013]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="65" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

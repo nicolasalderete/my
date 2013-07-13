@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<ui:define name="pageTitle">Prestamos</ui:define>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/template/common.xhtml">
+		<ui:define name="header">
+			<ui:include src="/WEB-INF/template/commonHeader.xhtml" />
+		</ui:define>
+		<ui:define name="body">
+
+			<h:form styleClass="form-horizontal">
+
+				<h4>Búsqueda de prestamos</h4>
+				<hr />
+
+				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"/>
+
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Cliente :" styleClass="control-label" for="idCliente" />
+							<div class="controls">
+								<h:selectOneMenu id="idCliente" value="#{prestamoBean.filtro.idCliente}">
+									<f:selectItem itemLabel="Seleccione un cliente..." noSelectionOption=""/>
+									<f:selectItems value="#{prestamoBean.listaCliente}" var="cliente" itemValue="#{cliente.cliId}"
+										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Capital :" styleClass="control-label" for="idCapital" />
+							<div class="controls">
+								<h:selectOneMenu styleClass="input-medium" value="#{prestamoBean.filtro.condicionMonto}">
+									<f:selectItem itemLabel="es igual a" itemValue="ES_IGUAL" />
+									<f:selectItem itemLabel="es mayor a" itemValue="ES_MAYOR" />
+									<f:selectItem itemLabel="es menor a" itemValue="ES_MENOR" />
+								</h:selectOneMenu>
+								&nbsp;
+								<h:inputText styleClass="input-small" id="idCapital" value="#{prestamoBean.filtro.capital}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idCuotas" value="Cantidad de cuotas :" />
+							<div class="controls">
+								<h:selectOneMenu styleClass="input-medium" value="#{prestamoBean.filtro.condicionCuotas}">
+									<f:selectItem itemLabel="es igual a" itemValue="ES_IGUAL" />
+									<f:selectItem itemLabel="es mayor a" itemValue="ES_MAYOR" />
+									<f:selectItem itemLabel="es menor a" itemValue="ES_MENOR" />
+								</h:selectOneMenu>
+								&nbsp;
+								<h:inputText id="idCuotas" value="#{prestamoBean.filtro.cantCuotas}"  styleClass="input-small" />
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Tasa de interes :" styleClass="control-label" for="idTasa" />
+							<div class="controls">
+								<h:selectOneMenu styleClass="input-medium" value="#{prestamoBean.filtro.condicionTasa}">
+									<f:selectItem itemLabel="es igual a" itemValue="ES_IGUAL" />
+									<f:selectItem itemLabel="es mayor a" itemValue="ES_MAYOR" />
+									<f:selectItem itemLabel="es menor a" itemValue="ES_MENOR" />
+								</h:selectOneMenu>
+								&nbsp;
+								<h:inputText id="idTasa" styleClass="input-small" value="#{prestamoBean.filtro.tasa}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Fecha de entrega desde: " class="control-label" for="idFechaDesde" />
+							<div class="controls">
+								<p:calendar id="idFechaDesde" styleClass="input-medium" value="#{prestamoBean.filtro.fechaDesde}"/>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Fecha de entrega hasta: " styleClass="control-label" for="idFechaHasta" />
+							<div class="controls">
+								<p:calendar id="idFechaHasta" styleClass="input-medium" value="#{prestamoBean.filtro.fechaHasta}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Estado del prestamo: " class="control-label" for="idestado" />
+							<div class="controls">
+								<h:selectOneMenu id="idestado" styleClass="input-medium" value="#{prestamoBean.filtro.estado}" >
+									<f:selectItem itemLabel="Todos" noSelectionOption="true" />
+									<f:selectItem itemLabel="En Proceso" itemValue="VIGENTE" />
+									<f:selectItem itemLabel="Cancelado" itemValue="CANCELADO" />
+									<f:selectItem itemLabel="Vencido" itemValue="VENCIDO" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row-fluid show-grid">
+					<div class="span8">
+						<div class="control-group"></div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton action="#{prestamoBean.buscar()}" styleClass="btn btn-primary" value="Buscar" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton action="#{prestamoBean.create()}" styleClass="btn" value="Crear nuevo" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="foot">
+			<ui:include src="/WEB-INF/template/commonFooter.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

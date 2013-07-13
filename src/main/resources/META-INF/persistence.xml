@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="Prest" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<jta-data-source>java:jboss/datasources/MysqlDS</jta-data-source>
+		
+		<class>ar.com.tecsat.loans.modelo.Cliente</class>
+		<class>ar.com.tecsat.loans.modelo.Perfil</class>
+		<class>ar.com.tecsat.loans.modelo.Operador</class>
+		<class>ar.com.tecsat.loans.modelo.Prestamo</class>
+		<class>ar.com.tecsat.loans.modelo.Cuota</class>
+		<class>ar.com.tecsat.loans.modelo.Pago</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
+
+			<property name="hibernate.show_sql" value="true" />
+
+			<property name="hibernate.format_sql" value="true" />
+
+			<property name="hibernate.jdbc.batch_size" value="20" />
+
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+
+			<property name="hibernate.cache.use_query_cache" value="false" />
+		</properties>
+	</persistence-unit>
+</persistence>

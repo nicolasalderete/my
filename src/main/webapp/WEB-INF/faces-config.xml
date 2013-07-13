@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+	<!-- Menu navigation -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{prestamoBean.init()}</from-action>
+			<from-outcome>filter</from-outcome>
+			<to-view-id>/admin/prestamos/filter.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{clienteBean.init()}</from-action>
+			<from-outcome>filter</from-outcome>
+			<to-view-id>/admin/clientes/filter.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{pagoBean.init()}</from-action>
+			<from-outcome>filter</from-outcome>
+			<to-view-id>/admin/pagos/filter.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{cuotaBean.init()}</from-action>
+			<from-outcome>filter</from-outcome>
+			<to-view-id>/admin/cuotas/filter.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{reporteBean.init()}</from-action>
+			<from-outcome>list</from-outcome>
+			<to-view-id>/admin/reportes/list.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{perfilBean.init()}</from-action>
+			<from-outcome>create</from-outcome>
+			<to-view-id>/admin/perfil/create.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{perfilBean.init()}</from-action>
+			<from-outcome>summary</from-outcome>
+			<to-view-id>/admin/perfil/summary.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-action>#{loginController.logOut()}</from-action>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<!-- login view -->
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{loginController.login()}</from-action>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{loginController.login()}</from-action>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/admin/home.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+</faces-config>

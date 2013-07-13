@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<ui:define name="pageTitle">Prestamos</ui:define>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/template/common.xhtml">
+		<ui:define name="header">
+			<ui:include src="/WEB-INF/template/commonHeader.xhtml" />
+		</ui:define>
+		<ui:define name="body">
+
+			<h:form styleClass="form-horizontal">
+
+				<h4>Listado de prestamos</h4>
+				<hr />
+				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+
+				<h:dataTable value="#{prestamoBean.listaPrestamo}" var="pre" styleClass="table table-hover">
+				
+					<h:column>
+						<f:facet name="header">Cliente</f:facet>
+						<h:outputText value="#{pre.cliente.cliNombre}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Capital</f:facet>
+						<h:outputText value="#{pre.preCapital}">
+							<f:convertNumber currencySymbol="$" type="currency" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Cuotas</f:facet>
+						<h:outputText value="#{pre.preCantCuotas}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Tasa</f:facet>
+						<h:outputText value="#{pre.preTasaMensual}">
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Int. mensual</f:facet>
+						<h:outputText value="#{pre.preInteresMensual}">
+							<f:convertNumber currencySymbol="$" type="currency" />
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Total prestamo</f:facet>
+						<h:outputText value="#{pre.preMontoTotal}">
+							<f:convertNumber currencySymbol="$" type="currency" />
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Gcia. prestamo</f:facet>
+						<h:outputText value="#{pre.preMontoTotal - pre.preCapital}">
+							<f:convertNumber currencySymbol="$" type="currency" />
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Fecha entrega</f:facet>
+						<h:outputText value="#{pre.preFechaInicio}">
+							<f:convertDateTime dateStyle="medium"/> 
+						</h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Estado</f:facet>
+						<h:outputText value="#{pre.preEstado}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Acciones</f:facet>
+						<h:commandLink value="Detalle" action="#{prestamoBean.detalle(pre)}" /> 
+					</h:column>
+				</h:dataTable>
+
+				<div class="row-fluid show-grid">
+					<div class="span8"></div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton styleClass="btn" action="#{prestamoBean.stepBack()}" value="Volver" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton styleClass="btn" action="#{prestamoBean.create()}" value="Crear Nuevo" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="foot">
+			<ui:include src="/WEB-INF/template/commonFooter.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

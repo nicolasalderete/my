@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<ui:define name="pageTitle">Reportes</ui:define>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/template/common.xhtml">
+		<ui:define name="header">
+			<ui:include src="/WEB-INF/template/commonHeader.xhtml" />
+		</ui:define>
+		<ui:define name="body">
+			<h:form>
+				<fieldset>
+				<legend>Reportes</legend>
+				
+				<h:messages errorClass="errorMessage" infoClass="infoMessage"
+					warnClass="warnMessage"></h:messages>
+				
+				</fieldset>
+				<hr />
+				<div class="row-fluid show-grid">
+					<div class="span8">
+						<div class="control-group">
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton action="#{clienteController.create}" styleClass="btn btn-primary" value="Guardar" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton action="#{clienteController.create}" styleClass="btn" value="Cancelar" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="foot">
+			<ui:include src="/WEB-INF/template/commonFooter.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<ui:define name="pageTitle">Cliente</ui:define>
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/template/common.xhtml">
+		<ui:define name="header">
+			<ui:include src="/WEB-INF/template/commonHeader.xhtml" />
+		</ui:define>
+		<ui:define name="body">
+
+			<h:form styleClass="form-horizontal">
+
+				<h4>Listado de clientes</h4>
+				<hr />
+				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
+
+				<h:dataTable value="#{clienteBean.listaCliente}" var="cli" styleClass="table table-hover">
+
+					<h:column>
+						<f:facet name="header">Nombre y Apellido</f:facet>
+						<h:outputText value="#{cli.cliNombre}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Dni</f:facet>
+						<h:outputText value="#{cli.cliDni}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Telefono</f:facet>
+						<h:outputText value="#{cli.cliTelefono}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Domicilio</f:facet>
+						<h:outputText value="#{cli.cliDireccion}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nro Cbu</f:facet>
+						<h:outputText value="#{cli.cliCbu}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Acciones</f:facet>
+						<h:commandLink value="Detalle" action="#{clienteBean.detail(cli)}" /> | 
+						<h:commandLink value="Eliminar" action="#{clienteBean.deleteList(cli)}" 
+							onclick="if (! confirm('Desea eliminar el cliente') ) { return false;}; return true; "/>
+					</h:column>
+				</h:dataTable>
+
+				<div class="row-fluid show-grid">
+					<div class="span8"></div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandLink action="#{clienteBean.stepBack()}" styleClass="btn" value="Volver" />
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group">
+							<h:commandButton action="#{clienteBean.create()}" styleClass="btn" value="Crear Nuevo">
+							</h:commandButton>
+						</div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+					<div class="span1">
+						<div class="control-group"></div>
+					</div>
+				</div>
+			</h:form>
+
+		</ui:define>
+		<ui:define name="foot">
+			<ui:include src="/WEB-INF/template/commonFooter.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

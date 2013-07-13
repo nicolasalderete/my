@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="40,160,50,57" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="failure:#{loginController.login()}:#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml"
+    TITLE="#{loginController.login()}:failure" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="home:#{loginController.login()}:#admin#home.xhtml"
+    NAME="output1" PATH="/admin/home.xhtml"
+    TARGET="rules:#admin#home.xhtml"
+    TITLE="#{loginController.login()}:home" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#home.xhtml" PATH="/admin/home.xhtml"
+  SHAPE="168,272,50,25" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="64,56,53,42" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="filter:#{prestamoBean.init()}:#admin#prestamos#filter.xhtml"
+    NAME="output" PATH="/admin/prestamos/filter.xhtml"
+    TARGET="rules:#admin#prestamos#filter.xhtml"
+    TITLE="#{prestamoBean.init()}:filter" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#prestamos#filter.xhtml"
+  PATH="/admin/prestamos/filter.xhtml" SHAPE="240,689,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="48,705,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="filter:#{clienteBean.init()}:#admin#clientes#filter.xhtml"
+    NAME="output" PATH="/admin/clientes/filter.xhtml"
+    TARGET="rules:#admin#clientes#filter.xhtml"
+    TITLE="#{clienteBean.init()}:filter" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:2" PATH="*" SHAPE="48,705,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:2" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="filter:#{pagoBean.init()}:#admin#pagos#filter.xhtml"
+    NAME="output" PATH="/admin/pagos/filter.xhtml"
+    TARGET="rules:#admin#pagos#filter.xhtml"
+    TITLE="#{pagoBean.init()}:filter" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#clientes#filter.xhtml"
+  PATH="/admin/clientes/filter.xhtml" SHAPE="304,1009,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:3" PATH="*" SHAPE="48,449,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:3" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="filter:#{cuotaBean.init()}:#admin#cuotas#filter.xhtml"
+    NAME="output" PATH="/admin/cuotas/filter.xhtml"
+    TARGET="rules:#admin#cuotas#filter.xhtml"
+    TITLE="#{cuotaBean.init()}:filter" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#perfil#create.xhtml"
+  PATH="/admin/perfil/create.xhtml" SHAPE="256,1313,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin#perfil#summary.xhtml"
+  PATH="/admin/perfil/summary.xhtml" SHAPE="256,1425,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:4" PATH="*" SHAPE="48,449,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:4" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="list:#{reporteBean.init()}:#admin#reportes#list.xhtml"
+    NAME="output" PATH="/admin/reportes/list.xhtml"
+    TARGET="rules:#admin#reportes#list.xhtml"
+    TITLE="#{reporteBean.init()}:list" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#pagos#filter.xhtml"
+  PATH="/admin/pagos/filter.xhtml" SHAPE="240,1345,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:5" PATH="*" SHAPE="48,449,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:5" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="create:#{perfilBean.init()}:#admin#perfil#create.xhtml"
+    NAME="output" PATH="/admin/perfil/create.xhtml"
+    TARGET="rules:#admin#perfil#create.xhtml"
+    TITLE="#{perfilBean.init()}:create" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="summary:#{perfilBean.init()}:#admin#perfil#summary.xhtml"
+    NAME="output1" PATH="/admin/perfil/summary.xhtml"
+    TARGET="rules:#admin#perfil#summary.xhtml"
+    TITLE="#{perfilBean.init()}:summary" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#cuotas#filter.xhtml"
+  PATH="/admin/cuotas/filter.xhtml" SHAPE="240,1681,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:6" PATH="*" SHAPE="48,385,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:6" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="logout:#{loginController.logOut()}:#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml"
+    TITLE="#{loginController.logOut()}:logout" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#reportes#list.xhtml"
+  PATH="/admin/reportes/list.xhtml" SHAPE="240,1553,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
