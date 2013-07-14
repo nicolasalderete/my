@@ -1,6 +1,7 @@
 package ar.com.tecsat.loans.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -94,7 +95,7 @@ public class PrestamoHelper {
 	 */
 	private static BigDecimal getImporteDeLaCuota(Integer cantidadCuotas, BigDecimal capital, Double tasaMensual) {
 		BigDecimal interesesMensual = getInteresMensual(capital, tasaMensual);
-		return capital.divide(new BigDecimal(cantidadCuotas)).add(interesesMensual);
+		return capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0, RoundingMode.HALF_DOWN).add(interesesMensual);
 	}
 
 	/**
