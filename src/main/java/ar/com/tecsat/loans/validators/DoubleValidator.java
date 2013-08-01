@@ -13,14 +13,25 @@ import com.google.common.base.Strings;
 
 /**
  * @author nicolas
- *
+ * 
  */
-@FacesValidator(value = "AlfaNumericValidator")
-public class AlfaNumericValidator implements Validator {
-	
+@FacesValidator(value = "DoubleValidator")
+public class DoubleValidator implements Validator {
+
 	@Override
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+	public void validate(FacesContext contexto, UIComponent component, Object value) throws ValidatorException {
 		checkIsNullOrValid(component, value);
+	}
+	
+	/**
+	 * @param component
+	 * @param value
+	 */
+	private void checkIsValid(UIComponent component, Object value) {
+		Pattern p = Pattern.compile("[^0-9.]");
+		if (p.matcher(value.toString()).find()) {
+			throw new ValidatorException(getMessage(component, value, "%s debe tener solo números."));
+		}
 	}
 
 	/**
@@ -48,21 +59,10 @@ public class AlfaNumericValidator implements Validator {
 			return false;
 		}
 	}
-
-	/**
-	 * @param value 
-	 * @param component 
-	 * 
-	 */
-	private void checkIsValid(UIComponent component, Object value) {
-		Pattern p = Pattern.compile("[^ a-zA-Z0-9]");
-		if (p.matcher(value.toString()).find()) {
-			throw new ValidatorException(getMessage(component, value, "%s debe tener solo letras y/o números."));
-		}
-	}
-
+	
 	/**
 	 * @param value
+	 * @return
 	 */
 	private boolean checkIsNull(Object value) {
 		if (value != null) {
@@ -73,7 +73,7 @@ public class AlfaNumericValidator implements Validator {
 	}
 
 	/**
-	 * @param arg1
+	 * @param component
 	 * @param value
 	 * @param txt 
 	 * @return

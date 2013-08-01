@@ -95,7 +95,7 @@ public class PrestamoHelper {
 	 */
 	private static BigDecimal getImporteDeLaCuota(Integer cantidadCuotas, BigDecimal capital, Double tasaMensual) {
 		BigDecimal interesesMensual = getInteresMensual(capital, tasaMensual);
-		return capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0, RoundingMode.HALF_DOWN).add(interesesMensual);
+		return capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0, RoundingMode.HALF_UP).add(interesesMensual);
 	}
 
 	/**

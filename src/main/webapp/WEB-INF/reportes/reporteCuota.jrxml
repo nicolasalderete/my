@@ -33,7 +33,7 @@
 				</textElement>
 				<text><![CDATA[Fecha de emision:]]></text>
 			</staticText>
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="106" y="0" width="291" height="15"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaEmision}]]></textFieldExpression>
@@ -56,12 +56,12 @@
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="45" y="2" width="223" height="15"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="318" y="2" width="237" height="15"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{mail}]]></textFieldExpression>
@@ -91,7 +91,7 @@
 				</textElement>
 				<text><![CDATA[Descripción :]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="78" y="10" width="463" height="15"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{cuota}]]></textFieldExpression>
@@ -103,17 +103,17 @@
 				</textElement>
 				<text><![CDATA[Importe :]]></text>
 			</staticText>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="57" y="31" width="340" height="15"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{importe}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="407" y="57" width="148" height="20"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
-			<textField pattern="MM/dd/yyyy">
+			<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
 				<reportElement x="407" y="82" width="148" height="20"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaVto}]]></textFieldExpression>

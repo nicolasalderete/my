@@ -75,8 +75,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Monto de Pago: " styleClass="control-label" for="idPago" />
 							<div class="controls">
-								<h:inputText value="#{cuotaBean.filtro.importePago}" id="idPago" 
-									required="true" requiredMessage="Debe ingresar el monto a pagar"/>
+								<h:inputText value="#{cuotaBean.filtro.importePago}" id="idPago">
+									<f:validator validatorId="NumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>

@@ -1,20 +1,20 @@
 .errorMessage {
 	color: red;
-	padding: 10px;
+	padding: 5px;
 	font-family: monospace;
 	font-weight: bold;
 }
 
 .infoMessage {
 	color: green;
-	padding: 10px;
+	padding: 5px;
 	font-family: monospace;
 	font-weight: bold;
 }
 
 .warnMessage {
 	color: green;
-	padding: 10px;
+	padding: 5px;
 	font-family: monospace;
 	font-weight: bold;
 }

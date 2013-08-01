@@ -87,11 +87,35 @@ public class CuotaBean extends BasicController implements Serializable {
 	}
 	
 	public String crearPago(Cuota cuota) {
+		try {
+			evaluateRules(cuota);
+		} catch (AdministrativeException e) {
+			addMessageError(e.getMessage());
+			return null;
+		}
 		setCuota(cuota);
 		saveStep();
 		return PAGO;
 	}
 	
+	/**
+	 * @param cuota
+	 * @throws AdministrativeException 
+	 */
+	private void evaluateRules(Cuota cuota) throws AdministrativeException {
+		evaluateTotalPagar(cuota);
+	}
+
+	/**
+	 * @param cuota
+	 * @throws AdministrativeException 
+	 */
+	private void evaluateTotalPagar(Cuota cuota) throws AdministrativeException {
+		if (cuota.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) <= 0) {
+			throw new AdministrativeException("No es posible pagar la cuota");
+		}
+	}
+
 	public String pagar() {
 		try {
 			cuotaService.pagar(cuota, filtro);

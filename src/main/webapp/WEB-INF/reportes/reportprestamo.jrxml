@@ -56,7 +56,7 @@
 				</textElement>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="43" y="102" width="203" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{cliente}]]></textFieldExpression>
@@ -68,7 +68,7 @@
 				</textElement>
 				<text><![CDATA[Mail:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="294" y="102" width="261" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{mail}]]></textFieldExpression>
@@ -80,7 +80,7 @@
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="51" y="115" width="135" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{telefono}]]></textFieldExpression>
@@ -92,7 +92,7 @@
 				</textElement>
 				<text><![CDATA[Datos del prestamo]]></text>
 			</staticText>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="39" y="150" width="115" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{capital}]]></textFieldExpression>
@@ -111,7 +111,7 @@
 				</textElement>
 				<text><![CDATA[Tasa int. mensual:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="254" y="150" width="46" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$P{tasa}]]></textFieldExpression>
@@ -186,47 +186,47 @@
 				</textElement>
 				<text><![CDATA[Dirección:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="294" y="115" width="261" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="101" y="15" width="243" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perNombre}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="24" y="28" width="139" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perDni}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="42" y="41" width="273" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perBanco}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="69" y="67" width="213" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perCbu}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="372" y="15" width="183" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perMail}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="372" y="28" width="183" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perTelefono}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="81" y="54" width="183" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perTipo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="372" y="67" width="183" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perNroCuenta}]]></textFieldExpression>
@@ -238,7 +238,7 @@
 				</textElement>
 				<text><![CDATA[Fecha de ent.:]]></text>
 			</staticText>
-			<textField pattern="dd MMMMM yyyy">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="386" y="150" width="169" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{preFechaEntrega}]]></textFieldExpression>
@@ -250,7 +250,7 @@
 				</textElement>
 				<text><![CDATA[Celular:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="372" y="41" width="183" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{perCelular}]]></textFieldExpression>
@@ -281,17 +281,17 @@
 	</columnHeader>
 	<detail>
 		<band height="22" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="134" y="0" width="132" height="20"/>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="134" y="0" width="148" height="20"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{cuoFechaVencimiento}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="344" y="0" width="100" height="20"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cuoImporte}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="24" y="0" width="91" height="20"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cuoNumero}]]></textFieldExpression>
@@ -303,7 +303,7 @@
 	</detail>
 	<pageFooter>
 		<band height="68" splitType="Stretch">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="530" y="54" width="25" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
@@ -320,15 +320,15 @@
 				</textElement>
 				<text><![CDATA[Nota: Pasado 15 días de la fecha de vencimiento de la cuota, se aplicará un recargo equivalente a la mitad del interes mensual que se aplica en cada cuota. Pasado 30 días de la fecha de vencimiento de la cuota, se aplicará un recargo equivalente al interes mensual que se aplica en cada cuota. ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="85" y="54" width="115" height="13"/>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="39" y="55" width="115" height="13"/>
 				<textElement lineSpacing="Single"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaEmision}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="54" width="85" height="13"/>
+				<reportElement x="0" y="54" width="39" height="13"/>
 				<textElement lineSpacing="Single"/>
-				<text><![CDATA[Fecha emisión:]]></text>
+				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

@@ -147,12 +147,10 @@
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton action="#{cuotaBean.crearPago(cuotaBean.cuota)}" value="Pagar" styleClass="btn btn-primary"
-								rendered="#{cuotaBean.vigente}" />
+							<h:commandButton action="#{cuotaBean.crearPago(cuotaBean.cuota)}" value="Pagar" styleClass="btn btn-primary"/>
 						</div>
 					</div>
 					<div class="span1">
-						<h:commandButton value="Recibo" actionListener="#{cuotaBean.exportPdf()}" styleClass="btn btn-primary" />
 					</div>
 					<div class="span1"></div>
 				</div>

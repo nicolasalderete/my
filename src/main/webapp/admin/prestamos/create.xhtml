@@ -21,11 +21,12 @@
 						<div class="control-group">
 							<h:outputLabel value="Cliente :" styleClass="control-label" for="idCliente" />
 							<div class="controls">
-								<h:selectOneMenu id="idCliente" value="#{prestamoBean.filtro.idCliente}" required="true"
-									requiredMessage="Debe seleccionar un cliente" >
+								<h:selectOneMenu id="idCliente" value="#{prestamoBean.filtro.idCliente}" label="Cliente">
 									<f:selectItem itemLabel="Seleccione el cliente..." noSelectionOption="true"/>
 									<f:selectItems value="#{prestamoBean.listaCliente}" var="cliente" 
 										itemValue="#{cliente.cliId}" itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}"/>
+									<f:validator validatorId="ClienteValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -34,9 +35,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Monto del prestamo :" styleClass="control-label" for="idCapital" />
 							<div class="controls">
-								<h:inputText id="idCapital" value="#{prestamoBean.filtro.capital}" required="true"
-									requiredMessage="Debe ingresar el monto del préstamo.">
+								<h:inputText id="idCapital" value="#{prestamoBean.filtro.capital}" label="Monto del prestamo">
 									<f:validator validatorId="NumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -48,9 +49,9 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idCuotas" value="Cantidad de cuotas :" />
 							<div class="controls">
-								<h:inputText id="idCuotas" value="#{prestamoBean.filtro.cantCuotas}" required="true"
-									requiredMessage="Debe ingresar la cantidad de cuotas del préstamo.">
+								<h:inputText id="idCuotas" value="#{prestamoBean.filtro.cantCuotas}" label="Cantidad de cuotas">
 									<f:validator validatorId="NumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -59,8 +60,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Tasa de interes :" styleClass="control-label" for="idTasa" />
 							<div class="controls">
-								<h:inputText id="idTasa" value="#{prestamoBean.filtro.tasa}" required="true"
-									requiredMessage="Debe ingresar la tasa de interes del préstamo.">
+								<h:inputText id="idTasa" value="#{prestamoBean.filtro.tasa}" label="Tasa de interes">
+									<f:validator validatorId="DoubleValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -72,7 +74,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Fecha de solicitud :" class="control-label" for="idFechaSoli" />
 							<div class="controls">
-								<p:calendar id="idFechaSoli" styleClass="input-medium" value="#{prestamoBean.filtro.fechaSoli}"/>
+								<p:calendar id="idFechaSoli" styleClass="input-medium" value="#{prestamoBean.filtro.fechaSoli}" label="Fecha de solicitud">
+									<f:validator validatorId="FechaSolicitudValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</p:calendar>
 							</div>
 						</div>
 					</div>

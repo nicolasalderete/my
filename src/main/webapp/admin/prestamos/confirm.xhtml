@@ -21,7 +21,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Cliente :" styleClass="control-label" for="idCliente" />
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.cliente.cliNombre}" />
+								<h:outputText value="#{prestamoBean.prestamo.cliente.cliNombre}" id="idCliente"/>
 							</div>
 						</div>
 					</div>
@@ -29,7 +29,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Monto del prestamo :" styleClass="control-label" for="idCapital" />
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.preCapital}">
+								<h:outputText value="#{prestamoBean.prestamo.preCapital}" id="idCapital">
 									<f:convertNumber type="currency"/>
 								</h:outputText>
 							</div>
@@ -42,7 +42,7 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idCuotas" value="Cantidad de cuotas :" />
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.preCantCuotas}" />
+								<h:outputText value="#{prestamoBean.prestamo.preCantCuotas}" id="idCuotas"/>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Tasa de interes :" styleClass="control-label" for="idTasa" />
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.preTasaMensual}" />
+								<h:outputText value="#{prestamoBean.prestamo.preTasaMensual}" id="idTasa"/>
 							</div>
 						</div>
 					</div>
@@ -61,7 +61,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Fecha de solicitud :" class="control-label" for="idFechaSoli" />
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.preFechaInicio}">
+								<h:outputText value="#{prestamoBean.prestamo.preFechaInicio}" id="idFechaSoli">
 									<f:convertDateTime dateStyle="medium"/>
 								</h:outputText>
 							</div>

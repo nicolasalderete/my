@@ -12,17 +12,20 @@
 		<ui:define name="body">
 			<h:form styleClass="form-horizontal">
 				<h4>Detalle de cliente</h4>
-				<hr />
+				<hr/>
 				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 
 				<h6>Datos del cliente</h6>
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Nombre y apellido :" styleClass="control-label" for="idNombre" />
+							<h:outputLabel value="Nombre y apellido" styleClass="control-label" for="idNombre" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliNombre}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idNombre" value="#{clienteBean.cliente.cliNombre}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idNombre" value="#{clienteBean.cliente.cliNombre}" rendered="#{clienteBean.editCliente}" label="Nombre y apellido">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -31,7 +34,10 @@
 							<h:outputLabel value="Número de DNI :" styleClass="control-label" for="idDni" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliDni}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idDni" value="#{clienteBean.cliente.cliDni}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idDni" value="#{clienteBean.cliente.cliDni}" rendered="#{clienteBean.editCliente}" label="Número de DNI">
+									<f:validator validatorId="DniValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -42,16 +48,22 @@
 							<h:outputLabel class="control-label" for="idDireccion" value="Domicilio :" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliDireccion}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idDireccion" value="#{clienteBean.cliente.cliDireccion}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idDireccion" value="#{clienteBean.cliente.cliDireccion}" rendered="#{clienteBean.editCliente}" label="Domicilio">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Localidad :" styleClass="control-label" for="idLocalidad" />
+							<h:outputLabel value="Localidad" styleClass="control-label" for="idLocalidad" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliLocalidad}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idLocalidad" value="#{clienteBean.cliente.cliLocalidad}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idLocalidad" value="#{clienteBean.cliente.cliLocalidad}" rendered="#{clienteBean.editCliente}" label="Localidad">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -60,10 +72,12 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idEntreCalle" value="entre calles :" />
+							<h:outputLabel class="control-label" for="idEntreCalle" value="Entre calles" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliEntreCalle}" rendered="#{!clienteBean.editCliente}"/>
-								<h:inputText id="idEntreCalle" value="#{clienteBean.cliente.cliEntreCalle}" rendered="#{clienteBean.editCliente}"/>
+								<h:inputText id="idEntreCalle" value="#{clienteBean.cliente.cliEntreCalle}" rendered="#{clienteBean.editCliente}" label="Entre calles">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -72,7 +86,9 @@
 							<h:outputLabel class="control-label" for="idMail" value="Mail de contacto :" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliMail}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idMail" value="#{clienteBean.cliente.cliMail}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idMail" value="#{clienteBean.cliente.cliMail}" rendered="#{clienteBean.editCliente}" label="Mail de contacto">
+									<f:validator validatorId="MailValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -84,7 +100,9 @@
 							<h:outputLabel class="control-label" for="idTelefono" value="Telefono :" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliTelefono}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idTelefono" value="#{clienteBean.cliente.cliTelefono}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idTelefono" value="#{clienteBean.cliente.cliTelefono}" rendered="#{clienteBean.editCliente}" label="Telefono">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -93,7 +111,9 @@
 							<h:outputLabel value="Celular :" styleClass="control-label" for="idCelular" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliCelular}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idCelular" value="#{clienteBean.cliente.cliCelular}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idCelular" value="#{clienteBean.cliente.cliCelular}" rendered="#{clienteBean.editCliente}" label="Celular">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -104,7 +124,7 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idFacebook" value="Facebook :" />
 							<div class="controls">
-								<h:outputLink target="_blank" value="#{clienteBean.cliente.cliFacebook}" rendered="#{!clienteBean.editCliente}">
+								<h:outputLink target="_blank" value="#{clienteBean.cliente.cliFacebook}" rendered="#{!clienteBean.editCliente and not empty clienteBean.cliente.cliFacebook}">
 									<h:outputText value="Ver perfil" />
 								</h:outputLink>
 								<h:inputText id="idFacebook" value="#{clienteBean.cliente.cliFacebook}" rendered="#{clienteBean.editCliente}" />
@@ -123,7 +143,9 @@
 							<h:outputLabel class="control-label" for="idBanco" value="Banco :" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliBanco}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idBanco" value="#{clienteBean.cliente.cliBanco}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idBanco" value="#{clienteBean.cliente.cliBanco}" rendered="#{clienteBean.editCliente}" label="Banco">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -132,7 +154,9 @@
 							<h:outputLabel value="Tipo de cuenta :" styleClass="control-label" for="idTipoCuenta" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliTipoCuenta}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idTipoCuenta" value="#{clienteBean.cliente.cliTipoCuenta}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idTipoCuenta" value="#{clienteBean.cliente.cliTipoCuenta}" rendered="#{clienteBean.editCliente}" label="Tipo de cuenta">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -145,7 +169,9 @@
 							<h:outputLabel class="control-label" for="idCbu" value="Nro. de CBU :" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliCbu}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" rendered="#{clienteBean.editCliente}" label="Nro. de CBU">
+									<f:validator validatorId="NumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -154,7 +180,9 @@
 							<h:outputLabel value="Nro. de cuenta :" styleClass="control-label" for="idCuenta" />
 							<div class="controls">
 								<h:outputText value="#{clienteBean.cliente.cliCuenta}" rendered="#{!clienteBean.editCliente}" />
-								<h:inputText id="idCuenta" value="#{clienteBean.cliente.cliCuenta}" rendered="#{clienteBean.editCliente}" />
+								<h:inputText id="idCuenta" value="#{clienteBean.cliente.cliCuenta}" rendered="#{clienteBean.editCliente}" label="Nro. de cuenta">
+									<f:validator validatorId="NumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -167,9 +195,9 @@
 					<div class="span1">
 						<div class="control-group">
 							<h:commandButton value="Cancelar" styleClass="btn" action="#{clienteBean.cancel()}"
-								rendered="#{clienteBean.editCliente}" />
+								rendered="#{clienteBean.editCliente}" immediate="true"/>
 							<h:commandButton value="Volver" styleClass="btn" action="#{clienteBean.stepBack()}"
-								rendered="#{!clienteBean.editCliente}" />
+								rendered="#{!clienteBean.editCliente}" immediate="true"/>
 						</div>
 					</div>
 					<div class="span1">

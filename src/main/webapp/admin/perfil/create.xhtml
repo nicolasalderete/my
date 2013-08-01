@@ -23,8 +23,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Nombre y apellido :" styleClass="control-label" for="idNombre" />
 							<div class="controls">
-								<h:inputText id="idNombre" value="#{perfilBean.perfil.perNombre}" required="true"
-									requiredMessage="Por favor ingrese su nombre y apellido." />
+								<h:inputText id="idNombre" value="#{perfilBean.perfil.perNombre}" label="Nombre y apellido">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -32,8 +34,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Nro. de DNI :" styleClass="control-label" for="idDni" />
 							<div class="controls">
-								<h:inputText id="idDni" value="#{perfilBean.perfil.perDni}" required="true"
-									requiredMessage="Por favor ingrese su número de DNI" />
+								<h:inputText id="idDni" value="#{perfilBean.perfil.perDni}" label="Nro. de DNI">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>	
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -45,8 +49,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Domicilio :" styleClass="control-label" for="idDireccion" />
 							<div class="controls">
-								<h:inputText id="idDireccion" value="#{perfilBean.perfil.perDireccion}" required="true"
-									requiredMessage="Por favor ingrese su domicilio." />
+								<h:inputText id="idDireccion" value="#{perfilBean.perfil.perDireccion}" label="Domicilio">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -54,8 +60,10 @@
 						<div class="control-group">
 							<h:outputLabel value="Localidad :" styleClass="control-label" for="idLocalidad" />
 							<div class="controls">
-								<h:inputText id="idLocalidad" value="#{perfilBean.perfil.perLocalidad}" required="true"
-									requiredMessage="Por favor ingrese su localidad" />
+								<h:inputText id="idLocalidad" value="#{perfilBean.perfil.perLocalidad}" label="Localidad">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -67,8 +75,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Nro. de teléfono :" styleClass="control-label" for="idtelefono" />
 							<div class="controls">
-								<h:inputText id="idtelefono" value="#{perfilBean.perfil.perTelefono}" required="true"
-									requiredMessage="Por favor ingrese su número de teléfono" />
+								<h:inputText id="idtelefono" value="#{perfilBean.perfil.perTelefono}" label="Nro. de teléfono">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -76,8 +85,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Nro. de celular :" styleClass="control-label" for="idCelular" />
 							<div class="controls">
-								<h:inputText id="idCelular" value="#{perfilBean.perfil.perCelular}" required="true"
-									requiredMessage="Por favor ingrese su número de celular" />
+								<h:inputText id="idCelular" value="#{perfilBean.perfil.perCelular}" label="Nro. de celular">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -88,8 +98,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Mail :" styleClass="control-label" for="idMail" />
 							<div class="controls">
-								<h:inputText id="idMail" value="#{perfilBean.perfil.perMail}" required="true"
-									requiredMessage="Por favor ingrese su mail" />
+								<h:inputText id="idMail" value="#{perfilBean.perfil.perMail}" label="Mail">
+									<f:validator validatorId="MailValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -104,8 +115,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Banco :" styleClass="control-label" for="idBanco" />
 							<div class="controls">
-								<h:inputText id="idBanco" value="#{perfilBean.perfil.perBanco}" required="true"
-									requiredMessage="Por favor ingrese su Banco" />
+								<h:inputText id="idBanco" value="#{perfilBean.perfil.perBanco}" label="Banco">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -113,8 +125,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Tipo de Cuenta :" styleClass="control-label" for="idTipoCuenta" />
 							<div class="controls">
-								<h:inputText id="idTipoCuenta" value="#{perfilBean.perfil.perTipoCuenta}" required="true"
-									requiredMessage="Por favor ingrese su tipo de cuenta" />
+								<h:inputText id="idTipoCuenta" value="#{perfilBean.perfil.perTipoCuenta}" label="Tipo de Cuenta" >
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -126,8 +139,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Nro. de CBU :" styleClass="control-label" for="idCbu" />
 							<div class="controls">
-								<h:inputText id="idCbu" value="#{perfilBean.perfil.perCbu}" required="true"
-									requiredMessage="Por favor ingrese su nro. de cbu" />
+								<h:inputText id="idCbu" value="#{perfilBean.perfil.perCbu}" label="Nro. de CBU">
+									<f:validator validatorId="NumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -135,8 +149,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Nro. de Cuenta :" styleClass="control-label" for="idCuenta" />
 							<div class="controls">
-								<h:inputText id="idCuenta" value="#{perfilBean.perfil.perCuenta}" required="true"
-									requiredMessage="Por favor ingrese su nro de cuenta" />
+								<h:inputText id="idCuenta" value="#{perfilBean.perfil.perCuenta}" label="Nro. de Cuenta" >
+									<f:validator validatorId="NumericValidator"/>
+								</h:inputText>
 							</div>
 						</div>
 					</div>

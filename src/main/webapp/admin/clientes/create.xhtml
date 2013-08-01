@@ -20,64 +20,22 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Nombre y apellido :" styleClass="control-label" for="idNombre" />
+							<h:outputLabel value="Nombre y apellido" styleClass="control-label" for="idNombre" id="lNomnbre"/>
 							<div class="controls">
-								<h:inputText id="idNombre" value="#{clienteBean.cliente.cliNombre}" required="true"
-									requiredMessage="Por favor ingrese el nombre y apellido." >
+								<h:inputText id="idNombre" value="#{clienteBean.cliente.cliNombre}" label="Nombre y apellido">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Nro. de DNI :" styleClass="control-label" for="idDni" />
+							<h:outputLabel value="Nro. de DNI" styleClass="control-label" for="idDni" />
 							<div class="controls">
-								<h:inputText id="idDni" value="#{clienteBean.cliente.cliDni}" required="true"
-									requiredMessage="Por favor ingrese el número de DNI." >
-								</h:inputText>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row-fluid show-grid">
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel class="control-label" for="idDireccion" value="Domicilio :" />
-							<div class="controls">
-								<h:inputText id="idDireccion" value="#{clienteBean.cliente.cliDireccion}" required="true"
-									requiredMessage="Por favor ingrese el domicilio." >
-								</h:inputText>
-							</div>
-						</div>
-					</div>
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel value="Localidad :" styleClass="control-label" for="idLocalidad" />
-							<div class="controls">
-								<h:inputText id="idLocalidad" value="#{clienteBean.cliente.cliLocalidad}" required="true"
-									requiredMessage="Por favor ingrese la localidad.">
-								</h:inputText>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row-fluid show-grid">
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel class="control-label" for="idEntreCalle" value="entre calles :" />
-							<div class="controls">
-								<h:inputText id="idEntreCalle" value="#{clienteBean.cliente.cliEntreCalle}" >
-								</h:inputText>
-							</div>
-						</div>
-					</div>
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel class="control-label" for="idMail" value="Mail de contacto :" />
-							<div class="controls">
-								<h:inputText id="idMail" value="#{clienteBean.cliente.cliMail}" required="true"
-									requiredMessage="Por favor ingrese la dirección de mail.">
+								<h:inputText id="idDni" value="#{clienteBean.cliente.cliDni}" label="Nro. de DNI">
+									<f:validator validatorId="DniValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -87,22 +45,67 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idTelefono" value="Telefono :" />
+							<h:outputLabel class="control-label" for="idDireccion" value="Domicilio" />
 							<div class="controls">
-								<h:inputText id="idTelefono" value="#{clienteBean.cliente.cliTelefono}" required="true"
-									requiredMessage="Por favor ingrese el teléfono.">
-									<f:validator validatorId="NumericValidator"/>
+								<h:inputText id="idDireccion" value="#{clienteBean.cliente.cliDireccion}" label="Domicilio">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Celular :" styleClass="control-label" for="idCelular" />
+							<h:outputLabel value="Localidad" styleClass="control-label" for="idLocalidad" />
 							<div class="controls">
-								<h:inputText id="idCelular" value="#{clienteBean.cliente.cliCelular}" required="true"
-									requiredMessage="Por favor ingrese el celular.">
-									<f:validator validatorId="NumericValidator"/>
+								<h:inputText id="idLocalidad" value="#{clienteBean.cliente.cliLocalidad}" label="Localidad">
+									<f:validator validatorId="AlfaNumericValidator"/>
+									<f:attribute name="requerido" value="true"/>
+								</h:inputText>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idEntreCalle" value="Entre calles" />
+							<div class="controls">
+								<h:inputText id="idEntreCalle" value="#{clienteBean.cliente.cliEntreCalle}" label="Entre calles">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idMail" value="Mail de contacto" />
+							<div class="controls">
+								<h:inputText id="idMail" value="#{clienteBean.cliente.cliMail}" label="Mail de contacto">
+									<f:validator validatorId="MailValidator"/>
+								</h:inputText>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idTelefono" value="Telefono" />
+							<div class="controls">
+								<h:inputText id="idTelefono" value="#{clienteBean.cliente.cliTelefono}" label="Telefono">
+									<f:validator validatorId="AlfaNumericValidator"/>
+								</h:inputText>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Celular" styleClass="control-label" for="idCelular" />
+							<div class="controls">
+								<h:inputText id="idCelular" value="#{clienteBean.cliente.cliCelular}" label="Celular">
+									<f:validator validatorId="AlfaNumericValidator"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -113,10 +116,9 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idFacebook" value="Perfil facebook :" />
+							<h:outputLabel class="control-label" for="idFacebook" value="Perfil facebook" />
 							<div class="controls">
-								<h:inputText id="idFacebook" value="#{clienteBean.cliente.cliFacebook}" required="true"
-									requiredMessage="Por favor ingrese el perfil de facebook.">
+								<h:inputText id="idFacebook" value="#{clienteBean.cliente.cliFacebook}" label="Perfil facebook">
 								</h:inputText>
 							</div>
 						</div>
@@ -133,20 +135,20 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idBanco" value="Banco :" />
+							<h:outputLabel class="control-label" for="idBanco" value="Banco" />
 							<div class="controls">
-								<h:inputText id="idBanco" value="#{clienteBean.cliente.cliBanco}" required="true"
-									requiredMessage="Por favor ingrese el nombre del Banco.">
+								<h:inputText id="idBanco" value="#{clienteBean.cliente.cliBanco}" label="Banco">
+									<f:validator validatorId="AlfaNumericValidator"/>
 								</h:inputText>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Tipo de cuenta :" styleClass="control-label" for="idTipoCuenta" />
+							<h:outputLabel value="Tipo de cuenta" styleClass="control-label" for="idTipoCuenta" />
 							<div class="controls">
-								<h:inputText id="idTipoCuenta" value="#{clienteBean.cliente.cliTipoCuenta}" required="true"
-									requiredMessage="Por favor ingrese el tipo de cuenta.">
+								<h:inputText id="idTipoCuenta" value="#{clienteBean.cliente.cliTipoCuenta}" label="Tipo de cuenta">
+									<f:validator validatorId="AlfaNumericValidator"/>
 								</h:inputText>
 							</div>
 						</div>
@@ -156,25 +158,26 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idCbu" value="Nro. de CBU :" />
+							<h:outputLabel class="control-label" for="idCbu" value="Nro. de CBU" />
 							<div class="controls">
-								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" required="true"
-									requiredMessage="Por favor ingrese el número de CBU.">
+								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" label="Nro. de CBU">
+									<f:validator validatorId="NumericValidator"/>
 								</h:inputText>
 							</div>
 						</div>
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Nro. de cuenta :" styleClass="control-label" for="idCuenta" />
+							<h:outputLabel value="Nro. de cuenta" styleClass="control-label" for="idCuenta" />
 							<div class="controls">
-								<h:inputText id="idCuenta" value="#{clienteBean.cliente.cliCuenta}" required="true"
-									requiredMessage="Por favor ingrese el número de cuenta.">
+								<h:inputText id="idCuenta" value="#{clienteBean.cliente.cliCuenta}" label="Nro. de cuenta">
+									<f:validator validatorId="NumericValidator"/>
 								</h:inputText>
 							</div>
 						</div>
 					</div>
 				</div>
+				
 				<div class="row-fluid show-grid">
 					<div class="span8">
 						<div class="control-group"></div>

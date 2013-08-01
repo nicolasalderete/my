@@ -1,5 +1,6 @@
 package ar.com.tecsat.loans.validators;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
@@ -15,14 +16,18 @@ import com.google.common.base.Strings;
  * @author nicolas
  *
  */
-@FacesValidator(value = "AlfaNumericValidator")
-public class AlfaNumericValidator implements Validator {
+@FacesValidator(value = "MailValidator")
+public class MailValidator implements Validator {
 	
+	private static final String EMAIL_PATTERN = 
+			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		checkIsNullOrValid(component, value);
 	}
-
+	
 	/**
 	 * @param component
 	 * @param value
@@ -34,6 +39,19 @@ public class AlfaNumericValidator implements Validator {
 			}
 		} else {
 			checkIsValid(component, value);
+		}
+	}
+	
+
+	/**
+	 * @param component
+	 * @param value
+	 */
+	private void checkIsValid(UIComponent component, Object value) {
+		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+		Matcher matcher = pattern.matcher(value.toString());
+		if (!matcher.matches()) {
+			throw new ValidatorException(getMessage(component, value, "%s tiene formato incorrecto."));
 		}
 	}
 
@@ -48,21 +66,10 @@ public class AlfaNumericValidator implements Validator {
 			return false;
 		}
 	}
-
-	/**
-	 * @param value 
-	 * @param component 
-	 * 
-	 */
-	private void checkIsValid(UIComponent component, Object value) {
-		Pattern p = Pattern.compile("[^ a-zA-Z0-9]");
-		if (p.matcher(value.toString()).find()) {
-			throw new ValidatorException(getMessage(component, value, "%s debe tener solo letras y/o números."));
-		}
-	}
-
+	
 	/**
 	 * @param value
+	 * @return
 	 */
 	private boolean checkIsNull(Object value) {
 		if (value != null) {
@@ -71,9 +78,9 @@ public class AlfaNumericValidator implements Validator {
 			return true;
 		}
 	}
-
+	
 	/**
-	 * @param arg1
+	 * @param component
 	 * @param value
 	 * @param txt 
 	 * @return
@@ -83,4 +90,5 @@ public class AlfaNumericValidator implements Validator {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, value.toString());
 		return msg;
 	}
+
 }

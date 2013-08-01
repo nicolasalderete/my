@@ -1,7 +1,5 @@
 package ar.com.tecsat.loans.validators;
 
-import java.util.regex.Pattern;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -15,9 +13,9 @@ import com.google.common.base.Strings;
  * @author nicolas
  *
  */
-@FacesValidator(value = "AlfaNumericValidator")
-public class AlfaNumericValidator implements Validator {
-	
+@FacesValidator(value = "FechaSolicitudValidator")
+public class FechaSolicitudValidator implements Validator {
+
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		checkIsNullOrValid(component, value);
@@ -39,6 +37,15 @@ public class AlfaNumericValidator implements Validator {
 
 	/**
 	 * @param component
+	 * @param value
+	 */
+	private void checkIsValid(UIComponent component, Object value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @param component
 	 * @return
 	 */
 	private boolean isRequired(UIComponent component) {
@@ -50,19 +57,20 @@ public class AlfaNumericValidator implements Validator {
 	}
 
 	/**
-	 * @param value 
-	 * @param component 
-	 * 
+	 * @param component
+	 * @param string
+	 * @param string2
+	 * @return
 	 */
-	private void checkIsValid(UIComponent component, Object value) {
-		Pattern p = Pattern.compile("[^ a-zA-Z0-9]");
-		if (p.matcher(value.toString()).find()) {
-			throw new ValidatorException(getMessage(component, value, "%s debe tener solo letras y/o números."));
-		}
+	private FacesMessage getMessage(UIComponent component, String value, String txt) {
+		String message = String.format(txt, component.getAttributes().get("label"));
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, value.toString());
+		return msg;
 	}
 
 	/**
 	 * @param value
+	 * @return
 	 */
 	private boolean checkIsNull(Object value) {
 		if (value != null) {
@@ -72,15 +80,4 @@ public class AlfaNumericValidator implements Validator {
 		}
 	}
 
-	/**
-	 * @param arg1
-	 * @param value
-	 * @param txt 
-	 * @return
-	 */
-	private FacesMessage getMessage(UIComponent component, Object value, String txt) {
-		String message = String.format(txt, component.getAttributes().get("label"));
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, message, value.toString());
-		return msg;
-	}
 }
