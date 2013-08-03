@@ -25,5 +25,9 @@ public interface CuotaDao {
 	public void actualizar(Cuota cuota) throws AdministrativeException;
 
 	public List<Cuota> findByFecha(Date start, Date end) throws AdministrativeException;
+
+	public List<Cuota> findByFechaVtoHoy() throws AdministrativeException;
+
+	public List<Cuota> findByFechaVtoA(int dias) throws AdministrativeException;
 	
 }

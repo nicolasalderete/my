@@ -20,12 +20,22 @@ import ar.com.tecsat.loans.modelo.Cuota;
 
 /**
  * @author nicolas
- *
+ * 
  */
 @Stateless
 public class CuotaDaoImpl implements CuotaDao {
 	
-	@PersistenceContext(unitName="Prest")
+	private static final String QUERY_FIND_CURRENT_DATE = "select * from cuota where " +
+			"cuo_estado NOT IN ('CANCELADA','VENCIDA','PAGO_INSUFICIENTE') " +
+			"and date(cuo_fvencimiento) = curdate()";
+
+	private static final String QUERY_FIND_TREINTA_DATE = "select * from cuota where " +
+			"date(cuo_fvencimiento) = date_sub(curdate(), interval 1 month)";
+
+	private static final String QUERY_FIND_QUINCE_DATE = "select * from cuota where " +
+			"date(cuo_fvencimiento) = date_sub(curdate(), interval 15 day)";
+
+	@PersistenceContext(unitName = "Prest")
 	private EntityManager em;
 
 	@Override
@@ -36,7 +46,7 @@ public class CuotaDaoImpl implements CuotaDao {
 			CriteriaQuery<Cuota> query = criteriaBuilder.createQuery(Cuota.class);
 			Root<Cuota> root = query.from(Cuota.class);
 			Predicate[] predicates = addPredicates(filtro, criteriaBuilder, root);
-			if (predicates.length > 0){
+			if (predicates.length > 0) {
 				query.where(predicates);
 			}
 			cuotas = em.createQuery(query).getResultList();
@@ -48,31 +58,32 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	private Predicate[] addPredicates(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root) {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
-		
+
 		addCliente(filtro, criteriaBuilder, root, predicateList);
 		addPrestamo(filtro, criteriaBuilder, root, predicateList);
 		addNumeroCuota(filtro, criteriaBuilder, root, predicateList);
 		addEstadoCuota(filtro, criteriaBuilder, root, predicateList);
 		addMontoCuota(filtro, criteriaBuilder, root, predicateList);
 		addFechaVto(filtro, criteriaBuilder, root, predicateList);
-		
+
 		Predicate[] predicates = new Predicate[predicateList.size()];
-	    predicateList.toArray(predicates);
+		predicateList.toArray(predicates);
 		return predicates;
 	}
-	
+
 	private void addFechaVto(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
-		if (filtro.getFechaDesde() != null && filtro.getFechaDesde() != null){
+		if (filtro.getFechaDesde() != null && filtro.getFechaDesde() != null) {
 			Date fechaDesde = filtro.getFechaDesde();
 			Date fechaHasta = filtro.getFechaHasta();
-			predicateList.add(criteriaBuilder.between(root.get("cuoFechaVencimiento").as(Date.class), fechaDesde, fechaHasta));
+			predicateList.add(criteriaBuilder.between(root.get("cuoFechaVencimiento").as(Date.class), fechaDesde,
+					fechaHasta));
 		}
 	}
 
 	private void addMontoCuota(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
-		if (filtro.getMontoCuota() != null){
+		if (filtro.getMontoCuota() != null) {
 			Predicate numeroCuota = null;
 			if (filtro.getCondicionCuota().equals("ES_IGUAL")) {
 				numeroCuota = criteriaBuilder.equal(root.get("cuoImporte"), filtro.getMontoCuota());
@@ -86,7 +97,7 @@ public class CuotaDaoImpl implements CuotaDao {
 			predicateList.add(numeroCuota);
 		}
 	}
-	
+
 	private void addNumeroCuota(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
 		if (filtro.getNumeroCuota() != null) {
@@ -106,7 +117,7 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	private void addEstadoCuota(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
-		if (filtro.getEstadoCuota() != null){
+		if (filtro.getEstadoCuota() != null) {
 			Predicate prestamo = criteriaBuilder.equal(root.get("cuoEstado"), filtro.getEstadoCuota());
 			predicateList.add(prestamo);
 		}
@@ -114,7 +125,7 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	private void addPrestamo(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
-		if (filtro.getIdPrestamo() != null){
+		if (filtro.getIdPrestamo() != null) {
 			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("preId"), filtro.getIdPrestamo());
 			predicateList.add(prestamo);
 		}
@@ -122,8 +133,9 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	private void addCliente(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
-		if (filtro.getIdCliente() != null){
-			Predicate cliente = criteriaBuilder.equal(root.get("prestamo").get("cliente").get("cliId"), filtro.getIdCliente());
+		if (filtro.getIdCliente() != null) {
+			Predicate cliente = criteriaBuilder.equal(root.get("prestamo").get("cliente").get("cliId"),
+					filtro.getIdCliente());
 			predicateList.add(cliente);
 		}
 	}
@@ -138,7 +150,7 @@ public class CuotaDaoImpl implements CuotaDao {
 		} catch (Exception e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		if (cuotas == null){
+		if (cuotas == null) {
 			return null;
 		}
 		return cuotas;
@@ -155,7 +167,7 @@ public class CuotaDaoImpl implements CuotaDao {
 		} catch (Exception e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		if (cuotas == null){
+		if (cuotas == null) {
 			return null;
 		}
 		return cuotas;
@@ -184,5 +196,34 @@ public class CuotaDaoImpl implements CuotaDao {
 		}
 		return cuotas;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cuota> findByFechaVtoHoy() throws AdministrativeException {
+		List<Cuota> cuotas = null;
+		try {
+			Query query = em.createNativeQuery(QUERY_FIND_CURRENT_DATE, Cuota.class);
+			query.getResultList();
+			cuotas = query.getResultList();
+		} catch (Exception e) {
+			throw new AdministrativeException("Error al acceder a la base.");
+		}
+		return cuotas;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cuota> findByFechaVtoA(int dias) throws AdministrativeException {
+		List<Cuota> cuotas = null;
+		try {
+			String code = dias == 30 ? QUERY_FIND_TREINTA_DATE : QUERY_FIND_QUINCE_DATE;
+			Query query = em.createNativeQuery(code, Cuota.class);
+			query.getResultList();
+			cuotas = query.getResultList();
+		} catch (Exception e) {
+			throw new AdministrativeException("Error al acceder a la base.");
+		}
+		return cuotas;
+	}
+
 }

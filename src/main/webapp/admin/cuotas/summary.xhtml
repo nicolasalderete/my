@@ -147,7 +147,8 @@
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton action="#{cuotaBean.crearPago(cuotaBean.cuota)}" value="Pagar" styleClass="btn btn-primary"/>
+							<h:commandButton action="#{cuotaBean.crearPago(cuotaBean.cuota)}" value="Pagar" styleClass="btn btn-primary"
+							rendered="#{cuotaBean.cuota.pagable}"/>
 						</div>
 					</div>
 					<div class="span1">

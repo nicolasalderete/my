@@ -27,9 +27,11 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "cuota")
-@NamedQueries({ @NamedQuery(name = "findCuotas", query = "select c from Cuota c"),
+@NamedQueries({
+		@NamedQuery(name = "findCuotas", query = "select c from Cuota c"),
 		@NamedQuery(name = "findCuotasByFecha", query = "select c from Cuota c where c.cuoFechaVencimiento BETWEEN :start AND :end"),
-		@NamedQuery(name = "findCuotasByPrestamo", query = "select c from Cuota c where c.prestamo.id=:prestamo") })
+		@NamedQuery(name = "findCuotasByPrestamo", query = "select c from Cuota c where c.prestamo.id=:prestamo"),
+		@NamedQuery(name = "findCuotaByFechaVto", query = "select c from Cuota c where c.cuoFechaVencimiento=:CURRENT_DATE") })
 public class Cuota implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -197,7 +199,18 @@ public class Cuota implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Cuota: %s de %s, por un prestamo de $%s.-", this.cuoNumero, this.prestamo.getPreCantCuotas(),
-				this.prestamo.getPreCapital());
+		return String.format("Cli: %s, Cuo: %s de %s, Estado: %s, Pres: $%s.-", this.prestamo.getCliente().toString(),
+				this.cuoNumero, this.prestamo.getPreCantCuotas(), this.cuoEstado, this.prestamo.getPreCapital());
+	}
+
+	public boolean isPagable() {
+		return tieneSaldoAPagar();
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean tieneSaldoAPagar() {
+		return this.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) > 0;
 	}
 }
