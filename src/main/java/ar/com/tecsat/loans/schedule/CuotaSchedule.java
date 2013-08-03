@@ -68,7 +68,6 @@ public class CuotaSchedule {
 		List<Cuota> cuotaVencidaTreintaDias = cuotaService.obtenerCuotasVencidasA(TREINTA);
 		content.append("Lista de cuotas vencidas con mas de treinta días.\n" +
 				"-------------------------------------------------\n");
-		
 		List<String> result = cuotaService.actualizarCuotasVencidasMasInteres(cuotaVencidaTreintaDias, TREINTA);
 		setContentListado(content, result);
 	}
@@ -80,7 +79,6 @@ public class CuotaSchedule {
 		List<Cuota> cuotaVencidaQuinceDias = cuotaService.obtenerCuotasVencidasA(QUINCE);
 		content.append("Lista de cuotas vencidas con mas de quince días.\n" +
 				"-------------------------------------------------\n");
-		
 		List<String> result = cuotaService.actualizarCuotasVencidasMasInteres(cuotaVencidaQuinceDias, QUINCE);
 		setContentListado(content, result);
 	}
@@ -92,10 +90,8 @@ public class CuotaSchedule {
 		List<Cuota> cuotasVencenHoy = cuotaService.obtenerCuotasFechaVtoHoy();
 		content.append("Lista de cuotas que vencen hoy.\n" +
 								"-------------------------------\n");
-		
 		List<String> result = cuotaService.actualizarCuotasVencidas(cuotasVencenHoy);
 		setContentListado(content, result);
-		
 	}
 
 	/**

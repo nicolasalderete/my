@@ -160,7 +160,7 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idCbu" value="Nro. de CBU" />
 							<div class="controls">
-								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" label="Nro. de CBU">
+								<h:inputText id="idCbu" value="#{clienteBean.cliente.cliCbu}" label="Nro. de CBU" maxlength="22">
 									<f:validator validatorId="NumericValidator"/>
 								</h:inputText>
 							</div>

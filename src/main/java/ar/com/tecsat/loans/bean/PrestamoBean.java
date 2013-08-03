@@ -3,6 +3,7 @@ package ar.com.tecsat.loans.bean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,6 +46,8 @@ import ar.com.tecsat.loans.service.PrestamoService;
 @SessionScoped
 public class PrestamoBean extends BasicController implements Serializable {
 
+	private static final String REFINANCIAR = "refinanciar";
+	
 	// Propiedades
 	private Prestamo prestamo;
 	private List<Prestamo> listaPrestamo;
@@ -173,6 +176,30 @@ public class PrestamoBean extends BasicController implements Serializable {
 		addMessageInfo("Verifique los datos ingresado y presione confirmar para finalizar con la operación");
 		setEditPrestamo(false);
 		return CONFIRM;
+	}
+
+	
+	public String refinan(Prestamo prestamo) {
+		PrestamoFiltro filtro = getFiltro();
+		BigDecimal monto = getMonto(prestamo);
+		filtro.setCapital(monto);
+		filtro.setIdCliente(prestamo.getCliente().getCliId());
+		setPrestamo(prestamo);
+		saveStep();
+		return REFINANCIAR;
+	}
+	
+	/**
+	 * @param prestamo
+	 * @return
+	 */
+	private BigDecimal getMonto(Prestamo prestamo) {
+		BigDecimal monto = new BigDecimal(0);
+		List<Cuota> cuotas = prestamo.getCuotas();
+		for (Cuota cuota : cuotas) {
+			monto = monto.add(cuota.getCuoTotalPagar());
+		}
+		return monto;
 	}
 
 	public String confirm() {

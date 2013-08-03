@@ -20,19 +20,19 @@ import ar.com.tecsat.loans.modelo.Prestamo;
 
 /**
  * @author nicolas
- *
+ * 
  */
 @Stateless
-public class PrestamoDaoImpl implements PrestamoDao{
+public class PrestamoDaoImpl implements PrestamoDao {
 
-	@PersistenceContext(unitName="Prest")
+	@PersistenceContext(unitName = "Prest")
 	private EntityManager em;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Prestamo> findAllPrestamos() throws AdministrativeException {
 		Query query = em.createNamedQuery("findAllPrestamos");
-		return (List<Prestamo>)query.getResultList();
+		return (List<Prestamo>) query.getResultList();
 	}
 
 	@Override
@@ -51,16 +51,16 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 	@Override
 	public List<Prestamo> findByFilter(PrestamoFiltro filtro) throws AdministrativeException {
-		try{
+		try {
 			CriteriaBuilder builder = em.getCriteriaBuilder();
 			CriteriaQuery<Prestamo> query = builder.createQuery(Prestamo.class);
 			Root<Prestamo> prestamo = query.from(Prestamo.class);
 			Predicate[] predicates = addPredicates(filtro, builder, prestamo);
-			if (predicates.length > 0){
+			if (predicates.length > 0) {
 				query.where(predicates);
 			}
 			return em.createQuery(query).getResultList();
-		} catch(Exception e){
+		} catch (Exception e) {
 			throw new AdministrativeException(e.getMessage());
 		}
 	}
@@ -73,9 +73,9 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		addTasa(filtro, builder, prestamo, predicateList);
 		addFechaSolicitud(filtro, builder, prestamo, predicateList);
 		addEstado(filtro, builder, prestamo, predicateList);
-		
+
 		Predicate[] predicates = new Predicate[predicateList.size()];
-	    predicateList.toArray(predicates);
+		predicateList.toArray(predicates);
 		return predicates;
 	}
 
@@ -90,7 +90,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 	private void addFechaSolicitud(PrestamoFiltro filtro, CriteriaBuilder builder, Root<Prestamo> prestamo,
 			List<Predicate> predicateList) {
-		if (filtro.getFechaDesde() != null && filtro.getFechaDesde() != null){
+		if (filtro.getFechaDesde() != null && filtro.getFechaDesde() != null) {
 			Date fechaDesde = filtro.getFechaDesde();
 			Date fechaHasta = filtro.getFechaHasta();
 			predicateList.add(builder.between(prestamo.get("preFechaInicio").as(Date.class), fechaDesde, fechaHasta));
@@ -141,19 +141,30 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 	private void addCantCuotas(PrestamoFiltro filtro, CriteriaBuilder builder, Root<Prestamo> prestamo,
 			List<Predicate> predicateList) {
-		
-		if(filtro.getCantCuotas() != null){
+
+		if (filtro.getCantCuotas() != null) {
 			Predicate cantCuotas = null;
 			if (filtro.getCondicionCuotas().equals("ES_IGUAL")) {
 				cantCuotas = builder.equal(prestamo.get("preCantCuotas"), filtro.getCantCuotas().intValue());
 			}
 			if (filtro.getCondicionCuotas().equals("ES_MENOR")) {
-				cantCuotas = builder.le(prestamo.get("preCantCuotas").as(Number.class), filtro.getCantCuotas().intValue());
+				cantCuotas = builder.le(prestamo.get("preCantCuotas").as(Number.class), filtro.getCantCuotas()
+						.intValue());
 			}
 			if (filtro.getCondicionCuotas().equals("ES_MAYOR")) {
-				cantCuotas = builder.ge(prestamo.get("preCantCuotas").as(Number.class), filtro.getCantCuotas().intValue());
+				cantCuotas = builder.ge(prestamo.get("preCantCuotas").as(Number.class), filtro.getCantCuotas()
+						.intValue());
 			}
 			predicateList.add(cantCuotas);
+		}
+	}
+
+	@Override
+	public void actualizar(Prestamo prestamo) throws AdministrativeException {
+		try {
+			em.merge(prestamo);
+		} catch (Exception e) {
+			throw new AdministrativeException("Error al actualizar la cuota");
 		}
 	}
 }

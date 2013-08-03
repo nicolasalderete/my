@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -154,7 +155,7 @@ public class Prestamo implements Serializable {
 		this.cliente = cliente;
 	}
 
-	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	public List<Cuota> getCuotas() {
 		return cuotas;
 	}

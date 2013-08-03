@@ -5,7 +5,7 @@ package ar.com.tecsat.loans.bean.utils;
  *
  */
 public enum Dias {
-	
+	HOY,
 	TREINTA,
 	QUINCE,
 

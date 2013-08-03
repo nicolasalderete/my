@@ -13,12 +13,13 @@ import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.bean.utils.Dias;
 import ar.com.tecsat.loans.dao.interfaces.CuotaDao;
 import ar.com.tecsat.loans.dao.interfaces.PagoDao;
+import ar.com.tecsat.loans.dao.interfaces.PrestamoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Pago;
 import ar.com.tecsat.loans.modelo.Prestamo;
+import ar.com.tecsat.loans.modelo.PrestamoEstado;
 import ar.com.tecsat.loans.util.PagoHelper;
-import ar.com.tecsat.loans.util.PrestamoConfiguration;
 
 /**
  * @author nicolas
@@ -32,8 +33,9 @@ public class CuotaService {
 
 	@EJB
 	private PagoDao pagoDao;
-
-	private PrestamoConfiguration configuration = PrestamoConfiguration.getInstance();
+	
+	@EJB
+	private PrestamoDao prestamoDao;
 
 	private PagoHelper pagoHelper = PagoHelper.getInstance();
 
@@ -74,15 +76,34 @@ public class CuotaService {
 	}
 
 	public void pagar(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		// si el importe de pago es menor o igual al de la cuota
-		if (cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == -1) {
+		// si el importe de pago es mayor o igual al de la cuota
+		if (elPagoEsMayorAlImporteDeLaCuota(cuota, filtro)) {
 			throw new AdministrativeException(
 					"El importe de pago debe ser igual o menor que el total a pagar de la cuota");
-		} else if (cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == 0) {
+		} else if (elPagoEsIgualAlImporteDeLaCuota(cuota, filtro)) {
 			pagoTotal(cuota, filtro);
 		} else {
+			// Si es menor
 			pagoParcial(cuota, filtro);
 		}
+	}
+
+	/**
+	 * @param cuota
+	 * @param filtro
+	 * @return
+	 */
+	private boolean elPagoEsIgualAlImporteDeLaCuota(Cuota cuota, CuotaFiltro filtro) {
+		return cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == 0;
+	}
+
+	/**
+	 * @param cuota
+	 * @param filtro
+	 * @return
+	 */
+	private boolean elPagoEsMayorAlImporteDeLaCuota(Cuota cuota, CuotaFiltro filtro) {
+		return cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == -1;
 	}
 
 	/**
@@ -91,8 +112,9 @@ public class CuotaService {
 	 * @throws AdministrativeException
 	 */
 	private void pagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		validarImporteDePago(cuota.getCuoTotalPagar(), filtro.getImportePago());
-		validarPagoConSaldo(cuota, filtro);
+		// validarImporteDePago(cuota.getCuoTotalPagar(),
+		// filtro.getImportePago());
+		// validarPagoConSaldo(cuota, filtro);
 		registrarPago(cuota, filtro);
 		actualizaCuotaPagoParcial(cuota, filtro);
 	}
@@ -102,23 +124,12 @@ public class CuotaService {
 	 * @param filtro
 	 * @throws AdministrativeException
 	 */
-	private void validarPagoConSaldo(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		if (cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) < 0) {
-			throw new AdministrativeException("El importe de pago no puede ser mayor al Saldo de la cuota.");
-		}
-	}
-
-	/**
-	 * @param cuota
-	 * @param filtro
-	 * @throws AdministrativeException
-	 */
 	private void actualizaCuotaPagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
-		if (cuota.getCuoTotalPagar().compareTo(new BigDecimal(0)) == 0) {
-			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE.toString());
-		} else {
+		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE.toString())) {
 			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL.toString());
+		} else {
+			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE.toString());
 		}
 		cuotaDao.actualizar(cuota);
 	}
@@ -139,9 +150,36 @@ public class CuotaService {
 	 * @throws AdministrativeException
 	 */
 	private void actualizarCuotaPagoTotal(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		cuota.setCuoSaldoFavor(filtro.getImportePago());
+		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
 		cuota.setCuoEstado(CuotaEstado.CANCELADA.toString());
 		cuotaDao.actualizar(cuota);
+		if (debeCancelarPrestamo(cuota)) {
+			Prestamo prestamo = cuota.getPrestamo();
+			prestamo.setPreEstado(PrestamoEstado.CANCELADO.toString());
+			prestamoDao.actualizar(prestamo);
+		}
+	}
+
+	/**
+	 * @param cuota
+	 * @return
+	 */
+	private boolean debeCancelarPrestamo(Cuota cuota) {
+		List<Cuota> cuotas = cuota.getPrestamo().getCuotas();
+		for (Cuota obj : cuotas) {
+			if (noPagoLaCuota(obj)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param cuota
+	 * @return
+	 */
+	private boolean noPagoLaCuota(Cuota cuota) {
+		return cuota.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) != 0;
 	}
 
 	/**
@@ -152,26 +190,6 @@ public class CuotaService {
 	private void registrarPago(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		Pago pago = pagoHelper.crearPago(cuota, filtro);
 		pagoDao.guardar(pago);
-	}
-
-	private void validarImporteDePago(BigDecimal cuota, BigDecimal pago) throws AdministrativeException {
-		BigDecimal pagoMinimo = getPagoMinimo(cuota, pago);
-		pagoIgualMayorAlPagoMinimo(pago, pagoMinimo);
-	}
-
-	/**
-	 * @param pago
-	 * @param pagoMinimo
-	 * @throws AdministrativeException
-	 */
-	private void pagoIgualMayorAlPagoMinimo(BigDecimal pago, BigDecimal pagoMinimo) throws AdministrativeException {
-		if (pagoMinimo.compareTo(pago) > 0)
-			throw new AdministrativeException("El pago no puede ser inferior al pago minimo posible.");
-	}
-
-	private BigDecimal getPagoMinimo(BigDecimal cuota, BigDecimal pago) throws AdministrativeException {
-		String prop = configuration.getPropertie("prestamo.importe.minimo.apagar");
-		return cuota.multiply(new BigDecimal(prop).divide(new BigDecimal(100)));
 	}
 
 	public List<String> actualizarCuotasVencidasMasInteres(List<Cuota> cuotaVencidas, Dias dias) {
@@ -194,7 +212,8 @@ public class CuotaService {
 	 * @param cuota
 	 * @param result
 	 *            TODO
-	 * @param cuotaEstado TODO
+	 * @param cuotaEstado
+	 *            TODO
 	 */
 	private void actualizarCuotaVencidaA(Cuota cuota, List<String> result, CuotaEstado cuotaEstado) {
 		try {
@@ -244,7 +263,7 @@ public class CuotaService {
 	public List<String> actualizarCuotasVencidas(List<Cuota> cuotasVencenHoy) {
 		List<String> result = new ArrayList<String>();
 		for (Cuota cuota : cuotasVencenHoy) {
-			if (noPagoLaCuota(cuota)) {
+			if (noHizoNingunPago(cuota)) {
 				actualizoEstadoVencida(cuota, result);
 			}
 			if (pagoParcialmenteCuota(cuota)) {
@@ -261,7 +280,7 @@ public class CuotaService {
 	 * @param cuota
 	 * @return
 	 */
-	private boolean noPagoLaCuota(Cuota cuota) {
+	private boolean noHizoNingunPago(Cuota cuota) {
 		return cuota.getCuoSaldoFavor().compareTo(BigDecimal.valueOf(0)) == 0;
 	}
 
