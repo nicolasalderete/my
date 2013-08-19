@@ -1,7 +1,5 @@
 package ar.com.tecsat.loans.util;
 
-import java.util.Calendar;
-
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Pago;
@@ -25,7 +23,7 @@ public class PagoHelper {
 		Pago newPago = new Pago();
 		newPago.setCliente(cuota.getPrestamo().getCliente());
 		newPago.setCuota(cuota);
-		newPago.setPagFestado(Calendar.getInstance().getTime());
+		newPago.setPagFestado(filtro.getFechaPago());
 		newPago.setPagMonto(filtro.getImportePago());
 		newPago.setPrestamo(cuota.getPrestamo());
 		newPago.setPagEstado(PagoEstado.PAGO_CANCELADO.toString());

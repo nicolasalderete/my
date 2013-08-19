@@ -5,11 +5,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import ar.com.tecsat.loans.bean.CuotaEstado;
 import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
 import ar.com.tecsat.loans.dao.interfaces.PrestamoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cliente;
+import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Prestamo;
+import ar.com.tecsat.loans.modelo.PrestamoEstado;
 import ar.com.tecsat.loans.util.PrestamoHelper;
 
 /**
@@ -82,5 +85,18 @@ public class PrestamoService {
 		Cliente cliente = null;
 		cliente = clienteService.findClienteByPk(filtro.getIdCliente());
 		return cliente;
+	}
+
+	public void cancelarPrestamo(Prestamo prestamo) throws AdministrativeException {
+		List<Cuota> cuotas = prestamo.getCuotas();
+		for (Cuota cuota : cuotas) {
+			cuota.setCuoEstado(CuotaEstado.REFINANCIADO.toString());
+		}
+		prestamo.setPreEstado(PrestamoEstado.REFINANCIADO.toString());
+		try {
+			prestamoDao.actualizar(prestamo);
+		} catch (AdministrativeException e) {
+			throw new AdministrativeException("Error al actualizar el prestamo anterior");
+		}
 	}
 }

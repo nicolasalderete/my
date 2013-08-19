@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<ui:define name="pageTitle">Pago</ui:define>
 </h:head>
@@ -19,58 +20,62 @@
 				<hr />
 				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 
-				<h:dataTable value="#{cuotaBean.listaCuota}" var="cuota" styleClass="table table-hover" >
 
-					<h:column>
+				 <p:dataTable id="dataTable" var="cuota" value="#{cuotaBean.listaCuota}"  
+                 paginator="true" rows="10"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15" >
+
+					<p:column>
 						<f:facet name="header">Nombre del cliente</f:facet>
 						<h:outputText value="#{cuota.prestamo.cliente.cliNombre}" />
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Prestamo</f:facet>
 						<h:outputText value="#{cuota.prestamo.preCapital}" >
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
-					</h:column>
+					</p:column>
 					
-					<h:column>
+					<p:column>
 						<f:facet name="header">Interes mensual</f:facet>
 						<h:outputText value="#{cuota.prestamo.preInteresMensual}" >
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
-					</h:column>
+					</p:column>
 					
-					<h:column>
+					<p:column>
 						<f:facet name="header">Importe de la Cuota</f:facet>
 						<h:outputText value="#{cuota.cuoImporte}" >
 							<f:convertNumber type="currency" currencySymbol="$"/>
 						</h:outputText>
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Nro. de cuota</f:facet>
 						<h:outputText value="#{cuota.cuoNumero}" />
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Saldo a pagar</f:facet>
 						<h:outputText value="#{cuota.cuoTotalPagar}"  >
 							<f:convertNumber type="currency" currencySymbol="$"/>
 						</h:outputText>
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Fecha de Vto.</f:facet>
 						<h:outputText value="#{cuota.cuoFechaVencimiento}">
 							<f:convertDateTime timeStyle="medium"/>
 						</h:outputText>
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Estado de la cuota</f:facet>
 						<h:outputText value="#{cuota.cuoEstado}" />
-					</h:column>
-					<h:column>
+					</p:column>
+					<p:column>
 						<f:facet name="header">Acciones</f:facet>
 						<h:commandLink value="Detalle" action="#{cuotaBean.detail(cuota)}" />
-					</h:column>
-				</h:dataTable>
-
+					</p:column>
+				</p:dataTable>
+				<hr />
 				<div class="row-fluid show-grid">
 					<div class="span8"></div>
 					<div class="span1">

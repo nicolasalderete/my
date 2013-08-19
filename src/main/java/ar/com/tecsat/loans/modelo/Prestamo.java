@@ -175,7 +175,7 @@ public class Prestamo implements Serializable {
 
 	@Transient
 	public BigDecimal getPreMontoTotal() {
-		return this.preInteresMensual.multiply(new BigDecimal(this.preCantCuotas)).add(preCapital);
+		return this.preImporteCuota.multiply(BigDecimal.valueOf(this.preCantCuotas));
 	}
 
 	public void setPreMontoTotal(BigDecimal preTotalMonto) {

@@ -22,6 +22,7 @@ public class CuotaFiltro implements Serializable {
 	private Integer numeroCuota;
 	private String estadoCuota;
 	private BigDecimal importePago;
+	private Date fechaPago;
 	
 	public Integer getIdCliente() {
 		return idCliente;
@@ -88,6 +89,12 @@ public class CuotaFiltro implements Serializable {
 	}
 	public void setImportePago(BigDecimal importePago) {
 		this.importePago = importePago;
+	}
+	public Date getFechaPago() {
+		return fechaPago;
+	}
+	public void setFechaPago(Date fechaPago) {
+		this.fechaPago = fechaPago;
 	}
 	
 }

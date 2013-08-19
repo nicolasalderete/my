@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import ar.com.tecsat.loans.modelo.Prestamo;
+
 /**
  * @author nicolas
  *
@@ -22,6 +24,7 @@ public class PrestamoFiltro implements Serializable{
 	private Date fechaSoli;
 	private Date fechaDesde;
 	private Date fechaHasta;
+	private Prestamo prestamo;
 	
 	public Integer getIdCliente() {
 		return idCliente;
@@ -88,5 +91,11 @@ public class PrestamoFiltro implements Serializable{
 	}
 	public void setCondicionCuotas(String condicionCuotas) {
 		this.condicionCuotas = condicionCuotas;
+	}
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
 	}
 }

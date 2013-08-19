@@ -199,8 +199,8 @@ public class Cuota implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Cli: %s, Cuo: %s de %s, Estado: %s, Pres: $%s.-", this.prestamo.getCliente().toString(),
-				this.cuoNumero, this.prestamo.getPreCantCuotas(), this.cuoEstado, this.prestamo.getPreCapital());
+		return String.format("Cuota %s de %s, correspondiente a un prestamo de $%s. Estado de la cuota %s",
+				this.cuoNumero, this.prestamo.getPreCantCuotas(), this.prestamo.getPreCapital(), this.cuoEstado);
 	}
 
 	public boolean isPagable() {

@@ -95,7 +95,19 @@ public class PrestamoHelper {
 	 */
 	private static BigDecimal getImporteDeLaCuota(Integer cantidadCuotas, BigDecimal capital, Double tasaMensual) {
 		BigDecimal interesesMensual = getInteresMensual(capital, tasaMensual);
-		return capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0, RoundingMode.HALF_UP).add(interesesMensual);
+		return redondearImporteCuota(cantidadCuotas, capital, interesesMensual);
+	}
+
+	/**
+	 * @param cantidadCuotas
+	 * @param capital
+	 * @param interesesMensual
+	 * @return
+	 */
+	private static BigDecimal redondearImporteCuota(Integer cantidadCuotas, BigDecimal capital,
+			BigDecimal interesesMensual) {
+		BigDecimal importeSinRedondeo = capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0, RoundingMode.HALF_UP).add(interesesMensual);
+		return importeSinRedondeo.movePointLeft(1).setScale(0, RoundingMode.HALF_UP).movePointRight(1);
 	}
 
 	/**
@@ -107,6 +119,6 @@ public class PrestamoHelper {
 	 * @return
 	 */
 	private static BigDecimal getInteresMensual(BigDecimal capital, Double tasaMensual) {
-		return capital.multiply(new BigDecimal(tasaMensual)).divide(new BigDecimal(100));
+		return capital.multiply(new BigDecimal(tasaMensual)).divide(new BigDecimal(100), 0, RoundingMode.HALF_UP);
 	}
 }

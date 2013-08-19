@@ -48,7 +48,9 @@
 						<div class="control-group">
 							<h:outputLabel value="Importe de la cuota :" styleClass="control-label" for="idImporteCuota" />
 							<div class="controls">
-								<h:outputText id="idImporteCuota" value="#{pagoBean.pago.cuota.cuoImporte}" />
+								<h:outputText id="idImporteCuota" value="#{pagoBean.pago.cuota.cuoImporte}">
+									<f:convertNumber type="currency"/>
+								</h:outputText>
 							</div>
 						</div>
 					</div>

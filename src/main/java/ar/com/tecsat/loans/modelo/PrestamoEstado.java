@@ -5,5 +5,5 @@ package ar.com.tecsat.loans.modelo;
  *
  */
 public enum PrestamoEstado {
-	CANCELADO, CANCELADO_POR_ADELANTADO, VIGENTE;
+	CANCELADO, CANCELADO_POR_ADELANTADO, VIGENTE, REFINANCIADO
 }

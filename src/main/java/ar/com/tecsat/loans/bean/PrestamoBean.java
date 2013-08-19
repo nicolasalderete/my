@@ -158,6 +158,11 @@ public class PrestamoBean extends BasicController implements Serializable {
 		}
 		return stepBack();
 	}
+	
+	public String saveRefinanciar() {
+		getFiltro().setPrestamo(getPrestamo());
+		return save();
+	}
 
 	public String save() {
 		Prestamo nuevoPrestamo = null;
@@ -175,16 +180,17 @@ public class PrestamoBean extends BasicController implements Serializable {
 		saveStep();
 		addMessageInfo("Verifique los datos ingresado y presione confirmar para finalizar con la operación");
 		setEditPrestamo(false);
-		return CONFIRM;
+ 		return CONFIRM;
 	}
 
 	
 	public String refinan(Prestamo prestamo) {
-		PrestamoFiltro filtro = getFiltro();
+		PrestamoFiltro filtro = new PrestamoFiltro();
 		BigDecimal monto = getMonto(prestamo);
 		filtro.setCapital(monto);
 		filtro.setIdCliente(prestamo.getCliente().getCliId());
 		setPrestamo(prestamo);
+		setFiltro(filtro);
 		saveStep();
 		return REFINANCIAR;
 	}
@@ -205,13 +211,16 @@ public class PrestamoBean extends BasicController implements Serializable {
 	public String confirm() {
 		try {
 			prestamoService.guardarPrestamo(getPrestamo());
+			if (getFiltro().getPrestamo() != null) {
+				prestamoService.cancelarPrestamo(getFiltro().getPrestamo());
+			}
 			inicializarForm();
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 			return null;
 		}
 		addMessageInfo("Operación realizada");
-		return stepBack();
+		return init();
 	}
 
 	public String detalle(Prestamo pre) {

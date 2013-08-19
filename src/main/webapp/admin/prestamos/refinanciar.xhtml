@@ -12,7 +12,7 @@
 		<ui:define name="body">
 
 			<h:form styleClass="form-horizontal">
-				<h4>Nuevo prestamo</h4>
+				<h4>Refinanciar prestamo</h4>
 				<hr />
 				<h:messages errorClass="errorMessage" infoClass="infoMessage" warnClass="warnMessage"></h:messages>
 
@@ -21,7 +21,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Cliente :" styleClass="control-label" for="idCliente" />
 							<div class="controls">
-								<h:selectOneMenu id="idCliente" value="#{prestamoBean.filtro.idCliente}" label="Cliente" readonly="true">
+								<h:selectOneMenu id="idCliente" value="#{prestamoBean.filtro.idCliente}" label="Cliente" readonly="true" disabled="true">
 									<f:selectItem itemLabel="Seleccione el cliente..." noSelectionOption="true"/>
 									<f:selectItems value="#{prestamoBean.listaCliente}" var="cliente" 
 										itemValue="#{cliente.cliId}" itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}"/>
@@ -95,12 +95,13 @@
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton action="#{prestamoBean.stepBack()}" styleClass="btn" value="Cancelar" immediate="true"/>
+							<h:commandButton action="#{prestamoBean.init()}" styleClass="btn" value="Cancelar" immediate="true"/>
 						</div>
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton action="#{prestamoBean.confRefinan()}" styleClass="btn btn-primary" value="Guardar" />
+							<h:commandButton action="#{prestamoBean.saveRefinanciar()}" styleClass="btn btn-primary" value="Guardar"
+							onclick="if (! confirm('Desea refinanciar el prestamo.') ) { return false;}; return true;"/>
 						</div>
 					</div>
 					<div class="span1">

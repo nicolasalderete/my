@@ -133,7 +133,7 @@ public class PagoBean extends BasicController implements Serializable{
 		parameters.put("cuota", pago.getCuota().toString());
 		parameters.put("importe", pago.getCuota().getCuoImporte());
 		parameters.put("total", pago.getCuota().getCuoTotalPagar());
-		parameters.put("fechaVto", pago.getCuota().getCuoFechaVencimiento());
+		parameters.put("fechaPago", pago.getCuota().getCuoFechaVencimiento());
 		
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
