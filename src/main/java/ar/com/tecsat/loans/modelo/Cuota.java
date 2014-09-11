@@ -72,7 +72,6 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_saldo", precision = 10, scale = 2)
 	private BigDecimal cuoSaldo;
 
-	@SuppressWarnings("unused")
 	@Transient
 	private BigDecimal cuoTotalPagar;
 

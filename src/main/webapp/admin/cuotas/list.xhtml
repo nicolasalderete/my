@@ -3,7 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<ui:define name="pageTitle">Pago</ui:define>
 </h:head>
@@ -22,52 +23,59 @@
 
 
 				 <p:dataTable id="dataTable" var="cuota" value="#{cuotaBean.listaCuota}"  
-                 paginator="true" rows="10"  
+                 paginator="true" rows="10" styleClass="cuotaTableList" 
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                  rowsPerPageTemplate="5,10,15" >
 
 					<p:column>
-						<f:facet name="header">Nombre del cliente</f:facet>
+						<f:facet name="header">Cliente</f:facet>
 						<h:outputText value="#{cuota.prestamo.cliente.cliNombre}" />
 					</p:column>
+					<p:column>
+						<f:facet name="header">Direccion</f:facet>
+						<h:outputText value="#{cuota.prestamo.cliente.cliDireccion}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Celular</f:facet>
+						<h:outputText value="#{cuota.prestamo.cliente.cliCelular}" />
+					</p:column>
+					
 					<p:column>
 						<f:facet name="header">Prestamo</f:facet>
 						<h:outputText value="#{cuota.prestamo.preCapital}" >
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
 					</p:column>
-					
 					<p:column>
-						<f:facet name="header">Interes mensual</f:facet>
+						<f:facet name="header">Int. mens.</f:facet>
 						<h:outputText value="#{cuota.prestamo.preInteresMensual}" >
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
 					</p:column>
-					
 					<p:column>
-						<f:facet name="header">Importe de la Cuota</f:facet>
+						<f:facet name="header">Importe</f:facet>
 						<h:outputText value="#{cuota.cuoImporte}" >
 							<f:convertNumber type="currency" currencySymbol="$"/>
 						</h:outputText>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Nro. de cuota</f:facet>
+						<f:facet name="header">Nro.</f:facet>
 						<h:outputText value="#{cuota.cuoNumero}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">Saldo a pagar</f:facet>
+						<f:facet name="header">Saldo</f:facet>
 						<h:outputText value="#{cuota.cuoTotalPagar}"  >
 							<f:convertNumber type="currency" currencySymbol="$"/>
 						</h:outputText>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Fecha de Vto.</f:facet>
+						<f:facet name="header">Vto.</f:facet>
 						<h:outputText value="#{cuota.cuoFechaVencimiento}">
 							<f:convertDateTime timeStyle="medium"/>
 						</h:outputText>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Estado de la cuota</f:facet>
+						<f:facet name="header">Estado</f:facet>
 						<h:outputText value="#{cuota.cuoEstado}" />
 					</p:column>
 					<p:column>

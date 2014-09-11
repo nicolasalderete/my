@@ -39,7 +39,7 @@ public class CuotaSchedule {
 	private CuotaService cuotaService;
 
 	@SuppressWarnings("unused")
-	@Schedules({ @Schedule(month = "*", dayOfMonth = "*", hour = "0", minute = "30") })
+//	@Schedules({ @Schedule(month = "*", dayOfMonth = "*", hour = "0", minute = "30") })
 	private void helloWorld() throws MessagingException {
 		System.out.println("Iniciando Scheduler..............................");
 		StringBuffer content = new StringBuffer("");
