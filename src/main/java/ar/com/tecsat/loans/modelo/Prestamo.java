@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,9 +39,10 @@ public class Prestamo implements Serializable {
 	
 	private BigDecimal preCapital;
 	private Integer preCantCuotas;
+	private Integer preCantMeses;
 	private Double preTasaMensual;
-	private BigDecimal preImporteCuota;
-	private BigDecimal preInteresMensual;
+	private BigDecimal preInteresTotal;
+	private TipoPrestamo tipoPrestamo;
 
 	private String preEstado;
 	private Date preFechaEstado;
@@ -116,15 +119,6 @@ public class Prestamo implements Serializable {
 		this.preFechaInicio = preFinicio;
 	}
 
-	@Column(name = "pre_importe_cuota", nullable = false)
-	public BigDecimal getPreImporteCuota() {
-		return this.preImporteCuota;
-	}
-
-	public void setPreImporteCuota(BigDecimal preMontoCuotas) {
-		this.preImporteCuota = preMontoCuotas;
-	}
-
 	@Column(name = "pre_tasa", nullable = false, precision = 2)
 	public Double getPreTasaMensual() {
 		return this.preTasaMensual;
@@ -165,21 +159,40 @@ public class Prestamo implements Serializable {
 	}
 
 	@Column(name = "pre_intereses", nullable = false, precision = 2)
-	public BigDecimal getPreInteresMensual() {
-		return preInteresMensual;
+	public BigDecimal getPreInteresTotal() {
+		return preInteresTotal;
 	}
 
-	public void setPreInteresMensual(BigDecimal preIntereses) {
-		this.preInteresMensual = preIntereses;
+	public void setPreInteresTotal(BigDecimal preIntereses) {
+		this.preInteresTotal = preIntereses;
 	}
 
 	@Transient
 	public BigDecimal getPreMontoTotal() {
-		return this.preImporteCuota.multiply(BigDecimal.valueOf(this.preCantCuotas));
+		return this.preCapital.add(this.preInteresTotal);
 	}
 
 	public void setPreMontoTotal(BigDecimal preTotalMonto) {
 		this.preMontoTotal = preTotalMonto;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "pre_tipo")
+	public TipoPrestamo getTipoPrestamo() {
+		return tipoPrestamo;
+	}
+
+	public void setTipoPrestamo(TipoPrestamo tipoPrestamo) {
+		this.tipoPrestamo = tipoPrestamo;
+	}
+
+	@Column(name = "pre_cant_meses", nullable = false)
+	public Integer getPreCantMeses() {
+		return preCantMeses;
+	}
+
+	public void setPreCantMeses(Integer preCantMeses) {
+		this.preCantMeses = preCantMeses;
 	}
 
 }

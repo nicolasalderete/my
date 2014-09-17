@@ -32,6 +32,7 @@ import ar.com.tecsat.loans.modelo.Cliente;
 import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Perfil;
 import ar.com.tecsat.loans.modelo.Prestamo;
+import ar.com.tecsat.loans.modelo.TipoPrestamo;
 import ar.com.tecsat.loans.service.ClienteService;
 import ar.com.tecsat.loans.service.CuotaService;
 import ar.com.tecsat.loans.service.PerfilService;
@@ -52,6 +53,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 	private Prestamo prestamo;
 	private List<Prestamo> listaPrestamo;
 	private List<Cliente> listaCliente;
+	private TipoPrestamo[] tipoPrestamo;
 
 	private PrestamoFiltro filtro = new PrestamoFiltro();
 	private boolean editPrestamo = false;
@@ -86,6 +88,10 @@ public class PrestamoBean extends BasicController implements Serializable {
 		return FILTER;
 	}
 
+	public TipoPrestamo[] getTipoPrestamo() {
+		return TipoPrestamo.values();
+	}
+	
 	private void cleanStack() {
 		STEP.clear();
 	}
@@ -353,4 +359,9 @@ public class PrestamoBean extends BasicController implements Serializable {
 	public void setSTEP(Stack<String> sTEP) {
 		STEP = sTEP;
 	}
+
+	public void setTipoPrestamo(TipoPrestamo[] tipoPrestamo) {
+		this.tipoPrestamo = tipoPrestamo;
+	}
+
 }

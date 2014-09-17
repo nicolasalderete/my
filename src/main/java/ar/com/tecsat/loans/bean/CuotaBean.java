@@ -149,6 +149,10 @@ public class CuotaBean extends BasicController implements Serializable {
 		setFiltro(new CuotaFiltro());
 		STEP.clear();
 	}
+	
+	public void modify() {
+		saveStep();
+	}
 
 	private void saveStep() {
 		STEP.push(getCurrentView());

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import ar.com.tecsat.loans.modelo.Prestamo;
+import ar.com.tecsat.loans.modelo.TipoPrestamo;
 
 /**
  * @author nicolas
@@ -15,6 +16,7 @@ public class PrestamoFiltro implements Serializable{
 
 	private Integer idCliente;
 	private Integer cantCuotas;
+	private Integer cantMeses;
 	private String condicionCuotas;
 	private String condicionMonto;
 	private String condicionTasa;
@@ -25,6 +27,8 @@ public class PrestamoFiltro implements Serializable{
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private Prestamo prestamo;
+	private TipoPrestamo tipoPrestamo;
+	private BigDecimal interesTotal;
 	
 	public Integer getIdCliente() {
 		return idCliente;
@@ -97,5 +101,23 @@ public class PrestamoFiltro implements Serializable{
 	}
 	public void setPrestamo(Prestamo prestamo) {
 		this.prestamo = prestamo;
+	}
+	public TipoPrestamo getTipoPrestamo() {
+		return tipoPrestamo;
+	}
+	public void setTipoPrestamo(TipoPrestamo tipoPrestamo) {
+		this.tipoPrestamo = tipoPrestamo;
+	}
+	public Integer getCantMeses() {
+		return cantMeses;
+	}
+	public void setCantMeses(Integer cantMeses) {
+		this.cantMeses = cantMeses;
+	}
+	public BigDecimal getInteresTotal() {
+		return interesTotal;
+	}
+	public void setInteresTotal(BigDecimal interesTotal) {
+		this.interesTotal = interesTotal;
 	}
 }

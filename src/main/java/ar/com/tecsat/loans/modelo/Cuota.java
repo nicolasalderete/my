@@ -63,9 +63,6 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_estado", nullable = false, length = 25)
 	private String cuoEstado;
 
-	@Column(name = "cuo_intereses", precision = 10, scale = 2)
-	private BigDecimal cuoInteres;
-
 	@Column(name = "cuo_interes_punitorio", precision = 10, scale = 2)
 	private BigDecimal cuoInteresPunitorio;
 
@@ -146,14 +143,6 @@ public class Cuota implements Serializable {
 
 	public void setCuoEstado(String cuoEstado) {
 		this.cuoEstado = cuoEstado;
-	}
-
-	public BigDecimal getCuoInteres() {
-		return cuoInteres;
-	}
-
-	public void setCuoInteres(BigDecimal cuoIntereses) {
-		this.cuoInteres = cuoIntereses;
 	}
 
 	public BigDecimal getCuoTotalPagar() {

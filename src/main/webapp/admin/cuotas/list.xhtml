@@ -7,6 +7,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<ui:define name="pageTitle">Pago</ui:define>
+
 </h:head>
 <h:body>
 	<ui:composition template="/WEB-INF/template/common.xhtml">
@@ -27,9 +28,9 @@
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                  rowsPerPageTemplate="5,10,15" >
 
-					<p:column>
+					<p:column styleClass="notPadding">
 						<f:facet name="header">Cliente</f:facet>
-						<h:outputText value="#{cuota.prestamo.cliente.cliNombre}" />
+						<h:outputText value="#{cuota.prestamo.cliente.cliNombre}"/>
 					</p:column>
 					<p:column>
 						<f:facet name="header">Direccion</f:facet>
@@ -47,8 +48,8 @@
 						</h:outputText>
 					</p:column>
 					<p:column>
-						<f:facet name="header">Int. mens.</f:facet>
-						<h:outputText value="#{cuota.prestamo.preInteresMensual}" >
+						<f:facet name="header">Int. total</f:facet>
+						<h:outputText value="#{cuota.prestamo.preInteresTotal}" >
 							<f:convertNumber type="currency" currencySymbol="$" />
 						</h:outputText>
 					</p:column>

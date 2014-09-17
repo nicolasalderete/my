@@ -162,9 +162,9 @@
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Interes mensual :" styleClass="control-label" for="idInteresMensual"/>
+							<h:outputLabel value="Interes total :" styleClass="control-label" for="idInteresTotal"/>
 							<div class="controls">
-								<h:outputText value="#{prestamoBean.prestamo.preInteresMensual}" id="idInteresMensual">
+								<h:outputText value="#{prestamoBean.prestamo.preInteresTotal}" id="idInteresTotal">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</div>
@@ -204,6 +204,14 @@
 						</div>
 					</div>
 					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idTipoPrestamo" value="Tipo prestamo :" />
+							<div class="controls">
+								<h:outputText id="idTipoPrestamo" value="#{prestamoBean.prestamo.tipoPrestamo.description}">
+									<f:convertNumber currencySymbol="$" type="currency" />
+								</h:outputText>
+							</div>
+						</div>
 					</div>
 				</div>
 

@@ -223,7 +223,7 @@ public class CuotaService {
 				cuota.setCuoEstado(cuotaEstado.toString());
 			}
 			if (debePagarIntereses(cuota)) {
-				BigDecimal punitorio = cuota.getCuoInteres().divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP)
+				BigDecimal punitorio = cuota.getCuoInteresPunitorio().divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP)
 						.setScale(0);
 				cuota.setCuoInteresPunitorio(cuota.getCuoInteresPunitorio().add(punitorio));
 			}
