@@ -251,22 +251,19 @@ public class PrestamoBean extends BasicController implements Serializable {
 			
 			Perfil perfil = perfilService.findPerfil();
 			parameters.put("perNombre", perfil.getPerNombre());
-			parameters.put("perDni", perfil.getPerDni());
-			parameters.put("perCbu", perfil.getPerCbu());
-			parameters.put("perTipo", perfil.getPerTipoCuenta());
-			parameters.put("perNroCuenta", perfil.getPerCuenta());
-			parameters.put("perCelular", perfil.getPerCelular());
 			parameters.put("perMail", perfil.getPerMail());
-			parameters.put("perTelefono", perfil.getPerTelefono());
-			parameters.put("perBanco", perfil.getPerBanco());
-			
+			parameters.put("perCelular", perfil.getPerCelular());
+
 			parameters.put("cliente", prestamo.getCliente().getCliNombre());
+			parameters.put("dni", prestamo.getCliente().getCliDni());
 			parameters.put("telefono", prestamo.getCliente().getCliTelefono());
 			parameters.put("direccion", prestamo.getCliente().getCliDireccion());
+			parameters.put("entre_calles", prestamo.getCliente().getCliEntreCalle());
+			parameters.put("localidad", prestamo.getCliente().getCliLocalidad());
 			parameters.put("mail", prestamo.getCliente().getCliMail());
 			
 			parameters.put("capital", prestamo.getPreCapital());
-			parameters.put("tasa", prestamo.getPreTasaMensual());
+			parameters.put("tasa", prestamo.getPreTasa());
 			parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
 			
 			String path = "/WEB-INF/reportes/reportprestamo.jrxml";
@@ -281,7 +278,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 			outputStream.close();
 			FacesContext.getCurrentInstance().renderResponse();
 			FacesContext.getCurrentInstance().responseComplete();
-		} catch (AdministrativeException e) {
+		} catch (Exception e) {
 			
 		}
 	}

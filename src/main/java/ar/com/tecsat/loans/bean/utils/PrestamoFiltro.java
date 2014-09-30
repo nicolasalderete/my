@@ -12,11 +12,10 @@ import ar.com.tecsat.loans.modelo.TipoPrestamo;
  *
  */
 @SuppressWarnings("serial")
-public class PrestamoFiltro implements Serializable{
+public class PrestamoFiltro implements Serializable {
 
 	private Integer idCliente;
 	private Integer cantCuotas;
-	private Integer cantMeses;
 	private String condicionCuotas;
 	private String condicionMonto;
 	private String condicionTasa;
@@ -107,12 +106,6 @@ public class PrestamoFiltro implements Serializable{
 	}
 	public void setTipoPrestamo(TipoPrestamo tipoPrestamo) {
 		this.tipoPrestamo = tipoPrestamo;
-	}
-	public Integer getCantMeses() {
-		return cantMeses;
-	}
-	public void setCantMeses(Integer cantMeses) {
-		this.cantMeses = cantMeses;
 	}
 	public BigDecimal getInteresTotal() {
 		return interesTotal;

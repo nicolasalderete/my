@@ -343,4 +343,12 @@ public class CuotaService {
 		}
 		return cuotas;
 	}
+
+	public void actualizarCuotaIntereses(Cuota currentCuota) throws AdministrativeException {
+		cuotaDao.actualizar(currentCuota);
+	}
+
+	public Cuota findCuota(Cuota currentCuota) {
+		return cuotaDao.findCuota(currentCuota);
+	}
 }

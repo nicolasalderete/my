@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  * The persistent class for the cuota database table.
@@ -40,25 +39,24 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_id", unique = true, nullable = false)
 	private Integer cuoId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "cuo_fvencimiento", nullable = false)
-	private Date cuoFechaVencimiento;
+	@Column(name = "cuo_numero", nullable = false)
+	private int cuoNumero;
 
 	@Column(name = "cuo_importe", nullable = false, precision = 10, scale = 2)
 	private BigDecimal cuoImporte;
 
-	@Column(name = "cuo_numero", nullable = false)
-	private int cuoNumero;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cuo_fvencimiento", nullable = false)
+	private Date cuoFechaVencimiento;
+
+	@Column(name = "cuo_pago_parcial", precision = 10, scale = 2)
+	private BigDecimal cuoPagoParcial;
+
+	@Column(name = "cuo_pura", nullable = false, precision = 10, scale = 2)
+	private BigDecimal cuoPura;
 
 	@Column(name = "cuo_sal_deudor", precision = 10, scale = 2)
 	private BigDecimal cuoSaldoDeudor;
-
-	@Column(name = "cuo_sal_favor", precision = 10, scale = 2)
-	private BigDecimal cuoSaldoFavor;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pre_id", nullable = false)
-	private Prestamo prestamo;
 
 	@Column(name = "cuo_estado", nullable = false, length = 25)
 	private String cuoEstado;
@@ -69,11 +67,12 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_saldo", precision = 10, scale = 2)
 	private BigDecimal cuoSaldo;
 
-	@Transient
-	private BigDecimal cuoTotalPagar;
+	@Column(name = "cuo_interes", nullable = false, precision = 2)
+	private BigDecimal cuoInteres;
 
-	@Column(name = "cuo_tasa_mensual", nullable = false, precision = 2)
-	private Double cuoTasaMensual;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pre_id", nullable = false)
+	private Prestamo prestamo;
 
 	@OneToMany(mappedBy = "cuota", cascade = CascadeType.PERSIST)
 	private List<Pago> pagos;
@@ -122,11 +121,11 @@ public class Cuota implements Serializable {
 	}
 
 	public BigDecimal getCuoSaldoFavor() {
-		return this.cuoSaldoFavor;
+		return this.cuoPagoParcial;
 	}
 
 	public void setCuoSaldoFavor(BigDecimal cuoSalFavor) {
-		this.cuoSaldoFavor = cuoSalFavor;
+		this.cuoPagoParcial = cuoSalFavor;
 	}
 
 	public Prestamo getPrestamo() {
@@ -146,11 +145,7 @@ public class Cuota implements Serializable {
 	}
 
 	public BigDecimal getCuoTotalPagar() {
-		return this.cuoImporte.add(this.cuoInteresPunitorio).add(this.cuoSaldoDeudor).subtract(this.cuoSaldoFavor);
-	}
-
-	public void setCuoTotalPagar(BigDecimal cuoTotal) {
-		this.cuoTotalPagar = cuoTotal;
+		return this.cuoImporte.add(this.cuoInteresPunitorio).add(this.cuoSaldoDeudor).subtract(this.cuoPagoParcial);
 	}
 
 	public List<Pago> getPagos() {
@@ -159,14 +154,6 @@ public class Cuota implements Serializable {
 
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
-	}
-
-	public Double getCuoTasaMensual() {
-		return cuoTasaMensual;
-	}
-
-	public void setCuoTasaMensual(Double tasaMensual) {
-		this.cuoTasaMensual = tasaMensual;
 	}
 
 	public BigDecimal getCuoInteresPunitorio() {
@@ -200,5 +187,21 @@ public class Cuota implements Serializable {
 	 */
 	private boolean tieneSaldoAPagar() {
 		return this.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) > 0;
+	}
+
+	public BigDecimal getCuoInteres() {
+		return cuoInteres;
+	}
+
+	public void setCuoInteres(BigDecimal cuoInteres) {
+		this.cuoInteres = cuoInteres;
+	}
+
+	public BigDecimal getCuoPura() {
+		return cuoPura;
+	}
+
+	public void setCuoPura(BigDecimal cuoPura) {
+		this.cuoPura = cuoPura;
 	}
 }

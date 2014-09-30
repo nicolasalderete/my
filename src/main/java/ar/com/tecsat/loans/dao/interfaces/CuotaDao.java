@@ -29,5 +29,7 @@ public interface CuotaDao {
 	public List<Cuota> findByFechaVtoHoy() throws AdministrativeException;
 
 	public List<Cuota> findByFechaVtoA(int dias) throws AdministrativeException;
+
+	public Cuota findCuota(Cuota currentCuota);
 	
 }

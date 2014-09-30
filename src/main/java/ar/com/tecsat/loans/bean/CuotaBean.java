@@ -36,6 +36,7 @@ public class CuotaBean extends BasicController implements Serializable {
 	private CuotaFiltro filtro = new CuotaFiltro();
 	private Stack<String> STEP = new Stack<String>();
 	private boolean isVigente = true;
+	private boolean editCuota = true;
 
 	@EJB
 	private ClienteService clienteService;
@@ -114,11 +115,12 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	public String detail(Cuota cuota) {
 		setCuota(cuota);
+		setEditCuota(false);
 		setVigente(cuota.getCuoTotalPagar().compareTo(new BigDecimal(0)) > 0);
 		saveStep();
 		return SUMMARY;
 	}
-
+	
 	public String stepBack() {
 		String result = STEP.pop();
 		if (result.equals(FILTER)) {
@@ -150,8 +152,28 @@ public class CuotaBean extends BasicController implements Serializable {
 		STEP.clear();
 	}
 	
-	public void modify() {
+	public String modify() {
 		saveStep();
+		setEditCuota(true);
+		return SUMMARY;
+	}
+	
+	public String cancelUpdate() {
+		setEditCuota(false);
+		return stepBack();
+	}
+	
+	public String update() {
+		Cuota currentCuota = getCuota();
+		try {
+			cuotaService.actualizarCuotaIntereses(currentCuota);
+		} catch (AdministrativeException e) {
+			
+		}
+		cuota = cuotaService.findCuota(currentCuota);
+		setEditCuota(false);
+		addMessageInfo("Operación realizada");
+		return SUMMARY;
 	}
 
 	private void saveStep() {
@@ -212,6 +234,14 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	public void setVigente(boolean isVigente) {
 		this.isVigente = isVigente;
+	}
+
+	public boolean isEditCuota() {
+		return editCuota;
+	}
+
+	public void setEditCuota(boolean editCuota) {
+		this.editCuota = editCuota;
 	}
 
 }

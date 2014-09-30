@@ -226,4 +226,9 @@ public class CuotaDaoImpl implements CuotaDao {
 		return cuotas;
 	}
 
+	@Override
+	public Cuota findCuota(Cuota currentCuota) {
+		return em.find(Cuota.class, currentCuota);
+	}
+
 }

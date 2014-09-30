@@ -2,7 +2,7 @@ package ar.com.tecsat.loans.modelo;
 
 public enum TipoPrestamo {
 
-	DIARIO("Diario",21), SEMANAL("Semanal", 4), MENSUAL("Mensual", 1);
+DIARIO("Diario",21), SEMANAL("Semanal", 4), MENSUAL("Mensual", 1), QUINCENAL("Quincenal", 2);
 	
 	private final int value;
 	private final String description;

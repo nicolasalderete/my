@@ -3,13 +3,14 @@ package ar.com.tecsat.loans.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import ar.com.tecsat.loans.bean.CuotaEstado;
 import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
+import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cliente;
 import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Prestamo;
@@ -28,75 +29,72 @@ public class PrestamoHelper {
 		return INSTANCE;
 	}
 
-	public static Prestamo createPrestamo(PrestamoFiltro filtro, Cliente cliente) {
-
+	public static Prestamo createPrestamo(PrestamoFiltro filtro, Cliente cliente) throws AdministrativeException {
 		Prestamo nuevoPrestamo = new Prestamo();
 		nuevoPrestamo.setCliente(cliente);
 		nuevoPrestamo.setTipoPrestamo(filtro.getTipoPrestamo());
-
-		int cantidadDeCuotas = calcularCantidadDeCuotas(filtro);
-		nuevoPrestamo.setPreCantCuotas(cantidadDeCuotas);
-		nuevoPrestamo.setPreCantMeses(filtro.getCantMeses());
-
+		nuevoPrestamo.setPreCantCuotas(filtro.getCantCuotas());
 		nuevoPrestamo.setPreCapital(filtro.getCapital());
-		nuevoPrestamo.setPreTasaMensual(filtro.getTasa());
+		nuevoPrestamo.setPreTasa(filtro.getTasa());
 		nuevoPrestamo.setPreFechaInicio(filtro.getFechaSoli());
+		nuevoPrestamo.setPreCuotaPura(calcularCuotaPura(filtro));
 
-		// BigDecimal interesTotal = calcularInteresTotal(filtro);
-		nuevoPrestamo.setPreInteresTotal(filtro.getInteresTotal());
+		BigDecimal interesTotal = calcularInteresTotal(filtro);
 
-		List<Cuota> cuotas = getCuotas(filtro.getCapital(), filtro.getInteresTotal(), cantidadDeCuotas, nuevoPrestamo);
+		nuevoPrestamo.setPreInteresTotal(interesTotal);
+		nuevoPrestamo.setPreMontoTotal(filtro.getCapital().add(interesTotal));
+
+		List<Cuota> cuotas = getCuotas(nuevoPrestamo);
 		nuevoPrestamo.setCuotas(cuotas);
 		return nuevoPrestamo;
 	}
 
-	private static BigDecimal calcularImporteDeLaCuota(int cantidadDeCuotas, BigDecimal interesTotal,
-			BigDecimal capital) {
-		BigDecimal totalPrestamo = interesTotal.add(capital);
-		BigDecimal importeCuota = totalPrestamo.divide(BigDecimal.valueOf(Long.valueOf(cantidadDeCuotas)), 0, RoundingMode.HALF_UP);
-		return importeCuota;
+	private static BigDecimal calcularCuotaPura(PrestamoFiltro filtro) {
+		return filtro.getCapital().divide(getCantidadCuotas(filtro), 0, RoundingMode.HALF_UP);
 	}
 
-//	private static BigDecimal calcularInteresTotal(PrestamoFiltro filtro) {
-//		BigDecimal ctf = new BigDecimal(filtro.getTasa()).multiply(new BigDecimal(filtro.getCantMeses()));
-//		return filtro.getCapital().multiply(ctf).divide(new BigDecimal(100));
-//	}
+	private static BigDecimal getCantidadCuotas(PrestamoFiltro filtro) {
+		return new BigDecimal(filtro.getCantCuotas().toString());
+	}
 
-	private static int calcularCantidadDeCuotas(PrestamoFiltro filtro) {
-		return filtro.getTipoPrestamo().getValue() * filtro.getCantMeses();
+	private static BigDecimal calcularInteresTotal(PrestamoFiltro filtro) {
+		Double tasa = filtro.getTasa();
+		return filtro.getCapital().multiply(BigDecimal.valueOf(tasa).divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP));
+	}
+
+	private static BigDecimal calcularImporteDeLaCuota(int cantidadDeCuotas, BigDecimal interesTotal, BigDecimal capital) {
+		BigDecimal totalPrestamo = interesTotal.add(capital);
+		return totalPrestamo.divide(BigDecimal.valueOf(Long.valueOf(cantidadDeCuotas)), 0, RoundingMode.HALF_UP);
 	}
 
 	/**
-	 * @param cantidadDeCuotas 
-	 * @param interesTotal 
-	 * @param capital 
 	 * @param nuevoPrestamo
 	 * @return
+	 * @throws AdministrativeException 
 	 */
-	private static List<Cuota> getCuotas(BigDecimal capital, BigDecimal interesTotal, int cantidadDeCuotas, Prestamo nuevoPrestamo) {
+	private static List<Cuota> getCuotas(Prestamo nuevoPrestamo) throws AdministrativeException {
 		List<Cuota> cuotas = new ArrayList<Cuota>();
-		int cuotaNumero = 1;
-		for (int i = 0; i < nuevoPrestamo.getPreCantCuotas(); i++) {
+		Integer cantCuotas = nuevoPrestamo.getPreCantCuotas();
+		BigDecimal interesTotal = nuevoPrestamo.getPreInteresTotal();
+		BigDecimal capital = nuevoPrestamo.getPreCapital();
+		DateTime lastVto = new DateTime(nuevoPrestamo.getPreFechaInicio());
+		for (int cuoNumero = 1; cuoNumero <= cantCuotas; cuoNumero++) {
 			Cuota cuota = new Cuota();
-			
-			BigDecimal importeCuota = calcularImporteDeLaCuota(cantidadDeCuotas, interesTotal, capital);
+			cuota.setCuoInteres(interesTotal.divide(new BigDecimal(cantCuotas.toString()), 0, RoundingMode.HALF_UP));
+			BigDecimal importeCuota = calcularImporteDeLaCuota(cantCuotas, interesTotal, capital);
 			cuota.setCuoImporte(importeCuota);
+			cuota.setCuoPura(BigDecimal.valueOf(0));
 			cuota.setCuoSaldoDeudor(new BigDecimal(0));
 			cuota.setCuoSaldoFavor(new BigDecimal(0));
-			cuota.setCuoNumero(cuotaNumero);
-			cuota.setCuoFechaVencimiento(getFechaVencimiento(nuevoPrestamo, cuotaNumero));
-			cuota.setPrestamo(nuevoPrestamo);
+			cuota.setCuoNumero(cuoNumero);
+			calcularFechaVencimiento(nuevoPrestamo, cuoNumero, lastVto);
+			cuota.setCuoFechaVencimiento(lastVto.toDate());
 			cuota.setCuoInteresPunitorio(new BigDecimal(0));
 			cuota.setCuoEstado(CuotaEstado.VIGENTE.toString());
-			cuota.setCuoTasaMensual(nuevoPrestamo.getPreTasaMensual());
 			cuota.setCuoSaldo(importeCuota);
 
-			BigDecimal montoTotal = cuota.getCuoImporte()
-					.add(cuota.getCuoSaldoFavor().subtract(cuota.getCuoSaldoDeudor()))
-					.add(cuota.getCuoInteresPunitorio());
-			cuota.setCuoTotalPagar(montoTotal);
+			cuota.setPrestamo(nuevoPrestamo);
 			cuotas.add(cuota);
-			cuotaNumero++;
 		}
 		return cuotas;
 	}
@@ -104,84 +102,30 @@ public class PrestamoHelper {
 	/**
 	 * @param nuevoPrestamo
 	 * @param numeroCuota
+	 * @param lastVto
 	 * @return
+	 * @throws AdministrativeException 
 	 */
-	private static Date getFechaVencimiento(Prestamo nuevoPrestamo, int numeroCuota) {
-		Date result = null;
+	private static void calcularFechaVencimiento(Prestamo nuevoPrestamo, int numeroCuota, DateTime lastVto) throws AdministrativeException {
+		DateTime plus = null;
+		plus = lastVto;
 		switch (nuevoPrestamo.getTipoPrestamo()) {
 			case DIARIO:
-				result = calcularFechaVtoDiario(nuevoPrestamo, numeroCuota);
+				plus = plus.plusDays(numeroCuota);
 				break;
 			case MENSUAL:
-				result = calcularFechaVtoMensual(nuevoPrestamo, numeroCuota);
+				plus = plus.plusMonths(numeroCuota);
 				break;
-			case SEMANAL :
-				result = calcularFechaVtoSemanal(nuevoPrestamo, numeroCuota);
+			case SEMANAL:
+				plus = plus.plusWeeks(numeroCuota);
 				break;
+			default:
+				throw new AdministrativeException("Error al calcular la fecha de vencimiento");
 		}
-		return result;
+		if (plus.getDayOfWeek() >= DateTimeConstants.SUNDAY) {
+			lastVto = plus.plusDays(1);
+		} else {
+			lastVto = plus;
+		}
 	}
-
-	private static Date calcularFechaVtoSemanal(Prestamo nuevoPrestamo, int numeroCuota) {
-		DateTime dt = new DateTime(nuevoPrestamo.getPreFechaInicio());
-		DateTime plusWeeks = dt.plusWeeks(numeroCuota);
-		return plusWeeks.toDate();
-	}
-
-	private static Date calcularFechaVtoMensual(Prestamo nuevoPrestamo, int numeroCuota) {
-		DateTime dt = new DateTime(nuevoPrestamo.getPreFechaInicio());
-		DateTime plusMonths = dt.plusMonths(numeroCuota);
-		return plusMonths.toDate();
-	}
-
-	private static Date calcularFechaVtoDiario(Prestamo nuevoPrestamo, int numeroCuota) {
-		DateTime dt = new DateTime(nuevoPrestamo.getPreFechaInicio());
-		DateTime plusDays = dt.plusDays(numeroCuota);
-		return plusDays.toDate();
-	}
-
-	// /**
-	// * Retorna el importe de la cuota resultante del capital prestado la
-	// * cantidad de cuotas y la tasa mensual
-	// *
-	// * @param cantidadCuotas
-	// * @param capital
-	// * @param tasaMensual
-	// * @return
-	// */
-	// private static BigDecimal getImporteDeLaCuota(Integer cantidadCuotas,
-	// BigDecimal capital, Double tasaMensual) {
-	// BigDecimal interesesMensual = getInteresMensual(capital, tasaMensual);
-	// return redondearImporteCuota(cantidadCuotas, capital, interesesMensual);
-	// }
-	//
-	// /**
-	// * @param cantidadCuotas
-	// * @param capital
-	// * @param interesesMensual
-	// * @return
-	// */
-	// private static BigDecimal redondearImporteCuota(Integer cantidadCuotas,
-	// BigDecimal capital,
-	// BigDecimal interesesMensual) {
-	// BigDecimal importeSinRedondeo =
-	// capital.divide(BigDecimal.valueOf(Long.valueOf(cantidadCuotas)), 0,
-	// RoundingMode.HALF_UP).add(interesesMensual);
-	// return importeSinRedondeo.movePointLeft(1).setScale(0,
-	// RoundingMode.HALF_UP).movePointRight(1);
-	// }
-	//
-	// /**
-	// * Dado un capital y una tasa mensual, retorna el interes mensual que se
-	// * adhiere al importe de cada una de las cuotas
-	// *
-	// * @param capital
-	// * @param tasaMensual
-	// * @return
-	// */
-	// private static BigDecimal getInteresMensual(BigDecimal capital, Double
-	// tasaMensual) {
-	// return capital.multiply(new BigDecimal(tasaMensual)).divide(new
-	// BigDecimal(100), 0, RoundingMode.HALF_UP);
-	// }
 }

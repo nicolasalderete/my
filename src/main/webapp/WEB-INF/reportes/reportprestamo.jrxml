@@ -1,343 +1,412 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.7715610000000044"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78077a6c-382e-4772-9982-d7c3757fbc21">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="157"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="titulo" class="java.lang.String"/>
 	<parameter name="cliente" class="java.lang.String"/>
 	<parameter name="mail" class="java.lang.String"/>
 	<parameter name="telefono" class="java.lang.String"/>
 	<parameter name="capital" class="java.math.BigDecimal"/>
-	<parameter name="intereses" class="java.math.BigDecimal"/>
 	<parameter name="tasa" class="java.lang.Double"/>
-	<parameter name="total" class="java.math.BigDecimal"/>
 	<parameter name="direccion" class="java.lang.String"/>
 	<parameter name="perNombre" class="java.lang.String"/>
-	<parameter name="perDni" class="java.lang.String"/>
-	<parameter name="perBanco" class="java.lang.String"/>
-	<parameter name="perCbu" class="java.lang.String"/>
 	<parameter name="perMail" class="java.lang.String"/>
-	<parameter name="perTelefono" class="java.lang.String"/>
-	<parameter name="perTipo" class="java.lang.String"/>
-	<parameter name="perNroCuenta" class="java.lang.String"/>
 	<parameter name="preFechaEntrega" class="java.util.Date"/>
 	<parameter name="fechaEmision" class="java.util.Date"/>
 	<parameter name="perCelular" class="java.lang.String"/>
+	<parameter name="entre_calles" class="java.lang.String"/>
+	<parameter name="localidad" class="java.lang.String"/>
+	<parameter name="dni" class="java.lang.String"/>
+	<field name="cuoNumero" class="java.lang.Integer"/>
 	<field name="cuoFechaVencimiento" class="java.util.Date"/>
 	<field name="cuoImporte" class="java.math.BigDecimal"/>
-	<field name="cuoNumero" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="232" splitType="Stretch">
+		<band height="195" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="555" height="27" forecolor="#000000"/>
-				<textElement textAlignment="Center" lineSpacing="Single">
+				<reportElement x="0" y="0" width="555" height="27" forecolor="#000000" uuid="508b506a-789b-4459-a12e-3ed22faec9db"/>
+				<textElement textAlignment="Center">
 					<font size="18" isBold="true" isItalic="true" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{titulo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="27" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement mode="Opaque" x="0" y="27" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101" uuid="02078f4e-973f-48be-9773-cb762134bec3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Datos de contacto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="49" width="101" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="0" y="49" width="101" height="13" uuid="19275c89-255a-4762-87ae-4af0935855d6"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Nombre y Apellido:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="101" y="49" width="454" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="101" y="49" width="454" height="13" uuid="4fc46af8-f31b-4dec-b357-d9e5c41caa93"/>
+				<textElement>
 					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perNombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{perNombre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="29" y="68" width="286" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="29" y="68" width="286" height="13" uuid="8e1dbd86-e101-403d-8f6b-566db4158887"/>
+				<textElement>
 					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perMail}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{perMail}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="68" width="28" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="1" y="68" width="28" height="13" uuid="3d68499c-9dc1-4247-9db2-b77d944314a7"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Mail:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="86" width="24" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="322" y="68" width="50" height="13" uuid="b6a200ae-2a9d-4b00-b57f-95de0f506fb6"/>
+				<textElement>
 					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[DNI:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="25" y="86" width="139" height="13"/>
-				<textElement lineSpacing="Single">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perDni}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="322" y="68" width="50" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Teléfono:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="68" width="183" height="13"/>
-				<textElement lineSpacing="Single">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perTelefono}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="322" y="86" width="50" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Celular:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="86" width="183" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="372" y="68" width="183" height="13" uuid="5c14ab10-983b-4dae-b3c2-3e8d35705447"/>
+				<textElement>
 					<font size="9"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perCelular}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{perCelular}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="103" width="42" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Banco:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="43" y="103" width="273" height="13"/>
-				<textElement lineSpacing="Single">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perBanco}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="327" y="103" width="81" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Tipo de Cuenta:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="408" y="103" width="147" height="13"/>
-				<textElement lineSpacing="Single">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perTipo}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="1" y="120" width="68" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Nro. de CBU:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="69" y="120" width="213" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perCbu}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="291" y="120" width="81" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
-				</textElement>
-				<text><![CDATA[Nro. de Cuenta:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="372" y="120" width="183" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{perNroCuenta}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="143" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement mode="Opaque" x="0" y="86" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101" uuid="949acf58-2dc9-47fa-bc90-d117011813e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Datos del cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="161" width="43" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="0" y="104" width="43" height="13" uuid="e80c14ca-c73e-4caf-8077-2b7278203926"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="43" y="161" width="203" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{cliente}]]></textFieldExpression>
+				<reportElement x="43" y="104" width="204" height="13" uuid="92cade42-1be7-4c9b-ab26-f7242b2ad1f5"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="266" y="161" width="28" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="262" y="137" width="28" height="13" uuid="955e3543-cb04-4ab3-83a3-039c34802445"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Mail:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="294" y="161" width="261" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{mail}]]></textFieldExpression>
+				<reportElement x="290" y="137" width="261" height="13" uuid="d2db2d44-73b5-4791-903d-0d5051e63a42"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mail}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="178" width="53" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="369" y="104" width="53" height="13" uuid="455f84db-e339-403e-bcde-5e88f8022fb5"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="51" y="178" width="135" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{telefono}]]></textFieldExpression>
+				<reportElement x="420" y="104" width="135" height="13" uuid="3a957e58-568a-4e92-8c6a-43a71d10930b"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefono}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="241" y="178" width="53" height="13"/>
-				<textElement lineSpacing="Single">
+				<reportElement x="0" y="121" width="53" height="13" uuid="2547e044-fc7f-4370-b44c-f002ca495203"/>
+				<textElement>
 					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Dirección:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="294" y="178" width="261" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{direccion}]]></textFieldExpression>
+				<reportElement x="53" y="121" width="237" height="13" uuid="8c97ca96-cd9a-402f-9668-f32e132714d1"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="195" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement mode="Opaque" x="1" y="156" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101" uuid="6e36c61a-8bf9-4454-b50a-9816d836e101"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Datos del prestamo]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="39" y="214" width="115" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{capital}]]></textFieldExpression>
+				<reportElement x="39" y="175" width="115" height="13" uuid="d959ba83-d222-4c06-9814-691db9e9310f"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{capital}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="214" width="39" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
+				<reportElement x="0" y="175" width="39" height="13" uuid="35380612-e6f7-43c3-a26a-8713963d80d5"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Capital:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="157" y="214" width="97" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
+				<reportElement x="157" y="175" width="97" height="13" uuid="0fd3df47-d3b7-488e-85c7-229203176fc9"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Tasa int. mensual:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="254" y="214" width="46" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{tasa}]]></textFieldExpression>
+				<reportElement x="254" y="175" width="46" height="13" uuid="31c35ca4-cd5a-4a6b-a2c5-fa81962437f8"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tasa}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="302" y="214" width="84" height="13"/>
-				<textElement lineSpacing="Single">
-					<font isUnderline="true"/>
+				<reportElement x="302" y="175" width="84" height="13" uuid="46bcb4c9-6207-4682-bcde-0c5d8759bc23"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fecha de ent.:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="386" y="214" width="169" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$P{preFechaEntrega}]]></textFieldExpression>
+				<reportElement x="386" y="175" width="169" height="13" uuid="7cf01bc5-1c41-4544-983b-a079a406275a"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{preFechaEntrega}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="247" y="104" width="24" height="13" uuid="8ce3084c-1baa-4e41-9fbb-ae29bf2892c0"/>
+				<textElement>
+					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="271" y="104" width="98" height="13" uuid="069ab028-f9bf-451a-a7a4-13ba29a6ab3a"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dni}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="121" width="56" height="13" uuid="c5a49596-c672-4dc7-bbff-1823384ba97c"/>
+				<textElement>
+					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Entre calles:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="346" y="121" width="209" height="13" uuid="db33fd21-527a-4a4f-8138-08ce1fb1b5c1"/>
+				<textFieldExpression><![CDATA[$P{entre_calles}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="137" width="78" height="13" uuid="23955f4b-5c70-4117-85cc-09dfe2bb6271"/>
+				<textElement>
+					<font isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Barrio/Localidad:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="79" y="137" width="183" height="13" uuid="74568a52-2fc0-4279-b96c-7b40caffe6f2"/>
+				<textFieldExpression><![CDATA[$P{localidad}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="22" splitType="Stretch">
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="436" y="0" width="117" height="15" uuid="3def9f07-2878-4b63-a24b-f9fe492c1587"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="319" y="0" width="117" height="15" uuid="afbc665b-38c9-4ce4-9b8d-ca631c6c13b1"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="180" y="0" width="139" height="15" uuid="45b1046c-93c4-4d48-b8a9-3a92547dedba"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="113" y="0" width="67" height="15" uuid="ee21ecad-ce9b-42de-ba7d-7fae25967bd6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="45" y="0" width="68" height="15" uuid="b059fee1-cdb4-4b5b-910f-520e4e028645"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="2" y="0" width="43" height="15" uuid="b2199eff-cec2-42af-b2f1-0adae2653b33"/>
+			</rectangle>
 			<staticText>
-				<reportElement mode="Transparent" x="134" y="4" width="181" height="15" forecolor="#010101" backcolor="#FEFEFE"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single"/>
-				<text><![CDATA[Fecha de Vencimiento]]></text>
+				<reportElement mode="Transparent" x="50" y="0" width="57" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="1e495464-b6fd-49b4-8f01-0462c37bc2ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Fecha vto.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="344" y="4" width="100" height="15" forecolor="#010101" backcolor="#FEFEFE"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single"/>
+				<reportElement mode="Transparent" x="129" y="0" width="36" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="359bc413-7790-48c8-af0b-cc825c8765f2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
 				<text><![CDATA[Importe]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="24" y="4" width="91" height="15" forecolor="#010101" backcolor="#FEFEFE"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single"/>
-				<text><![CDATA[Numero de cuota]]></text>
+				<reportElement mode="Transparent" x="3" y="0" width="42" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="2ec2ff19-3688-4eb2-8f8b-a8ab783f2262"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[N° cuota]]></text>
 			</staticText>
-			<line>
-				<reportElement x="1" y="19" width="554" height="1"/>
-			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="210" y="0" width="67" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="36f5c0f5-0b7c-4a6c-a168-41761fa365c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Pago parcial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="345" y="0" width="67" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="c4f0e6dd-bc05-49f5-bcf5-3b06e3eaa294"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Firma cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="455" y="0" width="81" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="3b964673-baf8-46c4-9f0b-a665f1f14d65"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Firma cobrador]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="22" splitType="Stretch">
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="113" y="0" width="67" height="15" uuid="a88ef0d6-44fb-4dda-88a6-07f93b1802bd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="45" y="0" width="68" height="15" uuid="9dae302e-b67f-4981-9b53-fd5152655e79"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="2" y="0" width="43" height="15" uuid="885669f7-e74b-4bec-b3a8-7d175ca93acd"/>
+			</rectangle>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="134" y="0" width="148" height="20"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{cuoFechaVencimiento}]]></textFieldExpression>
+				<reportElement x="45" y="1" width="68" height="14" uuid="3d07d50e-1d41-48a5-99ba-a3a25bd76a71"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuoFechaVencimiento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="344" y="0" width="100" height="20"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cuoImporte}]]></textFieldExpression>
+				<reportElement x="113" y="0" width="67" height="15" uuid="55f150ab-1c72-437c-b517-864cff23b63b"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuoImporte}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="24" y="0" width="91" height="20"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{cuoNumero}]]></textFieldExpression>
+				<reportElement x="3" y="0" width="42" height="15" uuid="48f094a7-cca4-4269-8694-32a85abd0b57"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuoNumero}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="1" y="20" width="554" height="1"/>
-			</line>
+			<rectangle>
+				<reportElement x="180" y="0" width="69" height="15" uuid="aafe5ffb-b246-4b8a-b6e6-c341220e1e7e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="249" y="0" width="70" height="15" uuid="b7e53c5e-2774-4de0-a017-e1f0c41c4a3e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="319" y="0" width="117" height="15" uuid="e4d27512-37b3-4bb0-a441-8141c6d58fea"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="436" y="0" width="117" height="15" uuid="cd8ccc3a-237a-4f82-a38d-aaa73870151a"/>
+			</rectangle>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="68" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="530" y="54" width="25" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<reportElement x="530" y="54" width="25" height="13" uuid="3e4cb910-93dc-4d50-8fa5-26a05e769fda"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="486" y="54" width="39" height="13"/>
-				<textElement lineSpacing="Single"/>
+				<reportElement x="486" y="54" width="39" height="13" uuid="8abba983-2411-41cf-a64b-34b410cd9279"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="69" y="13" width="418" height="31"/>
-				<textElement lineSpacing="Single">
+				<reportElement mode="Transparent" x="69" y="13" width="418" height="31" uuid="64f9f66b-34f6-4a5d-8a7e-63d7c89c278e"/>
+				<textElement>
 					<font size="8"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Nota: Pasado 15 días de la fecha de vencimiento de la cuota, se aplicará un recargo equivalente a la mitad del interes mensual que se aplica en cada cuota. Pasado 30 días de la fecha de vencimiento de la cuota, se aplicará un recargo equivalente al interes mensual que se aplica en cada cuota. ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="39" y="55" width="115" height="13"/>
-				<textElement lineSpacing="Single"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechaEmision}]]></textFieldExpression>
+				<reportElement x="39" y="55" width="115" height="13" uuid="71aa3b3b-66ca-496c-ad18-f9fec5e3af28"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaEmision}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="54" width="39" height="13"/>
-				<textElement lineSpacing="Single"/>
+				<reportElement x="0" y="54" width="39" height="13" uuid="6beaed31-c24a-4e7d-9338-87d3d0e838f8"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 		</band>

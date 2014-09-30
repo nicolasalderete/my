@@ -107,9 +107,11 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idIntPunitorio" value="Interes punitorio :" />
 							<div class="controls">
-								<h:outputText id="idIntPunitorio" value="#{cuotaBean.cuota.cuoInteresPunitorio}">
+								<h:outputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" rendered="#{!cuotaBean.editCuota}">
 									<f:convertNumber type="currency" currencySymbol="$" />
 								</h:outputText>
+								<h:inputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" id="idIntPunitorio" rendered="#{cuotaBean.editCuota}">
+								</h:inputText>
 							</div>
 						</div>
 					</div>
@@ -127,18 +129,28 @@
 					<div class="span8"></div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton action="#{cuotaBean.stepBack()}" value="Volver" styleClass="btn" />
+							<h:commandButton action="#{cuotaBean.stepBack()}" value="Volver" styleClass="btn" 
+												rendered="#{!cuotaBean.editCuota}"/>
+							
+							<h:commandButton value="Cancelar" styleClass="btn" action="#{cuotaBean.cancelUpdate()}"
+								rendered="#{cuotaBean.editCuota}" immediate="true"/>
 						</div>
 					</div>
 					<div class="span1">
 						<div class="control-group">
 							<h:commandButton action="#{cuotaBean.crearPago(cuotaBean.cuota)}" value="Pagar" styleClass="btn btn-primary"
-							rendered="#{cuotaBean.cuota.pagable}"/>
+							rendered="#{cuotaBean.cuota.pagable and !cuotaBean.editCuota}"/>
 						</div>
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton value="Cargar Interes" styleClass="btn btn-primary" action="#{cuotaBean.modify()}" />
+							<h:commandButton value="Cargar Interes" styleClass="btn btn-primary" action="#{cuotaBean.modify()}" 
+											rendered="#{!cuotaBean.editCuota}"/>
+							
+							<h:commandButton value="Actualizar" styleClass="btn btn-primary" rendered="#{cuotaBean.editCuota}"
+								action="#{cuotaBean.update()}"
+								onclick="if (! confirm('Desea cargar intereses a la cuota') ) { return false;}; return true;" />
+							
 						</div>
 					</div>
 					<div class="span1"></div>

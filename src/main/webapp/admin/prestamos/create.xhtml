@@ -59,9 +59,9 @@
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idMeses" value="Cantidad de meses :" />
+							<h:outputLabel class="control-label" for="idCantCuotas" value="Cantidad de cuotas :" />
 							<div class="controls">
-								<h:inputText id="idMeses" value="#{prestamoBean.filtro.cantMeses}" label="Cantidad de meses">
+								<h:inputText id="idCantCuotas" value="#{prestamoBean.filtro.cantCuotas}" label="Cantidad de cuotas">
 									<f:validator validatorId="NumericValidator"/>
 									<f:attribute name="requerido" value="true"/>
 								</h:inputText>
@@ -84,12 +84,12 @@
 					</div>
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Interes total :" styleClass="control-label" for="idInteresTotal" />
+							<h:outputLabel value="Fecha de solicitud :" class="control-label" for="idFechaSoli" />
 							<div class="controls">
-								<h:inputText id="idInteresTotal" value="#{prestamoBean.filtro.interesTotal}" label="Interes total">
-									<f:validator validatorId="NumericValidator"/>
+								<p:calendar id="idFechaSoli" styleClass="input-medium" value="#{prestamoBean.filtro.fechaSoli}" label="Fecha de solicitud">
+									<f:validator validatorId="FechaSolicitudValidator"/>
 									<f:attribute name="requerido" value="true"/>
-								</h:inputText>
+								</p:calendar>
 							</div>
 						</div>
 					</div>
@@ -98,13 +98,6 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel value="Fecha de solicitud :" class="control-label" for="idFechaSoli" />
-							<div class="controls">
-								<p:calendar id="idFechaSoli" styleClass="input-medium" value="#{prestamoBean.filtro.fechaSoli}" label="Fecha de solicitud">
-									<f:validator validatorId="FechaSolicitudValidator"/>
-									<f:attribute name="requerido" value="true"/>
-								</p:calendar>
-							</div>
 						</div>
 					</div>
 					<div class="span6">

@@ -35,24 +35,51 @@ public class Prestamo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "pre_id", unique = true, nullable = false)
 	private Integer id;
 	
+	@Column(name = "pre_capital", nullable = false, precision = 2)
 	private BigDecimal preCapital;
-	private Integer preCantCuotas;
-	private Integer preCantMeses;
-	private Double preTasaMensual;
-	private BigDecimal preInteresTotal;
-	private TipoPrestamo tipoPrestamo;
-
-	private String preEstado;
-	private Date preFechaEstado;
-	private Date preFechaInicio;
-	private List<Pago> pagos;
-	private Cliente cliente;
-	private List<Cuota> cuotas;
 	
-	@SuppressWarnings("unused")
+	@Column(name = "pre_cant_cuotas", nullable = false)
+	private Integer preCantCuotas;
+	
+	@Column(name = "pre_tasa", nullable = false, precision = 2)
+	private Double preTasa;
+	
+	@Column(name = "pre_intereses", nullable = false, precision = 2)
+	private BigDecimal preInteresTotal;
+	
+	@Column(name = "pre_cuota_pura", nullable = false, precision = 2)
+	private BigDecimal preCuotaPura;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "pre_tipo")
+	private TipoPrestamo tipoPrestamo;
+	
+	@Column(name = "pre_estado", nullable = false, length = 20)
+	private String preEstado;
+	
+	@Column(name = "pre_festado", nullable = false)
+	private Date preFechaEstado;
+	
+	@Column(name = "pre_finicio")
+	private Date preFechaInicio;
+	
+	@Column(name = "pre_monto_total")
 	private BigDecimal preMontoTotal;
+
+	@ManyToOne
+	@JoinColumn(name = "cli_id", nullable = false)
+	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "prestamo")
+	private List<Pago> pagos;
+	
+	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<Cuota> cuotas;
 
 	public Prestamo() {
 	}
@@ -63,9 +90,6 @@ public class Prestamo implements Serializable {
 		setPreFechaEstado(Calendar.getInstance().getTime());
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pre_id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -74,7 +98,6 @@ public class Prestamo implements Serializable {
 		this.id = preId;
 	}
 
-	@Column(name = "pre_cant_cuotas", nullable = false)
 	public Integer getPreCantCuotas() {
 		return this.preCantCuotas;
 	}
@@ -83,7 +106,6 @@ public class Prestamo implements Serializable {
 		this.preCantCuotas = preCantCuotas;
 	}
 
-	@Column(name = "pre_capital", nullable = false, precision = 2)
 	public BigDecimal getPreCapital() {
 		return this.preCapital;
 	}
@@ -92,7 +114,6 @@ public class Prestamo implements Serializable {
 		this.preCapital = preCapital;
 	}
 
-	@Column(name = "pre_estado", nullable = false, length = 20)
 	public String getPreEstado() {
 		return this.preEstado;
 	}
@@ -101,7 +122,6 @@ public class Prestamo implements Serializable {
 		this.preEstado = preEstado;
 	}
 
-	@Column(name = "pre_festado", nullable = false)
 	public Date getPreFechaEstado() {
 		return this.preFechaEstado;
 	}
@@ -110,7 +130,6 @@ public class Prestamo implements Serializable {
 		this.preFechaEstado = preFestado;
 	}
 
-	@Column(name = "pre_finicio")
 	public Date getPreFechaInicio() {
 		return this.preFechaInicio;
 	}
@@ -119,17 +138,15 @@ public class Prestamo implements Serializable {
 		this.preFechaInicio = preFinicio;
 	}
 
-	@Column(name = "pre_tasa", nullable = false, precision = 2)
-	public Double getPreTasaMensual() {
-		return this.preTasaMensual;
+	public Double getPreTasa() {
+		return preTasa;
 	}
-
-	public void setPreTasaMensual(Double preTasa) {
-		this.preTasaMensual = preTasa;
+	
+	public void setPreTasa(Double preTasa) {
+		this.preTasa = preTasa;
 	}
-
+	
 	// bi-directional many-to-one association to Pago
-	@OneToMany(mappedBy = "prestamo")
 	public List<Pago> getPagos() {
 		return this.pagos;
 	}
@@ -139,8 +156,6 @@ public class Prestamo implements Serializable {
 	}
 
 	// bi-directional many-to-one association to Cliente
-	@ManyToOne
-	@JoinColumn(name = "cli_id", nullable = false)
 	public Cliente getCliente() {
 		return this.cliente;
 	}
@@ -149,7 +164,6 @@ public class Prestamo implements Serializable {
 		this.cliente = cliente;
 	}
 
-	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	public List<Cuota> getCuotas() {
 		return cuotas;
 	}
@@ -158,7 +172,6 @@ public class Prestamo implements Serializable {
 		this.cuotas = cuotas;
 	}
 
-	@Column(name = "pre_intereses", nullable = false, precision = 2)
 	public BigDecimal getPreInteresTotal() {
 		return preInteresTotal;
 	}
@@ -176,8 +189,6 @@ public class Prestamo implements Serializable {
 		this.preMontoTotal = preTotalMonto;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, name = "pre_tipo")
 	public TipoPrestamo getTipoPrestamo() {
 		return tipoPrestamo;
 	}
@@ -186,13 +197,12 @@ public class Prestamo implements Serializable {
 		this.tipoPrestamo = tipoPrestamo;
 	}
 
-	@Column(name = "pre_cant_meses", nullable = false)
-	public Integer getPreCantMeses() {
-		return preCantMeses;
+	public BigDecimal getPreCuotaPura() {
+		return preCuotaPura;
 	}
 
-	public void setPreCantMeses(Integer preCantMeses) {
-		this.preCantMeses = preCantMeses;
+	public void setPreCuotaPura(BigDecimal preCuotaPura) {
+		this.preCuotaPura = preCuotaPura;
 	}
 
 }
