@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import org.joda.time.DateTime;
+
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cuota;
@@ -31,5 +33,7 @@ public interface CuotaDao {
 	public List<Cuota> findByFechaVtoA(int dias) throws AdministrativeException;
 
 	public Cuota findCuota(Cuota currentCuota);
+
+	public List<Cuota> findByFechaVto(DateTime hoy);
 	
 }

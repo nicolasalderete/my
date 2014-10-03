@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import ar.com.tecsat.loans.bean.CuotaEstado;
 
 /**
  * The persistent class for the cuota database table.
@@ -58,8 +62,9 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_sal_deudor", precision = 10, scale = 2)
 	private BigDecimal cuoSaldoDeudor;
 
-	@Column(name = "cuo_estado", nullable = false, length = 25)
-	private String cuoEstado;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "cuo_estado")
+	private CuotaEstado cuoEstado;
 
 	@Column(name = "cuo_interes_punitorio", precision = 10, scale = 2)
 	private BigDecimal cuoInteresPunitorio;
@@ -136,16 +141,16 @@ public class Cuota implements Serializable {
 		this.prestamo = prestamo;
 	}
 
-	public String getCuoEstado() {
+	public CuotaEstado getCuoEstado() {
 		return cuoEstado;
 	}
 
-	public void setCuoEstado(String cuoEstado) {
+	public void setCuoEstado(CuotaEstado cuoEstado) {
 		this.cuoEstado = cuoEstado;
 	}
 
 	public BigDecimal getCuoTotalPagar() {
-		return this.cuoImporte.add(this.cuoInteresPunitorio).add(this.cuoSaldoDeudor).subtract(this.cuoPagoParcial);
+		return this.cuoImporte;
 	}
 
 	public List<Pago> getPagos() {
@@ -180,6 +185,10 @@ public class Cuota implements Serializable {
 
 	public boolean isPagable() {
 		return tieneSaldoAPagar();
+	}
+
+	public boolean isVencida() {
+		return this.cuoEstado.equals(CuotaEstado.VENCIDA) || this.cuoEstado.equals(CuotaEstado.PAGO_PARCIAL_VENCIDO);
 	}
 
 	/**

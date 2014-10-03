@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import ar.com.tecsat.loans.bean.OperadorBean;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
+import ar.com.tecsat.loans.service.CuotaService;
 import ar.com.tecsat.loans.service.LoginService;
 
 /**
@@ -27,6 +28,9 @@ public class LoginController extends BasicController implements Serializable {
 	@EJB
 	private LoginService loginService;
 	
+	@EJB
+	private CuotaService cuotaService;
+
 	private String user;
 
 	private String pass;
@@ -40,7 +44,17 @@ public class LoginController extends BasicController implements Serializable {
 		}
 		addParameterSessionMap(operadorBean, "operadorBean");
 		addMessageInfo("Bienvenido!!");
+		actualizarEstadoCuotasConVtoHoy();
 		return HOME;
+	}
+
+	private void actualizarEstadoCuotasConVtoHoy() {
+		try {
+			String message = cuotaService.actualizarEstadoCuotasVencidas();
+			addMessageInfo(message);
+		} catch (AdministrativeException e) {
+			addMessageInfo(e.getMessage());
+		}
 	}
 
 	public String logOut() {

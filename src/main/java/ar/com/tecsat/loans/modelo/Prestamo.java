@@ -58,9 +58,9 @@ public class Prestamo implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "pre_tipo")
 	private TipoPrestamo tipoPrestamo;
-	
-	@Column(name = "pre_estado", nullable = false, length = 20)
-	private String preEstado;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, name = "pre_estado")
+	private PrestamoEstado preEstado;
 	
 	@Column(name = "pre_festado", nullable = false)
 	private Date preFechaEstado;
@@ -86,7 +86,7 @@ public class Prestamo implements Serializable {
 
 	@PrePersist
 	public void init() {
-		setPreEstado(PrestamoEstado.VIGENTE.toString());
+		setPreEstado(PrestamoEstado.VIGENTE);
 		setPreFechaEstado(Calendar.getInstance().getTime());
 	}
 
@@ -114,11 +114,11 @@ public class Prestamo implements Serializable {
 		this.preCapital = preCapital;
 	}
 
-	public String getPreEstado() {
+	public PrestamoEstado getPreEstado() {
 		return this.preEstado;
 	}
 
-	public void setPreEstado(String preEstado) {
+	public void setPreEstado(PrestamoEstado preEstado) {
 		this.preEstado = preEstado;
 	}
 

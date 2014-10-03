@@ -13,6 +13,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.joda.time.DateTime;
+
+import ar.com.tecsat.loans.bean.CuotaEstado;
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.dao.interfaces.CuotaDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
@@ -24,16 +27,16 @@ import ar.com.tecsat.loans.modelo.Cuota;
  */
 @Stateless
 public class CuotaDaoImpl implements CuotaDao {
-	
-	private static final String QUERY_FIND_CURRENT_DATE = "select * from cuota where " +
-			"cuo_estado NOT IN ('CANCELADA','VENCIDA','PAGO_INSUFICIENTE') " +
-			"and date(cuo_fvencimiento) = curdate()";
 
-	private static final String QUERY_FIND_TREINTA_DATE = "select * from cuota where " +
-			"date(cuo_fvencimiento) = date_sub(curdate(), interval 1 month)";
+	private static final String QUERY_FIND_CURRENT_DATE = "select * from cuota where "
+			+ "cuo_estado NOT IN ('CANCELADA','VENCIDA','PAGO_INSUFICIENTE') "
+			+ "and date(cuo_fvencimiento) = curdate()";
 
-	private static final String QUERY_FIND_QUINCE_DATE = "select * from cuota where " +
-			"date(cuo_fvencimiento) = date_sub(curdate(), interval 15 day)";
+	private static final String QUERY_FIND_TREINTA_DATE = "select * from cuota where "
+			+ "date(cuo_fvencimiento) = date_sub(curdate(), interval 1 month)";
+
+	private static final String QUERY_FIND_QUINCE_DATE = "select * from cuota where "
+			+ "date(cuo_fvencimiento) = date_sub(curdate(), interval 15 day)";
 
 	@PersistenceContext(unitName = "Prest")
 	private EntityManager em;
@@ -126,7 +129,7 @@ public class CuotaDaoImpl implements CuotaDao {
 	private void addPrestamo(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
 		if (filtro.getIdPrestamo() != null) {
-			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("preId"), filtro.getIdPrestamo());
+			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("id"), filtro.getIdPrestamo());
 			predicateList.add(prestamo);
 		}
 	}
@@ -231,4 +234,29 @@ public class CuotaDaoImpl implements CuotaDao {
 		return em.find(Cuota.class, currentCuota);
 	}
 
+	@Override
+	public List<Cuota> findByFechaVto(DateTime hoy) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Cuota> criteriaQuery = builder.createQuery(Cuota.class);
+		Root<Cuota> root = criteriaQuery.from(Cuota.class);
+
+		List<Predicate> predicateList = addPredicates(root, builder);
+		Predicate[] predicates = new Predicate[predicateList.size()];
+		criteriaQuery.where(predicateList.toArray(predicates));
+
+		return em.createQuery(criteriaQuery).getResultList();
+	}
+
+	private List<Predicate> addPredicates(Root<Cuota> root, CriteriaBuilder builder) {
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		Date fechaVto = new DateTime().toDate();
+		predicates.add(builder.lessThan(root.get("cuoFechaVencimiento").as(Date.class), fechaVto));
+		predicates.add(builder.or(estadoIgual(root, builder, CuotaEstado.VIGENTE),
+				estadoIgual(root, builder, CuotaEstado.PAGO_PARCIAL)));
+		return predicates;
+	}
+
+	private Predicate estadoIgual(Root<Cuota> root, CriteriaBuilder builder, CuotaEstado cuotaEstado) {
+		return builder.equal(root.get("cuoEstado").as(CuotaEstado.class), cuotaEstado);
+	}
 }

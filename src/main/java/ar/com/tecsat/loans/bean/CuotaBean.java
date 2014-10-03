@@ -164,13 +164,11 @@ public class CuotaBean extends BasicController implements Serializable {
 	}
 	
 	public String update() {
-		Cuota currentCuota = getCuota();
 		try {
-			cuotaService.actualizarCuotaIntereses(currentCuota);
+			cuotaService.actualizarCuotaIntereses(cuota, filtro);
 		} catch (AdministrativeException e) {
-			
+			addMessageError(e.getMessage());
 		}
-		cuota = cuotaService.findCuota(currentCuota);
 		setEditCuota(false);
 		addMessageInfo("Operación realizada");
 		return SUMMARY;

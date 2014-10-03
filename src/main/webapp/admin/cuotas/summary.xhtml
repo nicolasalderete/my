@@ -71,7 +71,7 @@
 						<div class="control-group">
 							<h:outputLabel class="control-label" for="idEstado" value="Estado :" />
 							<div class="controls">
-								<h:outputText id="idEstado" value="#{cuotaBean.cuota.cuoEstado}">
+								<h:outputText id="idEstado" value="#{cuotaBean.cuota.cuoEstado.name()}">
 									<f:convertNumber type="currency" currencySymbol="$" />
 								</h:outputText>
 							</div>
@@ -110,7 +110,7 @@
 								<h:outputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" rendered="#{!cuotaBean.editCuota}">
 									<f:convertNumber type="currency" currencySymbol="$" />
 								</h:outputText>
-								<h:inputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" id="idIntPunitorio" rendered="#{cuotaBean.editCuota}">
+								<h:inputText value="#{cuotaBean.filtro.interesPunitorio}" id="idIntPunitorio" rendered="#{cuotaBean.editCuota}">
 								</h:inputText>
 							</div>
 						</div>
@@ -145,7 +145,7 @@
 					<div class="span1">
 						<div class="control-group">
 							<h:commandButton value="Cargar Interes" styleClass="btn btn-primary" action="#{cuotaBean.modify()}" 
-											rendered="#{!cuotaBean.editCuota}"/>
+											rendered="#{!cuotaBean.editCuota and cuotaBean.cuota.isVencida()}"/>
 							
 							<h:commandButton value="Actualizar" styleClass="btn btn-primary" rendered="#{cuotaBean.editCuota}"
 								action="#{cuotaBean.update()}"

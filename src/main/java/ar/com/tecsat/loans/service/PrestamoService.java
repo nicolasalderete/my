@@ -90,9 +90,9 @@ public class PrestamoService {
 	public void cancelarPrestamo(Prestamo prestamo) throws AdministrativeException {
 		List<Cuota> cuotas = prestamo.getCuotas();
 		for (Cuota cuota : cuotas) {
-			cuota.setCuoEstado(CuotaEstado.REFINANCIADO.toString());
+			cuota.setCuoEstado(CuotaEstado.REFINANCIADO);
 		}
-		prestamo.setPreEstado(PrestamoEstado.REFINANCIADO.toString());
+		prestamo.setPreEstado(PrestamoEstado.REFINANCIADO);
 		try {
 			prestamoDao.actualizar(prestamo);
 		} catch (AdministrativeException e) {

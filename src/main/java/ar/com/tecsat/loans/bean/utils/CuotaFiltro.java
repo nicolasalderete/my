@@ -23,6 +23,7 @@ public class CuotaFiltro implements Serializable {
 	private String estadoCuota;
 	private BigDecimal importePago;
 	private Date fechaPago;
+	private BigDecimal interesPunitorio;
 	
 	public Integer getIdCliente() {
 		return idCliente;
@@ -95,6 +96,12 @@ public class CuotaFiltro implements Serializable {
 	}
 	public void setFechaPago(Date fechaPago) {
 		this.fechaPago = fechaPago;
+	}
+	public BigDecimal getInteresPunitorio() {
+		return interesPunitorio;
+	}
+	public void setInteresPunitorio(BigDecimal interesPunitorio) {
+		this.interesPunitorio = interesPunitorio;
 	}
 	
 }

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.joda.time.DateTime;
+
 import ar.com.tecsat.loans.bean.CuotaEstado;
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.bean.utils.Dias;
@@ -126,10 +128,10 @@ public class CuotaService {
 	 */
 	private void actualizaCuotaPagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
-		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE.toString())) {
-			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL.toString());
+		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)) {
+			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL);
 		} else {
-			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE.toString());
+			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
 		}
 		cuotaDao.actualizar(cuota);
 	}
@@ -151,11 +153,11 @@ public class CuotaService {
 	 */
 	private void actualizarCuotaPagoTotal(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
-		cuota.setCuoEstado(CuotaEstado.CANCELADA.toString());
+		cuota.setCuoEstado(CuotaEstado.CANCELADA);
 		cuotaDao.actualizar(cuota);
 		if (debeCancelarPrestamo(cuota)) {
 			Prestamo prestamo = cuota.getPrestamo();
-			prestamo.setPreEstado(PrestamoEstado.CANCELADO.toString());
+			prestamo.setPreEstado(PrestamoEstado.CANCELADO);
 			prestamoDao.actualizar(prestamo);
 		}
 	}
@@ -218,9 +220,9 @@ public class CuotaService {
 	private void actualizarCuotaVencidaA(Cuota cuota, List<String> result, CuotaEstado cuotaEstado) {
 		try {
 			if (pagoParcialmenteCuota(cuota)) {
-				cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE.toString());
+				cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
 			} else {
-				cuota.setCuoEstado(cuotaEstado.toString());
+				cuota.setCuoEstado(cuotaEstado);
 			}
 			if (debePagarIntereses(cuota)) {
 				BigDecimal punitorio = cuota.getCuoInteresPunitorio().divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP)
@@ -290,7 +292,7 @@ public class CuotaService {
 	 */
 	private void actualizoPagoInsuficiente(Cuota cuota, List<String> result) {
 		try {
-			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE.toString());
+			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
 			cuotaDao.actualizar(cuota);
 			result.add(cuota.toString().concat("\n"));
 		} catch (AdministrativeException e) {
@@ -312,7 +314,7 @@ public class CuotaService {
 	 */
 	private void actualizoEstadoVencida(Cuota cuota, List<String> result) {
 		try {
-			cuota.setCuoEstado(CuotaEstado.VENCIDA.toString());
+			cuota.setCuoEstado(CuotaEstado.VENCIDA);
 			cuotaDao.actualizar(cuota);
 			result.add(cuota.toString().concat("\n"));
 		} catch (AdministrativeException e) {
@@ -344,11 +346,36 @@ public class CuotaService {
 		return cuotas;
 	}
 
-	public void actualizarCuotaIntereses(Cuota currentCuota) throws AdministrativeException {
-		cuotaDao.actualizar(currentCuota);
+	public void actualizarCuotaIntereses(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
+		cuota.setCuoInteresPunitorio(filtro.getInteresPunitorio());
+		cuota.setCuoImporte(totalAPagar(cuota, filtro));
+		cuotaDao.actualizar(cuota);
+	}
+
+	private BigDecimal totalAPagar(Cuota cuota, CuotaFiltro filtro) {
+		return cuota.getCuoPura().add(cuota.getCuoInteres()).add(filtro.getInteresPunitorio());
 	}
 
 	public Cuota findCuota(Cuota currentCuota) {
 		return cuotaDao.findCuota(currentCuota);
+	}
+
+	public String actualizarEstadoCuotasVencidas() throws AdministrativeException {
+		DateTime hoy = new DateTime();
+		List<Cuota> cuotas = cuotaDao.findByFechaVto(hoy);
+		for (Cuota cuota : cuotas) {
+			actualizarEstadoVencido(cuota);
+			cuotaDao.actualizar(cuota);
+		}
+		return "Cantidad de cuotas vencidas: " + cuotas.size();
+	}
+
+	private void actualizarEstadoVencido(Cuota cuota) {
+		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)){
+			cuota.setCuoEstado(CuotaEstado.VENCIDA);
+		}
+		if (cuota.getCuoEstado().equals(CuotaEstado.PAGO_PARCIAL)){
+			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL_VENCIDO);
+		}
 	}
 }
