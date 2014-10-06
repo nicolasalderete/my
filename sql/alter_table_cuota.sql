@@ -13,6 +13,8 @@ add column cuo_interes decimal(11) NOT NULL DEFAULT 0;
 alter table cuota
 drop column cuo_sal_favor;
 
+alter table cuota
+drop column cuo_sal_deudor;
 
 alter table cuota
 drop column cuo_tasa_mensual;

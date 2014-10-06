@@ -59,6 +59,54 @@
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
+							<h:outputLabel value="Intereses :" styleClass="control-label" for="idInteres" />
+							<div class="controls">
+								<h:outputText id="idInteres" value="#{cuotaBean.cuota.cuoInteres}">
+									<f:convertNumber currencySymbol="$" type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel value="Cuota pura :" styleClass="control-label" for="idCuotaPura" />
+							<div class="controls">
+								<h:outputText id="idCuotaPura" value="#{cuotaBean.cuota.cuoPura}">
+									<f:convertNumber currencySymbol="$" type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idCuotaSaldoFavor" value="Pagos parciales :" />
+							<div class="controls">
+								<h:outputText id="idCuotaSaldoFavor" value="#{cuotaBean.cuota.cuoPagoParcial}">
+									<f:convertNumber currencySymbol="$" type="currency" />
+								</h:outputText>
+							</div>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<h:outputLabel class="control-label" for="idIntPunitorio" value="Interes punitorio :" />
+							<div class="controls">
+								<h:outputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" rendered="#{!cuotaBean.editCuota}">
+									<f:convertNumber type="currency" currencySymbol="$" />
+								</h:outputText>
+								<h:inputText value="#{cuotaBean.filtro.interesPunitorio}" id="idIntPunitorio" rendered="#{cuotaBean.editCuota}">
+								</h:inputText>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row-fluid show-grid">
+					<div class="span6">
+						<div class="control-group">
 							<h:outputLabel class="control-label" for="idFechaVto" value="Fecha de Vto. :" />
 							<div class="controls">
 								<h:outputText id="idFechaVto" value="#{cuotaBean.cuota.cuoFechaVencimiento}">
@@ -78,47 +126,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="row-fluid show-grid">
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel class="control-label" for="idCuotaSaldoFavor" value="Saldo a favor :" />
-							<div class="controls">
-								<h:outputText id="idCuotaSaldoFavor" value="#{cuotaBean.cuota.cuoSaldoFavor}">
-									<f:convertNumber currencySymbol="$" type="currency" />
-								</h:outputText>
-							</div>
-						</div>
-					</div>
-					<div class="span6">
-						<div class="control-group">
-							<h:outputLabel class="control-label" for="idCuotaSaldoDeu" value="Saldo deudor :" />
-							<div class="controls">
-								<h:outputText id="idCuotaSaldoDeu" value="#{cuotaBean.cuota.cuoSaldoDeudor}">
-									<f:convertNumber currencySymbol="$" type="currency" />
-								</h:outputText>
-							</div>
-						</div>
-					</div>
-				</div>
 
 
 				<div class="row-fluid show-grid">
 					<div class="span6">
 						<div class="control-group">
-							<h:outputLabel class="control-label" for="idIntPunitorio" value="Interes punitorio :" />
-							<div class="controls">
-								<h:outputText value="#{cuotaBean.cuota.cuoInteresPunitorio}" rendered="#{!cuotaBean.editCuota}">
-									<f:convertNumber type="currency" currencySymbol="$" />
-								</h:outputText>
-								<h:inputText value="#{cuotaBean.filtro.interesPunitorio}" id="idIntPunitorio" rendered="#{cuotaBean.editCuota}">
-								</h:inputText>
-							</div>
 						</div>
 					</div>
 					<div class="span6">
-						<h:outputLabel class="control-label" for="idTotal" value="Total a pagar :" />
+						<h:outputLabel class="control-label" for="idTotal" value="Saldo a pagar :" />
 						<div class="controls">
-							<h:outputText id="idTotal" value="#{cuotaBean.cuota.cuoTotalPagar}">
+							<h:outputText id="idTotal" value="#{cuotaBean.cuota.cuoSaldo}">
 								<f:convertNumber type="currency" currencySymbol="$" />
 							</h:outputText>
 						</div>

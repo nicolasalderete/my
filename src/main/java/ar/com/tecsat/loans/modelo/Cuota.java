@@ -36,6 +36,7 @@ import ar.com.tecsat.loans.bean.CuotaEstado;
 		@NamedQuery(name = "findCuotasByPrestamo", query = "select c from Cuota c where c.prestamo.id=:prestamo"),
 		@NamedQuery(name = "findCuotaByFechaVto", query = "select c from Cuota c where c.cuoFechaVencimiento=:CURRENT_DATE") })
 public class Cuota implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -59,9 +60,6 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_pura", nullable = false, precision = 10, scale = 2)
 	private BigDecimal cuoPura;
 
-	@Column(name = "cuo_sal_deudor", precision = 10, scale = 2)
-	private BigDecimal cuoSaldoDeudor;
-
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "cuo_estado")
 	private CuotaEstado cuoEstado;
@@ -84,61 +82,53 @@ public class Cuota implements Serializable {
 
 	public Cuota() {
 	}
-
+	
 	public Integer getCuoId() {
-		return this.cuoId;
+		return cuoId;
 	}
 
 	public void setCuoId(Integer cuoId) {
 		this.cuoId = cuoId;
 	}
 
-	public Date getCuoFechaVencimiento() {
-		return this.cuoFechaVencimiento;
-	}
-
-	public void setCuoFechaVencimiento(Date cuoFvencimiento) {
-		this.cuoFechaVencimiento = cuoFvencimiento;
-	}
-
-	public BigDecimal getCuoImporte() {
-		return this.cuoImporte;
-	}
-
-	public void setCuoImporte(BigDecimal cuoImporte) {
-		this.cuoImporte = cuoImporte;
-	}
-
 	public int getCuoNumero() {
-		return this.cuoNumero;
+		return cuoNumero;
 	}
 
 	public void setCuoNumero(int cuoNumero) {
 		this.cuoNumero = cuoNumero;
 	}
 
-	public BigDecimal getCuoSaldoDeudor() {
-		return this.cuoSaldoDeudor;
+	public BigDecimal getCuoImporte() {
+		return cuoImporte;
 	}
 
-	public void setCuoSaldoDeudor(BigDecimal cuoSalDeudor) {
-		this.cuoSaldoDeudor = cuoSalDeudor;
+	public void setCuoImporte(BigDecimal cuoImporte) {
+		this.cuoImporte = cuoImporte;
 	}
 
-	public BigDecimal getCuoSaldoFavor() {
-		return this.cuoPagoParcial;
+	public Date getCuoFechaVencimiento() {
+		return cuoFechaVencimiento;
 	}
 
-	public void setCuoSaldoFavor(BigDecimal cuoSalFavor) {
-		this.cuoPagoParcial = cuoSalFavor;
+	public void setCuoFechaVencimiento(Date cuoFechaVencimiento) {
+		this.cuoFechaVencimiento = cuoFechaVencimiento;
 	}
 
-	public Prestamo getPrestamo() {
-		return prestamo;
+	public BigDecimal getCuoPagoParcial() {
+		return cuoPagoParcial;
 	}
 
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
+	public void setCuoPagoParcial(BigDecimal cuoPagoParcial) {
+		this.cuoPagoParcial = cuoPagoParcial;
+	}
+
+	public BigDecimal getCuoPura() {
+		return cuoPura;
+	}
+
+	public void setCuoPura(BigDecimal cuoPura) {
+		this.cuoPura = cuoPura;
 	}
 
 	public CuotaEstado getCuoEstado() {
@@ -149,8 +139,36 @@ public class Cuota implements Serializable {
 		this.cuoEstado = cuoEstado;
 	}
 
-	public BigDecimal getCuoTotalPagar() {
-		return this.cuoImporte;
+	public BigDecimal getCuoInteresPunitorio() {
+		return cuoInteresPunitorio;
+	}
+
+	public void setCuoInteresPunitorio(BigDecimal cuoInteresPunitorio) {
+		this.cuoInteresPunitorio = cuoInteresPunitorio;
+	}
+
+	public BigDecimal getCuoSaldo() {
+		return cuoSaldo;
+	}
+
+	public void setCuoSaldo(BigDecimal cuoSaldo) {
+		this.cuoSaldo = cuoSaldo;
+	}
+
+	public BigDecimal getCuoInteres() {
+		return cuoInteres;
+	}
+
+	public void setCuoInteres(BigDecimal cuoInteres) {
+		this.cuoInteres = cuoInteres;
+	}
+
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
 	}
 
 	public List<Pago> getPagos() {
@@ -159,22 +177,6 @@ public class Cuota implements Serializable {
 
 	public void setPagos(List<Pago> pagos) {
 		this.pagos = pagos;
-	}
-
-	public BigDecimal getCuoInteresPunitorio() {
-		return cuoInteresPunitorio;
-	}
-
-	public void setCuoInteresPunitorio(BigDecimal interesPunitorio) {
-		this.cuoInteresPunitorio = interesPunitorio;
-	}
-
-	public BigDecimal getCuoSaldo() {
-		return cuoSaldo;
-	}
-
-	public void setCuoSaldo(BigDecimal saldo) {
-		this.cuoSaldo = saldo;
 	}
 
 	@Override
@@ -191,26 +193,12 @@ public class Cuota implements Serializable {
 		return this.cuoEstado.equals(CuotaEstado.VENCIDA) || this.cuoEstado.equals(CuotaEstado.PAGO_PARCIAL_VENCIDO);
 	}
 
-	/**
-	 * @return
-	 */
 	private boolean tieneSaldoAPagar() {
-		return this.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) > 0;
+		return this.cuoImporte.compareTo(BigDecimal.valueOf(0)) > 0;
 	}
 
-	public BigDecimal getCuoInteres() {
-		return cuoInteres;
+	public boolean isCancelada() {
+		return this.cuoEstado.equals(CuotaEstado.CANCELADA);
 	}
 
-	public void setCuoInteres(BigDecimal cuoInteres) {
-		this.cuoInteres = cuoInteres;
-	}
-
-	public BigDecimal getCuoPura() {
-		return cuoPura;
-	}
-
-	public void setCuoPura(BigDecimal cuoPura) {
-		this.cuoPura = cuoPura;
-	}
 }

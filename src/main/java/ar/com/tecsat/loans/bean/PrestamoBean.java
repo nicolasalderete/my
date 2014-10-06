@@ -209,7 +209,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		BigDecimal monto = new BigDecimal(0);
 		List<Cuota> cuotas = prestamo.getCuotas();
 		for (Cuota cuota : cuotas) {
-			monto = monto.add(cuota.getCuoTotalPagar());
+			monto = monto.add(cuota.getCuoSaldo());
 		}
 		return monto;
 	}

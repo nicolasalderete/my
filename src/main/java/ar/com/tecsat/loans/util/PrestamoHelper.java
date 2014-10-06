@@ -84,8 +84,7 @@ public class PrestamoHelper {
 			BigDecimal importeCuota = calcularImporteDeLaCuota(cantCuotas, interesTotal, capital);
 			cuota.setCuoImporte(importeCuota);
 			cuota.setCuoPura(calcularCuotaPura(capital, cantCuotas));
-			cuota.setCuoSaldoDeudor(new BigDecimal(0));
-			cuota.setCuoSaldoFavor(new BigDecimal(0));
+			cuota.setCuoPagoParcial(new BigDecimal(0));
 			cuota.setCuoNumero(cuoNumero);
 			lastVto = calcularFechaVencimiento(nuevoPrestamo, cuoNumero, lastVto);
 			cuota.setCuoFechaVencimiento(lastVto);

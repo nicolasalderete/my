@@ -27,6 +27,6 @@ public class PagoHelper {
 		newPago.setPagMonto(filtro.getImportePago());
 		newPago.setPrestamo(cuota.getPrestamo());
 		newPago.setPagEstado(PagoEstado.PAGO_CANCELADO.toString());
-		return newPago ;
+		return newPago;
 	}
 }

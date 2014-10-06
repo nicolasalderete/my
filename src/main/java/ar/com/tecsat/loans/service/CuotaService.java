@@ -1,7 +1,6 @@
 package ar.com.tecsat.loans.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +95,7 @@ public class CuotaService {
 	 * @return
 	 */
 	private boolean elPagoEsIgualAlImporteDeLaCuota(Cuota cuota, CuotaFiltro filtro) {
-		return cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == 0;
+		return cuota.getCuoSaldo().compareTo(filtro.getImportePago()) == 0;
 	}
 
 	/**
@@ -105,7 +104,7 @@ public class CuotaService {
 	 * @return
 	 */
 	private boolean elPagoEsMayorAlImporteDeLaCuota(Cuota cuota, CuotaFiltro filtro) {
-		return cuota.getCuoTotalPagar().compareTo(filtro.getImportePago()) == -1;
+		return cuota.getCuoSaldo().compareTo(filtro.getImportePago()) == -1;
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class CuotaService {
 	 * @throws AdministrativeException
 	 */
 	private void pagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		// validarImporteDePago(cuota.getCuoTotalPagar(),
+		// validarImporteDePago(cuota.getCuoSaldo(),
 		// filtro.getImportePago());
 		// validarPagoConSaldo(cuota, filtro);
 		registrarPago(cuota, filtro);
@@ -127,7 +126,7 @@ public class CuotaService {
 	 * @throws AdministrativeException
 	 */
 	private void actualizaCuotaPagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
+		cuota.setCuoPagoParcial(cuota.getCuoPagoParcial().add(filtro.getImportePago()));
 		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)) {
 			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL);
 		} else {
@@ -152,7 +151,6 @@ public class CuotaService {
 	 * @throws AdministrativeException
 	 */
 	private void actualizarCuotaPagoTotal(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		cuota.setCuoSaldoFavor(cuota.getCuoSaldoFavor().add(filtro.getImportePago()));
 		cuota.setCuoEstado(CuotaEstado.CANCELADA);
 		cuotaDao.actualizar(cuota);
 		if (debeCancelarPrestamo(cuota)) {
@@ -169,19 +167,11 @@ public class CuotaService {
 	private boolean debeCancelarPrestamo(Cuota cuota) {
 		List<Cuota> cuotas = cuota.getPrestamo().getCuotas();
 		for (Cuota obj : cuotas) {
-			if (noPagoLaCuota(obj)) {
+			if (!obj.isCancelada()) {
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * @param cuota
-	 * @return
-	 */
-	private boolean noPagoLaCuota(Cuota cuota) {
-		return cuota.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) != 0;
 	}
 
 	/**
@@ -192,134 +182,6 @@ public class CuotaService {
 	private void registrarPago(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		Pago pago = pagoHelper.crearPago(cuota, filtro);
 		pagoDao.guardar(pago);
-	}
-
-	public List<String> actualizarCuotasVencidasMasInteres(List<Cuota> cuotaVencidas, Dias dias) {
-		List<String> result = new ArrayList<String>();
-		for (Cuota cuota : cuotaVencidas) {
-			if (dias.equals(Dias.TREINTA)) {
-				actualizarCuotaVencidaA(cuota, result, CuotaEstado.VENCIDA_30_DIAS);
-			}
-			if (dias.equals(Dias.QUINCE)) {
-				actualizarCuotaVencidaA(cuota, result, CuotaEstado.VENCIDA_15_DIAS);
-			}
-		}
-		if (result.isEmpty()) {
-			result.add("No hay cuotas para actualizar.\n\n");
-		}
-		return result;
-	}
-
-	/**
-	 * @param cuota
-	 * @param result
-	 *            TODO
-	 * @param cuotaEstado
-	 *            TODO
-	 */
-	private void actualizarCuotaVencidaA(Cuota cuota, List<String> result, CuotaEstado cuotaEstado) {
-		try {
-			if (pagoParcialmenteCuota(cuota)) {
-				cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
-			} else {
-				cuota.setCuoEstado(cuotaEstado);
-			}
-			if (debePagarIntereses(cuota)) {
-				BigDecimal punitorio = cuota.getCuoInteresPunitorio().divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP)
-						.setScale(0);
-				cuota.setCuoInteresPunitorio(cuota.getCuoInteresPunitorio().add(punitorio));
-			}
-			cuotaDao.actualizar(cuota);
-			result.add(cuota.toString().concat("\n"));
-		} catch (AdministrativeException e) {
-			result.add(cuota.toString().concat(">>>").concat(e.getMessage()));
-		}
-	}
-
-	/**
-	 * @param cuota
-	 *            TODO
-	 * @return
-	 */
-	private boolean debePagarIntereses(Cuota cuota) {
-		BigDecimal montoMinimoPagado = cuota.getCuoTotalPagar().divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
-		return cuota.getCuoSaldoFavor().compareTo(montoMinimoPagado) < 0;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<Cuota> obtenerCuotasFechaVtoHoy() {
-		List<Cuota> cuotas = new ArrayList<Cuota>();
-		try {
-			cuotas = cuotaDao.findByFechaVtoHoy();
-		} catch (AdministrativeException e) {
-			return cuotas;
-		}
-		return cuotas;
-	}
-
-	/**
-	 * @param cuotasVencenHoy
-	 */
-	public List<String> actualizarCuotasVencidas(List<Cuota> cuotasVencenHoy) {
-		List<String> result = new ArrayList<String>();
-		for (Cuota cuota : cuotasVencenHoy) {
-			if (noHizoNingunPago(cuota)) {
-				actualizoEstadoVencida(cuota, result);
-			}
-			if (pagoParcialmenteCuota(cuota)) {
-				actualizoPagoInsuficiente(cuota, result);
-			}
-		}
-		if (result.isEmpty()) {
-			result.add("No hay cuotas para actualizar.\n\n");
-		}
-		return result;
-	}
-
-	/**
-	 * @param cuota
-	 * @return
-	 */
-	private boolean noHizoNingunPago(Cuota cuota) {
-		return cuota.getCuoSaldoFavor().compareTo(BigDecimal.valueOf(0)) == 0;
-	}
-
-	/**
-	 * @param cuota
-	 * @param result
-	 */
-	private void actualizoPagoInsuficiente(Cuota cuota, List<String> result) {
-		try {
-			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
-			cuotaDao.actualizar(cuota);
-			result.add(cuota.toString().concat("\n"));
-		} catch (AdministrativeException e) {
-			result.add(cuota.toString().concat(">>>").concat(e.getMessage()));
-		}
-	}
-
-	/**
-	 * @param cuota
-	 * @return
-	 */
-	private boolean pagoParcialmenteCuota(Cuota cuota) {
-		return cuota.getCuoSaldoFavor().compareTo(BigDecimal.valueOf(0)) > 0;
-	}
-
-	/**
-	 * @param cuota
-	 * @param result
-	 */
-	private void actualizoEstadoVencida(Cuota cuota, List<String> result) {
-		try {
-			cuota.setCuoEstado(CuotaEstado.VENCIDA);
-			cuotaDao.actualizar(cuota);
-			result.add(cuota.toString().concat("\n"));
-		} catch (AdministrativeException e) {
-			result.add(cuota.toString().concat(">>>").concat(e.getMessage()));
-		}
 	}
 
 	/**

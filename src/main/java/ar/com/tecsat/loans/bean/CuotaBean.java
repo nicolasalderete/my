@@ -97,7 +97,7 @@ public class CuotaBean extends BasicController implements Serializable {
 	 * @throws AdministrativeException 
 	 */
 	private void evaluateTotalPagar(Cuota cuota) throws AdministrativeException {
-		if (cuota.getCuoTotalPagar().compareTo(BigDecimal.valueOf(0)) <= 0) {
+		if (cuota.getCuoSaldo().compareTo(BigDecimal.valueOf(0)) <= 0) {
 			throw new AdministrativeException("No es posible pagar la cuota");
 		}
 	}
@@ -116,7 +116,7 @@ public class CuotaBean extends BasicController implements Serializable {
 	public String detail(Cuota cuota) {
 		setCuota(cuota);
 		setEditCuota(false);
-		setVigente(cuota.getCuoTotalPagar().compareTo(new BigDecimal(0)) > 0);
+		setVigente(cuota.getCuoSaldo().compareTo(new BigDecimal(0)) > 0);
 		saveStep();
 		return SUMMARY;
 	}
