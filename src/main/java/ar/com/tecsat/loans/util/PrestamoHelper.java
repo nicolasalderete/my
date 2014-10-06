@@ -111,6 +111,8 @@ public class PrestamoHelper {
 		DateTime day = null;
 		if (isSunday(plus)) {
 			day = plus.plusDays(1);
+		} else {
+			day = plus;
 		}
 		DateTime result = null;
 		switch (nuevoPrestamo.getTipoPrestamo()) {
