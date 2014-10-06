@@ -10,6 +10,7 @@ public class Config implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.setProperty("org.apache.el.parser.COERCE_TO_ZERO", "false");
+        System.setProperty("user.timezone", "America/Argentina");
     }
 
     @Override

@@ -237,6 +237,8 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void exportPdf() throws JRException, IOException {
+		
+		ServletOutputStream outputStream = null;
 		try {
 			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 					.getResponse();
@@ -244,7 +246,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 			response.setContentType("application/pdf");
 			response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
 			
-			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream = response.getOutputStream();
 			Map parameters = new HashMap();
 			parameters.put("titulo", "Reporte préstamo");
 			parameters.put("fechaEmision", Calendar.getInstance().getTime());
@@ -274,12 +276,14 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDatasource());
 			JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-			outputStream.flush();
-			outputStream.close();
+			
 			FacesContext.getCurrentInstance().renderResponse();
 			FacesContext.getCurrentInstance().responseComplete();
 		} catch (Exception e) {
-			
+			System.out.println(e.getMessage());
+		} finally {
+			outputStream.flush();
+			outputStream.close();
 		}
 	}
 
