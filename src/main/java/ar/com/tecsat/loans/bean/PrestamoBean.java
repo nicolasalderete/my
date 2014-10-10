@@ -288,10 +288,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		parameters.put("titulo", "Reporte préstamo");
 		parameters.put("fechaEmision", Calendar.getInstance().getTime());
 
-		Perfil perfil = perfilService.findPerfil();
-		parameters.put("perNombre", perfil.getPerNombre());
-		parameters.put("perMail", perfil.getPerMail());
-		parameters.put("perCelular", perfil.getPerCelular());
+		parameters.put("perCelular", "12126712658");
 
 		parameters.put("cliente", prestamo.getCliente().getCliNombre());
 		parameters.put("dni", prestamo.getCliente().getCliDni());
