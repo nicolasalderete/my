@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Stack;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
@@ -25,6 +27,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
 import ar.com.tecsat.loans.controller.BasicController;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
@@ -48,7 +53,7 @@ import ar.com.tecsat.loans.service.PrestamoService;
 public class PrestamoBean extends BasicController implements Serializable {
 
 	private static final String REFINANCIAR = "refinanciar";
-	
+
 	// Propiedades
 	private Prestamo prestamo;
 	private List<Prestamo> listaPrestamo;
@@ -61,13 +66,13 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	@EJB
 	private PrestamoService prestamoService;
-	
+
 	@EJB
 	private CuotaService cuotaService;
 
 	@EJB
 	private ClienteService clienteService;
-	
+
 	@EJB
 	private PerfilService perfilService;
 
@@ -91,7 +96,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 	public TipoPrestamo[] getTipoPrestamo() {
 		return TipoPrestamo.values();
 	}
-	
+
 	private void cleanStack() {
 		STEP.clear();
 	}
@@ -164,7 +169,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		}
 		return stepBack();
 	}
-	
+
 	public String saveRefinanciar() {
 		getFiltro().setPrestamo(getPrestamo());
 		return save();
@@ -186,10 +191,9 @@ public class PrestamoBean extends BasicController implements Serializable {
 		saveStep();
 		addMessageInfo("Verifique los datos ingresado y presione confirmar para finalizar con la operación");
 		setEditPrestamo(false);
- 		return CONFIRM;
+		return CONFIRM;
 	}
 
-	
 	public String refinan(Prestamo prestamo) {
 		PrestamoFiltro filtro = new PrestamoFiltro();
 		BigDecimal monto = getMonto(prestamo);
@@ -200,7 +204,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		saveStep();
 		return REFINANCIAR;
 	}
-	
+
 	/**
 	 * @param prestamo
 	 * @return
@@ -237,68 +241,87 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void exportPdf() throws JRException, IOException {
-		
-		ServletOutputStream outputStream = null;
+
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+		InputStream inputStream = getFile(externalContext, "/WEB-INF/reportes/reportprestamo.jrxml");
+		if (inputStream == null) {
+			throw new RuntimeException("Error al cargar la plantilla");
+		}
+
+		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(getDatasource());
+		JasperPrint jasperPrint = null;
 		try {
-			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-					.getResponse();
-			
+			JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+			Map parameters = setParameters();
+			jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrBeanDataSource);
+		} catch (Exception e) {
+			throw new RuntimeException("Error al compilar el reporte");
+		} finally {
+			inputStream.close();
+		}
+		
+		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletOutputStream outputStream = null;
+		
+		try {
 			response.setContentType("application/pdf");
 			response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
-			
 			outputStream = response.getOutputStream();
-			Map parameters = new HashMap();
-			parameters.put("titulo", "Reporte préstamo");
-			parameters.put("fechaEmision", Calendar.getInstance().getTime());
 			
-			Perfil perfil = perfilService.findPerfil();
-			parameters.put("perNombre", perfil.getPerNombre());
-			parameters.put("perMail", perfil.getPerMail());
-			parameters.put("perCelular", perfil.getPerCelular());
-
-			parameters.put("cliente", prestamo.getCliente().getCliNombre());
-			parameters.put("dni", prestamo.getCliente().getCliDni());
-			parameters.put("telefono", prestamo.getCliente().getCliTelefono());
-			parameters.put("direccion", prestamo.getCliente().getCliDireccion());
-			parameters.put("entre_calles", prestamo.getCliente().getCliEntreCalle());
-			parameters.put("localidad", prestamo.getCliente().getCliLocalidad());
-			parameters.put("mail", prestamo.getCliente().getCliMail());
-			
-			parameters.put("capital", prestamo.getPreCapital());
-			parameters.put("tasa", prestamo.getPreTasa());
-			parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
-			
-			String path = "/WEB-INF/reportes/reportprestamo.jrxml";
-			
-			InputStream jasperTemplate = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(path);
-
-			JasperReport jasperReport = JasperCompileManager.compileReport(jasperTemplate);
-
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDatasource());
 			JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 			
-			FacesContext.getCurrentInstance().renderResponse();
-			FacesContext.getCurrentInstance().responseComplete();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw new RuntimeException("Error al exportar el pdf");
 		} finally {
 			outputStream.flush();
 			outputStream.close();
+			facesContext.renderResponse();
+			facesContext.responseComplete();
 		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Map setParameters() throws AdministrativeException {
+		Map parameters = new HashMap();
+		parameters.put("titulo", "Reporte préstamo");
+		parameters.put("fechaEmision", Calendar.getInstance().getTime());
+
+		Perfil perfil = perfilService.findPerfil();
+		parameters.put("perNombre", perfil.getPerNombre());
+		parameters.put("perMail", perfil.getPerMail());
+		parameters.put("perCelular", perfil.getPerCelular());
+
+		parameters.put("cliente", prestamo.getCliente().getCliNombre());
+		parameters.put("dni", prestamo.getCliente().getCliDni());
+		parameters.put("telefono", prestamo.getCliente().getCliTelefono());
+		parameters.put("direccion", prestamo.getCliente().getCliDireccion());
+		parameters.put("entre_calles", prestamo.getCliente().getCliEntreCalle());
+		parameters.put("localidad", prestamo.getCliente().getCliLocalidad());
+		parameters.put("mail", prestamo.getCliente().getCliMail());
+
+		parameters.put("capital", prestamo.getPreCapital());
+		parameters.put("tasa", prestamo.getPreTasa());
+		parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
+		return parameters;
+	}
+
+	private InputStream getFile(ExternalContext externalContext, String path) {
+		return externalContext.getResourceAsStream(path);
 	}
 
 	/**
 	 * @return
 	 */
-	private JRBeanCollectionDataSource getDatasource() {
-		Collection<Cuota> lista = null;
+	private Collection<Cuota> getDatasource() {
+		Collection<Cuota> lista = new ArrayList<Cuota>();
 		try {
 			lista = cuotaService.findCuotasByPrestamo(prestamo);
 		} catch (AdministrativeException e) {
 			e.printStackTrace();
 		}
-		JRBeanCollectionDataSource beans = new JRBeanCollectionDataSource(lista);
-		return beans;
+		return lista;
 	}
 
 	private void saveStep() {

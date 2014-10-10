@@ -27,53 +27,13 @@
 	<title>
 		<band height="195" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="555" height="27" forecolor="#000000" uuid="508b506a-789b-4459-a12e-3ed22faec9db"/>
+				<reportElement x="129" y="0" width="426" height="16" forecolor="#000000" uuid="508b506a-789b-4459-a12e-3ed22faec9db"/>
 				<textElement textAlignment="Center">
-					<font size="18" isBold="true" isItalic="true" isUnderline="true"/>
+					<font size="12" isBold="true" isItalic="true" isUnderline="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="27" width="555" height="15" forecolor="#FEFEFE" backcolor="#010101" uuid="02078f4e-973f-48be-9773-cb762134bec3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Datos de contacto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="49" width="101" height="13" uuid="19275c89-255a-4762-87ae-4af0935855d6"/>
-				<textElement>
-					<font isUnderline="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Nombre y Apellido:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="101" y="49" width="454" height="13" uuid="4fc46af8-f31b-4dec-b357-d9e5c41caa93"/>
-				<textElement>
-					<font size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{perNombre}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="29" y="68" width="286" height="13" uuid="8e1dbd86-e101-403d-8f6b-566db4158887"/>
-				<textElement>
-					<font size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{perMail}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="1" y="68" width="28" height="13" uuid="3d68499c-9dc1-4247-9db2-b77d944314a7"/>
-				<textElement>
-					<font isUnderline="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Mail:]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="322" y="68" width="50" height="13" uuid="b6a200ae-2a9d-4b00-b57f-95de0f506fb6"/>
 				<textElement>
