@@ -249,7 +249,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 			throw new RuntimeException("Error al cargar la plantilla");
 		}
 
-		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(getDatasource());
+		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(new ArrayList<Cuota>());
 		JasperPrint jasperPrint = null;
 		try {
 			JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
