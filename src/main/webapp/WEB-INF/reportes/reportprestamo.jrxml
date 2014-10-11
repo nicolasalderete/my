@@ -129,7 +129,7 @@
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="39" y="175" width="115" height="13" uuid="d959ba83-d222-4c06-9814-691db9e9310f"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false"/>
+					<font fontName="SansSerif" size="10" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{capital}]]></textFieldExpression>
@@ -137,7 +137,7 @@
 			<staticText>
 				<reportElement x="0" y="175" width="39" height="13" uuid="35380612-e6f7-43c3-a26a-8713963d80d5"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Capital:]]></text>
@@ -145,7 +145,7 @@
 			<staticText>
 				<reportElement x="157" y="175" width="97" height="13" uuid="0fd3df47-d3b7-488e-85c7-229203176fc9"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Tasa int. mensual:]]></text>
@@ -153,7 +153,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="254" y="175" width="46" height="13" uuid="31c35ca4-cd5a-4a6b-a2c5-fa81962437f8"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false"/>
+					<font fontName="SansSerif" size="10" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{tasa}]]></textFieldExpression>
@@ -161,7 +161,7 @@
 			<staticText>
 				<reportElement x="302" y="175" width="84" height="13" uuid="46bcb4c9-6207-4682-bcde-0c5d8759bc23"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false" isUnderline="true"/>
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fecha de ent.:]]></text>
@@ -169,7 +169,7 @@
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="386" y="175" width="169" height="13" uuid="7cf01bc5-1c41-4544-983b-a079a406275a"/>
 				<textElement>
-					<font fontName="Arial" size="10" isBold="false"/>
+					<font fontName="SansSerif" size="10" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{preFechaEntrega}]]></textFieldExpression>
@@ -238,7 +238,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="50" y="0" width="57" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="1e495464-b6fd-49b4-8f01-0462c37bc2ec"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fecha vto.]]></text>
@@ -246,7 +246,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="129" y="0" width="36" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="359bc413-7790-48c8-af0b-cc825c8765f2"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Importe]]></text>
@@ -254,7 +254,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="3" y="0" width="42" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="2ec2ff19-3688-4eb2-8f8b-a8ab783f2262"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[N° cuota]]></text>
@@ -262,7 +262,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="210" y="0" width="67" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="36f5c0f5-0b7c-4a6c-a168-41761fa365c8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Pago parcial]]></text>
@@ -270,7 +270,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="345" y="0" width="67" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="c4f0e6dd-bc05-49f5-bcf5-3b06e3eaa294"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Firma cliente]]></text>
@@ -278,7 +278,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="455" y="0" width="81" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="3b964673-baf8-46c4-9f0b-a665f1f14d65"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Firma cobrador]]></text>
@@ -299,6 +299,7 @@
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="45" y="1" width="68" height="14" uuid="3d07d50e-1d41-48a5-99ba-a3a25bd76a71"/>
 				<textElement>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuoFechaVencimiento}]]></textFieldExpression>
@@ -306,6 +307,7 @@
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="113" y="0" width="67" height="15" uuid="55f150ab-1c72-437c-b517-864cff23b63b"/>
 				<textElement>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuoImporte}]]></textFieldExpression>
@@ -313,6 +315,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="3" y="0" width="42" height="15" uuid="48f094a7-cca4-4269-8694-32a85abd0b57"/>
 				<textElement>
+					<font fontName="SansSerif"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cuoNumero}]]></textFieldExpression>
