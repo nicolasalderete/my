@@ -1,5 +1,6 @@
 package ar.com.tecsat.loans.bean;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -16,8 +17,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
 import ar.com.tecsat.loans.controller.BasicController;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
@@ -218,7 +221,9 @@ public class PrestamoBean extends BasicController implements Serializable {
 		return SUMMARY;
 	}
 
-	public void exportPdf() throws JRException, IOException {
+	public String exportPdf() throws JRException, IOException {
+
+		byte[] pdf = null;
 
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
@@ -235,26 +240,33 @@ public class PrestamoBean extends BasicController implements Serializable {
 		} finally {
 			inputStream.close();
 		}
-		
+
 		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletOutputStream outputStream = null;
-		
+
 		try {
+			outputStream = response.getOutputStream();
+			JRPdfExporter exporter = new JRPdfExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			ByteArrayOutputStream pdfByteArray = new ByteArrayOutputStream();
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfByteArray));
+			exporter.exportReport();
+			pdf = pdfByteArray.toByteArray();
+			//JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 			response.setContentType("application/pdf");
 			response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
-			outputStream = response.getOutputStream();
-			
-			JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-			
+
+			pdfByteArray.close();
 		} catch (Exception e) {
 			throw new RuntimeException("Error al exportar el pdf");
 		} finally {
+			outputStream.write(pdf);
 			outputStream.flush();
 			outputStream.close();
-			facesContext.renderResponse();
 			facesContext.responseComplete();
 		}
+		return null;
 	}
 
 	private InputStream getFile(ExternalContext externalContext, String path) {
