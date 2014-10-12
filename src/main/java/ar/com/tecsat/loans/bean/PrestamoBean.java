@@ -1,10 +1,12 @@
 package ar.com.tecsat.loans.bean;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Stack;
 
@@ -12,6 +14,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -221,22 +224,33 @@ public class PrestamoBean extends BasicController implements Serializable {
 		return SUMMARY;
 	}
 
-	public String exportPdf() throws JRException, IOException {
+	public String exportPdf() throws IOException {
 
 		byte[] pdf = null;
 
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
 		InputStream inputStream = getFile(externalContext, "/WEB-INF/reportes/reportprestamo.jasper");
-		if (inputStream == null) {
-			throw new RuntimeException("Error al cargar la plantilla");
+		
+		BufferedImage image;
+		try {
+			image = ImageIO.read(externalContext.getResource("/WEB-INF/reportes/logo.jpg"));
+		} catch (IOException e) {
+			addMessageError("Error al cargar la plantilla");
+			return null;
 		}
-
+		
+		if (inputStream == null) {
+			addMessageError("Error al cargar la plantilla");
+			return null;
+		}
+		
 		JasperPrint jasperPrint = null;
 		try {
-			jasperPrint = prestamoService.createReport(prestamo, inputStream);
+			jasperPrint = prestamoService.createReport(prestamo, inputStream, image);
 		} catch (Exception e) {
-			throw new RuntimeException("Error al compilar el reporte");
+			addMessageError("Error al compilar el reporte");
+			return null;
 		} finally {
 			inputStream.close();
 		}
@@ -255,11 +269,12 @@ public class PrestamoBean extends BasicController implements Serializable {
 			pdf = pdfByteArray.toByteArray();
 			//JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 			response.setContentType("application/pdf");
-			response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"reporte.pdf\"");
 
 			pdfByteArray.close();
 		} catch (Exception e) {
-			throw new RuntimeException("Error al exportar el pdf");
+			addMessageError("Error al exportar el pdf");
+			return null;
 		} finally {
 			outputStream.write(pdf);
 			outputStream.flush();
@@ -267,10 +282,6 @@ public class PrestamoBean extends BasicController implements Serializable {
 			facesContext.responseComplete();
 		}
 		return null;
-	}
-
-	private InputStream getFile(ExternalContext externalContext, String path) {
-		return externalContext.getResourceAsStream(path);
 	}
 
 	private void saveStep() {

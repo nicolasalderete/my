@@ -1,8 +1,10 @@
 package ar.com.tecsat.loans.controller;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 public class BasicController  {
@@ -59,5 +61,9 @@ public class BasicController  {
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 		String result = viewId.substring(viewId.lastIndexOf("/") + 1, viewId.indexOf("."));
 		return result;
+	}
+
+	protected InputStream getFile(ExternalContext externalContext, String path) {
+		return externalContext.getResourceAsStream(path);
 	}
 }

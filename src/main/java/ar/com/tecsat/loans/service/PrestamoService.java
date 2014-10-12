@@ -1,5 +1,6 @@
 package ar.com.tecsat.loans.service;
 
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,39 +119,34 @@ public class PrestamoService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public JasperPrint createReport(Prestamo prestamo, InputStream inputStream) throws AdministrativeException {
+	public JasperPrint createReport(Prestamo prestamo, InputStream inputStream, BufferedImage image) throws AdministrativeException {
 		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(getDatasource(prestamo));
 		
 		try {
-			return JasperFillManager.fillReport(inputStream, setParameters(prestamo), jrBeanDataSource);
+			Map parameters = new HashMap();
+			parameters.put("titulo", "Reporte préstamo");
+			parameters.put("fechaEmision", Calendar.getInstance().getTime());
+
+			Perfil perfil = perfilService.findPerfil();
+			parameters.put("perCelular", perfil.getPerCelular());
+
+			parameters.put("cliente", prestamo.getCliente().getCliNombre());
+			parameters.put("dni", prestamo.getCliente().getCliDni());
+			parameters.put("telefono", prestamo.getCliente().getCliTelefono());
+			parameters.put("direccion", prestamo.getCliente().getCliDireccion());
+			parameters.put("entre_calles", prestamo.getCliente().getCliEntreCalle());
+			parameters.put("localidad", prestamo.getCliente().getCliLocalidad());
+			parameters.put("mail", prestamo.getCliente().getCliMail());
+
+			parameters.put("capital", prestamo.getPreCapital());
+			parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
+			parameters.put("logo", image);
+			return JasperFillManager.fillReport(inputStream, parameters, jrBeanDataSource);
 		} catch (JRException e) {
 			throw new AdministrativeException("Error en el servicio de export pdf");
 		}
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Map setParameters(Prestamo prestamo) throws AdministrativeException {
-		Map parameters = new HashMap();
-		parameters.put("titulo", "Reporte préstamo");
-		parameters.put("fechaEmision", Calendar.getInstance().getTime());
 
-		Perfil perfil = perfilService.findPerfil();
-		parameters.put("perCelular", perfil.getPerCelular());
-
-		parameters.put("cliente", prestamo.getCliente().getCliNombre());
-		parameters.put("dni", prestamo.getCliente().getCliDni());
-		parameters.put("telefono", prestamo.getCliente().getCliTelefono());
-		parameters.put("direccion", prestamo.getCliente().getCliDireccion());
-		parameters.put("entre_calles", prestamo.getCliente().getCliEntreCalle());
-		parameters.put("localidad", prestamo.getCliente().getCliLocalidad());
-		parameters.put("mail", prestamo.getCliente().getCliMail());
-
-		parameters.put("capital", prestamo.getPreCapital());
-		parameters.put("tasa", prestamo.getPreTasa());
-		parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
-		return parameters;
-	}
-	
 	/**
 	 * @param prestamo 
 	 * @return

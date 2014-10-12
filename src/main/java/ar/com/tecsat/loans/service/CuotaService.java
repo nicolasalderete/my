@@ -1,22 +1,32 @@
 package ar.com.tecsat.loans.service;
 
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.joda.time.DateTime;
 
 import ar.com.tecsat.loans.bean.CuotaEstado;
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
-import ar.com.tecsat.loans.bean.utils.Dias;
 import ar.com.tecsat.loans.dao.interfaces.CuotaDao;
 import ar.com.tecsat.loans.dao.interfaces.PagoDao;
 import ar.com.tecsat.loans.dao.interfaces.PrestamoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cuota;
+import ar.com.tecsat.loans.modelo.HojaRuta;
 import ar.com.tecsat.loans.modelo.Pago;
 import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.modelo.PrestamoEstado;
@@ -34,7 +44,7 @@ public class CuotaService {
 
 	@EJB
 	private PagoDao pagoDao;
-	
+
 	@EJB
 	private PrestamoDao prestamoDao;
 
@@ -184,30 +194,7 @@ public class CuotaService {
 		pagoDao.guardar(pago);
 	}
 
-	/**
-	 * @param treinta
-	 *            TODO
-	 * @return
-	 */
-	public List<Cuota> obtenerCuotasVencidasA(Dias dias) {
-		List<Cuota> cuotas = new ArrayList<Cuota>();
-		int cant = 0;
-		switch (dias) {
-		case QUINCE:
-			cant = 15;
-			break;
-		case TREINTA:
-			cant = 30;
-			break;
-		}
-		try {
-			cuotas = cuotaDao.findByFechaVtoA(cant);
-		} catch (AdministrativeException e) {
-			return cuotas;
-		}
-		return cuotas;
-	}
-
+	
 	public void actualizarCuotaIntereses(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoInteresPunitorio(filtro.getInteresPunitorio());
 		cuota.setCuoImporte(totalAPagar(cuota, filtro));
@@ -233,11 +220,39 @@ public class CuotaService {
 	}
 
 	private void actualizarEstadoVencido(Cuota cuota) {
-		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)){
+		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)) {
 			cuota.setCuoEstado(CuotaEstado.VENCIDA);
 		}
-		if (cuota.getCuoEstado().equals(CuotaEstado.PAGO_PARCIAL)){
+		if (cuota.getCuoEstado().equals(CuotaEstado.PAGO_PARCIAL)) {
 			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL_VENCIDO);
 		}
 	}
+
+	public JasperPrint createHojaRuta(List<Cuota> listaCuota, BufferedImage image, InputStream inputStream)
+			throws AdministrativeException {
+
+		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(translateHojaRuta(listaCuota));
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("logo", image);
+			return JasperFillManager.fillReport(inputStream, parameters, jrBeanDataSource);
+		} catch (JRException e) {
+			throw new AdministrativeException("Error en el servicio de export pdf");
+		}
+	}
+
+	private Collection<HojaRuta> translateHojaRuta(List<Cuota> listaCuota) {
+		Collection<HojaRuta> listaRuta = new ArrayList<HojaRuta>();
+		for (Cuota cuota : listaCuota) {
+			HojaRuta ruta = new HojaRuta();
+			ruta.setCuota(cuota.getCuoNumero());
+			ruta.setDomicilio(cuota.getPrestamo().getCliente().getCliDireccion());
+			ruta.setEntreCalles(cuota.getPrestamo().getCliente().getCliEntreCalle());
+			ruta.setMonto(cuota.getCuoSaldo());
+			ruta.setNombre(cuota.getPrestamo().getCliente().getCliNombre());
+			listaRuta.add(ruta);
+		}
+		return listaRuta;
+	}
+
 }

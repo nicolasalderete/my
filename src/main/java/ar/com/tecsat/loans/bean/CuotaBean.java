@@ -1,5 +1,9 @@
 package ar.com.tecsat.loans.bean;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,8 +12,17 @@ import java.util.Stack;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import ar.com.tecsat.loans.bean.utils.CuotaFiltro;
 import ar.com.tecsat.loans.controller.BasicController;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
@@ -172,6 +185,65 @@ public class CuotaBean extends BasicController implements Serializable {
 		setEditCuota(false);
 		addMessageInfo("Operación realizada");
 		return SUMMARY;
+	}
+	
+	
+	public String exportHojaRuta() throws IOException {
+		
+		byte[] pdf = null;
+
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+		InputStream inputStream = getFile(externalContext, "/WEB-INF/reportes/reporthojaruta.jasper");
+		BufferedImage image;
+		try {
+			image = ImageIO.read(externalContext.getResource("/WEB-INF/reportes/logo.jpg"));
+		} catch (IOException e) {
+			addMessageError("Error al cargar la plantilla");
+			return null;
+		}
+		
+		if (inputStream == null) {
+			addMessageError("Error al cargar la plantilla");
+			return null;
+		}
+		
+		JasperPrint jasperPrint = null;
+		try {
+			jasperPrint = cuotaService.createHojaRuta(listaCuota, image, inputStream);
+		} catch (Exception e) {
+			addMessageError("Error al compilar el reporte");
+			return null;
+		} finally {
+			inputStream.close();
+		}
+
+		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletOutputStream outputStream = null;
+
+		try {
+			outputStream = response.getOutputStream();
+			JRPdfExporter exporter = new JRPdfExporter();
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			ByteArrayOutputStream pdfByteArray = new ByteArrayOutputStream();
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfByteArray));
+			exporter.exportReport();
+			pdf = pdfByteArray.toByteArray();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "attachment; filename=\"hojaDeRuta.pdf\"");
+
+			pdfByteArray.close();
+		} catch (Exception e) {
+			addMessageError("Error al exportar el pdf");
+			return null;
+		} finally {
+			outputStream.write(pdf);
+			outputStream.flush();
+			outputStream.close();
+			facesContext.responseComplete();
+		}
+		return null;
 	}
 
 	private void saveStep() {

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78077a6c-382e-4772-9982-d7c3757fbc21">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="1075"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="domicilio" class="java.lang.String"/>
+	<field name="entreCalles" class="java.lang.String"/>
+	<field name="cuota" class="java.lang.Integer"/>
+	<field name="monto" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<image scaleImage="RealHeight">
+				<reportElement isPrintRepeatedValues="false" x="1" y="0" width="50" height="50" uuid="adaf6350-0170-46e7-8792-b577b91eda30"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="325" y="11" width="87" height="24" uuid="4908cc0d-7037-4b10-9bcc-cb374930f2b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Hoja de ruta]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="0" width="169" height="15" uuid="b2199eff-cec2-42af-b2f1-0adae2653b33"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="15" y="0" width="141" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="2ec2ff19-3688-4eb2-8f8b-a8ab783f2262"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nombre y Apellido]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="171" y="0" width="169" height="15" uuid="4e4e1fcc-fb6c-41fb-a6fb-80fc5e0ceb42"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="171" y="0" width="190" height="15" uuid="b056da3f-dfc6-4956-8d1c-c76f0897eb7f"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="199" y="0" width="141" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="6eea147a-6946-48f2-a802-9b3ff9c2b820"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Domicilio]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="361" y="0" width="215" height="15" uuid="6b2001f8-8db4-40c0-b9b5-9d012beeb561"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="389" y="0" width="141" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="541bca50-ba1c-4a71-a7bb-ed273e95c966"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Entre calles]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="576" y="0" width="49" height="15" uuid="4d317e84-7b2c-4330-be70-9c99a89d3a02"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="580" y="0" width="42" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="728e8e32-2489-4df8-aa78-8ad3138f23bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[N° cuota]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="625" y="0" width="102" height="15" uuid="1cf1572d-7c6c-4e72-932e-373a166860f5"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="653" y="0" width="42" height="15" forecolor="#010101" backcolor="#FEFEFE" uuid="ed108fe3-e600-4a51-9282-6cc82ece1442"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="0" width="169" height="15" uuid="885669f7-e74b-4bec-b3a8-7d175ca93acd"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="171" y="0" width="190" height="15" uuid="01df53fd-3346-445b-9d42-eef3672be8f1"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="361" y="0" width="215" height="15" uuid="7849cf0c-66ef-4030-910f-de5d18df0eaa"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="576" y="0" width="49" height="15" uuid="c90fed81-d6cd-40b5-8a59-ebfb1bc3a0a0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="625" y="0" width="102" height="15" uuid="b051029a-0c3f-4657-a3b3-b99a3f27a9f7"/>
+			</rectangle>
+			<textField>
+				<reportElement x="4" y="0" width="166" height="15" uuid="ee727793-70d5-4401-bc7d-68122ec42357"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="173" y="0" width="187" height="15" uuid="52187c34-f086-4e3a-ae5b-5219fb533b69"/>
+				<textFieldExpression><![CDATA[$F{domicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="0" width="212" height="15" uuid="db0faf77-2d80-4395-9153-0f04b3cabb52"/>
+				<textFieldExpression><![CDATA[$F{entreCalles}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="578" y="0" width="46" height="15" uuid="6180fb9c-0554-4f2f-ae43-24d09c1ec9b5"/>
+				<textFieldExpression><![CDATA[$F{cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="627" y="0" width="100" height="15" uuid="8d7d319e-f8b9-416e-a576-16e664542057"/>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="777" y="3" width="25" height="13" uuid="3e4cb910-93dc-4d50-8fa5-26a05e769fda"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="738" y="3" width="39" height="13" uuid="8abba983-2411-41cf-a64b-34b410cd9279"/>
+				<textElement>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
