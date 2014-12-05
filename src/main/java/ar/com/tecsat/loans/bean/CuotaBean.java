@@ -182,6 +182,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 		}
+		setCuota(cuotaService.findCuota(cuota));
 		setEditCuota(false);
 		addMessageInfo("Operación realizada");
 		return SUMMARY;

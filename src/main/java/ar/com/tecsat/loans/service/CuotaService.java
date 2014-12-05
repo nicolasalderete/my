@@ -2,7 +2,6 @@ package ar.com.tecsat.loans.service;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -137,12 +136,18 @@ public class CuotaService {
 	 */
 	private void actualizaCuotaPagoParcial(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoPagoParcial(cuota.getCuoPagoParcial().add(filtro.getImportePago()));
-		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)) {
+		cuota.setCuoSaldo(cuota.getCuoSaldo().subtract(filtro.getImportePago()));
+		if (isVigenteOParcial(cuota)) {
 			cuota.setCuoEstado(CuotaEstado.PAGO_PARCIAL);
 		} else {
 			cuota.setCuoEstado(CuotaEstado.PAGO_INSUFICIENTE);
 		}
 		cuotaDao.actualizar(cuota);
+	}
+
+	private boolean isVigenteOParcial(Cuota cuota) {
+		return cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)
+				|| cuota.getCuoEstado().equals(CuotaEstado.PAGO_PARCIAL);
 	}
 
 	/**
@@ -162,6 +167,7 @@ public class CuotaService {
 	 */
 	private void actualizarCuotaPagoTotal(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoEstado(CuotaEstado.CANCELADA);
+		cuota.setCuoSaldo(cuota.getCuoSaldo().subtract(filtro.getImportePago()));
 		cuotaDao.actualizar(cuota);
 		if (debeCancelarPrestamo(cuota)) {
 			Prestamo prestamo = cuota.getPrestamo();
@@ -194,15 +200,11 @@ public class CuotaService {
 		pagoDao.guardar(pago);
 	}
 
-	
 	public void actualizarCuotaIntereses(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
 		cuota.setCuoInteresPunitorio(filtro.getInteresPunitorio());
-		cuota.setCuoImporte(totalAPagar(cuota, filtro));
+		cuota.setCuoImporte(cuota.getCuoImporte().add(filtro.getInteresPunitorio()));
+		cuota.setCuoSaldo(cuota.getCuoImporte().subtract(cuota.getCuoSaldo()));
 		cuotaDao.actualizar(cuota);
-	}
-
-	private BigDecimal totalAPagar(Cuota cuota, CuotaFiltro filtro) {
-		return cuota.getCuoPura().add(cuota.getCuoInteres()).add(filtro.getInteresPunitorio());
 	}
 
 	public Cuota findCuota(Cuota currentCuota) {
@@ -220,7 +222,7 @@ public class CuotaService {
 	}
 
 	private void actualizarEstadoVencido(Cuota cuota) {
-		if (cuota.getCuoEstado().equals(CuotaEstado.VIGENTE)) {
+		if (isVigenteOParcial(cuota)) {
 			cuota.setCuoEstado(CuotaEstado.VENCIDA);
 		}
 		if (cuota.getCuoEstado().equals(CuotaEstado.PAGO_PARCIAL)) {

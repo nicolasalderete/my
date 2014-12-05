@@ -89,13 +89,24 @@ public class PrestamoHelper {
 			lastVto = calcularFechaVencimiento(nuevoPrestamo, cuoNumero, lastVto);
 			cuota.setCuoFechaVencimiento(lastVto);
 			cuota.setCuoInteresPunitorio(new BigDecimal(0));
-			cuota.setCuoEstado(CuotaEstado.VIGENTE);
+			cuota.setCuoEstado(calcularEstadoDeLaCuota(lastVto));
 			cuota.setCuoSaldo(importeCuota);
 
 			cuota.setPrestamo(nuevoPrestamo);
 			cuotas.add(cuota);
 		}
 		return cuotas;
+	}
+
+	private static CuotaEstado calcularEstadoDeLaCuota(Date lastVto) {
+		DateTime ahora = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
+		if (lastVto.compareTo(ahora.toDate()) > 0) {
+			return CuotaEstado.VIGENTE;
+		} else if (lastVto.compareTo(ahora.toDate()) == 0) {
+			return CuotaEstado.VIGENTE;
+		} else {
+			return CuotaEstado.VENCIDA;
+		}
 	}
 
 	/**
