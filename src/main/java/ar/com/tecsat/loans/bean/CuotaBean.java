@@ -32,6 +32,7 @@ import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.service.ClienteService;
 import ar.com.tecsat.loans.service.CuotaService;
 import ar.com.tecsat.loans.service.PrestamoService;
+import ar.com.tecsat.loans.util.OrderList;
 
 /**
  * @author nicolas
@@ -84,7 +85,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		saveStep();
 		return LIST;
 	}
-	
+
 	public String crearPago(Cuota cuota) {
 		try {
 			evaluateRules(cuota);
@@ -96,10 +97,10 @@ public class CuotaBean extends BasicController implements Serializable {
 		saveStep();
 		return PAGO;
 	}
-	
+
 	/**
 	 * @param cuota
-	 * @throws AdministrativeException 
+	 * @throws AdministrativeException
 	 */
 	private void evaluateRules(Cuota cuota) throws AdministrativeException {
 		evaluateTotalPagar(cuota);
@@ -107,7 +108,7 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	/**
 	 * @param cuota
-	 * @throws AdministrativeException 
+	 * @throws AdministrativeException
 	 */
 	private void evaluateTotalPagar(Cuota cuota) throws AdministrativeException {
 		if (cuota.getCuoSaldo().compareTo(BigDecimal.valueOf(0)) <= 0) {
@@ -133,7 +134,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		saveStep();
 		return SUMMARY;
 	}
-	
+
 	public String stepBack() {
 		String result = STEP.pop();
 		if (result.equals(FILTER)) {
@@ -164,18 +165,18 @@ public class CuotaBean extends BasicController implements Serializable {
 		setFiltro(new CuotaFiltro());
 		STEP.clear();
 	}
-	
+
 	public String modify() {
 		saveStep();
 		setEditCuota(true);
 		return SUMMARY;
 	}
-	
+
 	public String cancelUpdate() {
 		setEditCuota(false);
 		return stepBack();
 	}
-	
+
 	public String update() {
 		try {
 			cuotaService.actualizarCuotaIntereses(cuota, filtro);
@@ -187,10 +188,9 @@ public class CuotaBean extends BasicController implements Serializable {
 		addMessageInfo("Operación realizada");
 		return SUMMARY;
 	}
-	
-	
+
 	public String exportHojaRuta() throws IOException {
-		
+
 		byte[] pdf = null;
 
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -203,12 +203,12 @@ public class CuotaBean extends BasicController implements Serializable {
 			addMessageError("Error al cargar la plantilla");
 			return null;
 		}
-		
+
 		if (inputStream == null) {
 			addMessageError("Error al cargar la plantilla");
 			return null;
 		}
-		
+
 		JasperPrint jasperPrint = null;
 		try {
 			jasperPrint = cuotaService.createHojaRuta(listaCuota, image, inputStream);
@@ -313,6 +313,14 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	public void setEditCuota(boolean editCuota) {
 		this.editCuota = editCuota;
+	}
+
+	public List<Prestamo> changeSelectPrestamo() {
+		if (null == filtro.getIdCliente()) {
+			return listaPrestamo;
+		}
+		List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
+		return OrderList.sortPrestamos(lista);
 	}
 
 }

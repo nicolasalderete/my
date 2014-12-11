@@ -29,6 +29,7 @@ import ar.com.tecsat.loans.modelo.HojaRuta;
 import ar.com.tecsat.loans.modelo.Pago;
 import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.modelo.PrestamoEstado;
+import ar.com.tecsat.loans.util.OrderList;
 import ar.com.tecsat.loans.util.PagoHelper;
 
 /**
@@ -59,7 +60,7 @@ public class CuotaService {
 		if (cuotas == null || cuotas.isEmpty()) {
 			throw new AdministrativeException("No hay registros");
 		}
-		return cuotas;
+		return OrderList.sortCuotas(cuotas);
 	}
 
 	public List<Cuota> findCuotas() throws AdministrativeException {
@@ -69,7 +70,7 @@ public class CuotaService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return cuotas;
+		return OrderList.sortCuotas(cuotas);
 	}
 
 	public List<Cuota> findCuotasByPrestamo(Prestamo prestamo) throws AdministrativeException {
@@ -82,7 +83,7 @@ public class CuotaService {
 		if (cuotas == null) {
 			return new ArrayList<Cuota>();
 		}
-		return cuotas;
+		return OrderList.sortCuotas(cuotas);
 	}
 
 	public void pagar(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {

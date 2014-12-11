@@ -115,7 +115,7 @@ public class PagoDaoImpl implements PagoDao {
 	private void addPrestamo(PagoFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Pago> root,
 			List<Predicate> predicateList) {
 		if (filtro.getIdPrestamo() != null) {
-			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("preId"), filtro.getIdPrestamo());
+			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("id"), filtro.getIdPrestamo());
 			predicateList.add(prestamo);
 		}
 	}

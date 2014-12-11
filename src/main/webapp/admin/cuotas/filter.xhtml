@@ -26,6 +26,7 @@
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{cuotaBean.listaCliente}" var="cliente" itemValue="#{cliente.cliId}"
 										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" />
+									<f:ajax listener="#{cuotaBean.changeSelectPrestamo}" render="idPrestamo"/>
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -37,7 +38,7 @@
 								<h:selectOneMenu value="#{cuotaBean.filtro.idPrestamo}" id="idPrestamo">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{cuotaBean.listaPrestamo}" var="prestamo" itemValue="#{prestamo.id}"
-										itemLabel="#{prestamo.cliente.cliDni} - Monto: #{prestamo.preCapital}" />
+										itemLabel="#{prestamo.cliente.cliNombre} - #{prestamo.preCapital}" />
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -102,10 +103,14 @@
 								<h:selectOneMenu value="#{cuotaBean.filtro.estadoCuota}" id="idEstado">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItem itemLabel="VIGENTE" itemValue="VIGENTE"/>
-									<f:selectItem itemLabel="PAGO" itemValue="PAGO"/>
 									<f:selectItem itemLabel="VENCIDA" itemValue="VENCIDA"/>
 									<f:selectItem itemLabel="PAGO_PARCIAL" itemValue="PAGO_PARCIAL"/>
-									<f:selectItem itemLabel="PAGO_VENCIDO" itemValue="PAGO_VENCIDO"/>
+									<f:selectItem itemLabel="CANCELADA" itemValue="CANCELADA"/>
+									<f:selectItem itemLabel="PAGO_INSUFICIENTE" itemValue="PAGO_INSUFICIENTE"/>
+									<f:selectItem itemLabel="PAGO_PARCIAL_VENCIDO" itemValue="PAGO_PARCIAL_VENCIDO"/>
+									<f:selectItem itemLabel="VENCIDA_30_DIAS" itemValue="VENCIDA_30_DIAS"/>
+									<f:selectItem itemLabel="VENCIDA_15_DIAS" itemValue="VENCIDA_15_DIAS"/>
+									<f:selectItem itemLabel="REFINANCIADO" itemValue="REFINANCIADO"/>
 								</h:selectOneMenu>
 							</div>
 						</div>

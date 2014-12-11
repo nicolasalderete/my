@@ -72,7 +72,7 @@
 									<f:selectItem itemLabel="es menor a" itemValue="ES_MENOR" />
 								</h:selectOneMenu>
 								&nbsp;
-								<h:inputText id="idTasa" styleClass="input-small" value="#{prestamoBean.filtro.tasa}" />
+								<h:inputText id="idTasa" styleClass="input-small" value="#{prestamoBean.filtro.tasa}"/>
 							</div>
 						</div>
 					</div>
@@ -106,7 +106,8 @@
 									<f:selectItem itemLabel="Todos" noSelectionOption="true" />
 									<f:selectItem itemLabel="En Proceso" itemValue="VIGENTE" />
 									<f:selectItem itemLabel="Cancelado" itemValue="CANCELADO" />
-									<f:selectItem itemLabel="Vencido" itemValue="VENCIDO" />
+									<f:selectItem itemLabel="Cancelado por adelantado" itemValue="CANCELADO_POR_ADELANTADO" />
+									<f:selectItem itemLabel="Refinanciado" itemValue="REFINANCIADO" />
 								</h:selectOneMenu>
 							</div>
 						</div>

@@ -25,6 +25,7 @@ import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Perfil;
 import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.modelo.PrestamoEstado;
+import ar.com.tecsat.loans.util.OrderList;
 import ar.com.tecsat.loans.util.PrestamoHelper;
 
 /**
@@ -53,7 +54,7 @@ public class PrestamoService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return listaPrestamos;
+		return OrderList.sortPrestamos(listaPrestamos);
 	}
 
 	public void guardarPrestamo(Prestamo prestamo) throws AdministrativeException {
@@ -84,7 +85,7 @@ public class PrestamoService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return prestamos;
+		return OrderList.sortPrestamos(prestamos);
 	}
 
 	public Prestamo crearPrestamo(PrestamoFiltro filtro) throws AdministrativeException {
@@ -159,6 +160,16 @@ public class PrestamoService {
 			e.printStackTrace();
 		}
 		return lista;
+	}
+
+	public List<Prestamo> findByCliente(Integer idCliente) {
+		List<Prestamo> result = new ArrayList<Prestamo>();
+		try {
+			result = prestamoDao.findByIdCliente(idCliente);
+		} catch (AdministrativeException e) {
+			//TODO agregar log o hacer algo
+		}
+		return result;
 	}
 
 }

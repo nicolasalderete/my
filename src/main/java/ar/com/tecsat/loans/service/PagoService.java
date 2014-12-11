@@ -9,6 +9,7 @@ import ar.com.tecsat.loans.bean.utils.PagoFiltro;
 import ar.com.tecsat.loans.dao.interfaces.PagoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Pago;
+import ar.com.tecsat.loans.util.OrderList;
 
 /**
  * @author nicolas
@@ -30,7 +31,7 @@ public class PagoService {
 		if (listPagos == null || listPagos.isEmpty()){
 			return null;
 		}
-		return listPagos;
+		return OrderList.sortPagos(listPagos);
 	}
 
 	public List<Pago> finPagosByFilter(PagoFiltro filtro) throws AdministrativeException {
@@ -40,7 +41,7 @@ public class PagoService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return pagos;
+		return OrderList.sortPagos(pagos);
 	}
 	
 }

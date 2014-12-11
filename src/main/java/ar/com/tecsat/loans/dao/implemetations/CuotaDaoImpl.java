@@ -121,7 +121,7 @@ public class CuotaDaoImpl implements CuotaDao {
 	private void addEstadoCuota(CuotaFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Cuota> root,
 			List<Predicate> predicateList) {
 		if (filtro.getEstadoCuota() != null) {
-			Predicate prestamo = criteriaBuilder.equal(root.get("cuoEstado"), filtro.getEstadoCuota());
+			Predicate prestamo = criteriaBuilder.equal(root.get("cuoEstado"), CuotaEstado.valueOf(filtro.getEstadoCuota()));
 			predicateList.add(prestamo);
 		}
 	}

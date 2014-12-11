@@ -24,4 +24,6 @@ public interface PrestamoDao {
 	public List<Prestamo> findByFilter(PrestamoFiltro filtro) throws AdministrativeException;
 
 	public void actualizar(Prestamo prestamo) throws AdministrativeException;
+
+	public List<Prestamo> findByIdCliente(Integer idCliente) throws AdministrativeException;
 }

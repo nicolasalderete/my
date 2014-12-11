@@ -28,7 +28,7 @@
 								<h:selectOneMenu value="#{pagoBean.filtro.idCliente}" id="idCliente">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{pagoBean.listaClientes}" var="cliente" itemValue="#{cliente.cliId}"
-										itemLabel="#{cliente.cliNombre}" />
+										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" />
 								</h:selectOneMenu>					
 							</div>
 						</div>
@@ -40,7 +40,7 @@
 								<h:selectOneMenu value="#{pagoBean.filtro.idPrestamo}" id="idPrestamo">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{pagoBean.listaPrestamo}" var="prestamo" itemValue="#{prestamo.id}"
-										itemLabel="#{prestamo.cliente.cliDni} - Monto: #{prestamo.preCapital}" />
+										itemLabel="#{prestamo.cliente.cliNombre} - #{prestamo.preCapital}" />
 								</h:selectOneMenu>			
 							</div>
 						</div>

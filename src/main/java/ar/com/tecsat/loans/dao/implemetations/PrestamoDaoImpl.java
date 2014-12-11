@@ -17,6 +17,7 @@ import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
 import ar.com.tecsat.loans.dao.interfaces.PrestamoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Prestamo;
+import ar.com.tecsat.loans.modelo.PrestamoEstado;
 
 /**
  * @author nicolas
@@ -83,7 +84,7 @@ public class PrestamoDaoImpl implements PrestamoDao {
 			List<Predicate> predicateList) {
 		// TODO Predicado Estado del prestamo
 		if (filtro.getEstado() != null) {
-			Predicate estado = builder.equal(prestamo.get("preEstado"), filtro.getEstado());
+			Predicate estado = builder.equal(prestamo.get("preEstado"), PrestamoEstado.valueOf(filtro.getEstado()));
 			predicateList.add(estado);
 		}
 	}
@@ -110,13 +111,13 @@ public class PrestamoDaoImpl implements PrestamoDao {
 		if (filtro.getTasa() != null) {
 			Predicate tasa = null;
 			if (filtro.getCondicionTasa().equals("ES_IGUAL")) {
-				tasa = builder.equal(prestamo.get("preTasaMensual"), filtro.getTasa().doubleValue());
+				tasa = builder.equal(prestamo.get("preTasa"), filtro.getTasa().doubleValue());
 			}
 			if (filtro.getCondicionMonto().equals("ES_MENOR")) {
-				tasa = builder.le(prestamo.get("preTasaMensual").as(Number.class), filtro.getTasa().doubleValue());
+				tasa = builder.le(prestamo.get("preTasa").as(Number.class), filtro.getTasa().doubleValue());
 			}
 			if (filtro.getCondicionMonto().equals("ES_MAYOR")) {
-				tasa = builder.ge(prestamo.get("preTasaMensual").as(Number.class), filtro.getTasa().doubleValue());
+				tasa = builder.ge(prestamo.get("preTasa").as(Number.class), filtro.getTasa().doubleValue());
 			}
 			predicateList.add(tasa);
 		}
@@ -165,6 +166,28 @@ public class PrestamoDaoImpl implements PrestamoDao {
 			em.merge(prestamo);
 		} catch (Exception e) {
 			throw new AdministrativeException("Error al actualizar la cuota");
+		}
+	}
+
+	@Override
+	public List<Prestamo> findByIdCliente(Integer idCliente) throws AdministrativeException {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<Prestamo> query = builder.createQuery(Prestamo.class);
+			Root<Prestamo> prestamo = query.from(Prestamo.class);
+
+			List<Predicate> predicateList = new ArrayList<Predicate>();
+			Predicate cliente = builder.equal(prestamo.get("cliente").get("cliId"), idCliente);
+			predicateList.add(cliente);
+
+			Predicate[] predicates = new Predicate[predicateList.size()];
+			predicateList.toArray(predicates);
+			if (predicates.length > 0) {
+				query.where(predicates);
+			}
+			return em.createQuery(query).getResultList();
+		} catch (Exception e) {
+			throw new AdministrativeException(e.getMessage());
 		}
 	}
 }

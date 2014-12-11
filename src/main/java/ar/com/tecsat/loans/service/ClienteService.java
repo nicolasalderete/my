@@ -9,6 +9,7 @@ import ar.com.tecsat.loans.bean.utils.ClienteFiltro;
 import ar.com.tecsat.loans.dao.interfaces.ClienteDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cliente;
+import ar.com.tecsat.loans.util.OrderList;
 
 /**
  * @author nicolas
@@ -27,7 +28,11 @@ public class ClienteService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return clientes;
+		return devolverListaOrdenada(clientes);
+	}
+
+	private List<Cliente> devolverListaOrdenada(List<Cliente> clientes) {
+		return OrderList.sortClient(clientes);
 	}
 
 	public void eliminarCliente(Cliente cli) throws AdministrativeException {
@@ -82,7 +87,7 @@ public class ClienteService {
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
-		return clientes;
+		return OrderList.sortClient(clientes);
 	}
 	
 	public void guardarCliente(Cliente cliente) throws AdministrativeException {
