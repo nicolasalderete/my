@@ -41,7 +41,7 @@
 								<h:selectOneMenu value="#{pagoBean.filtro.idPrestamo}" id="idPrestamo">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{pagoBean.listaPrestamo}" var="prestamo" itemValue="#{prestamo.id}"
-										itemLabel="#{prestamo.cliente.cliNombre} - #{prestamo.preCapital}" />
+										itemLabel="$ #{prestamo.preCapital}.- #{prestamo.preFechaInicio}" />
 								</h:selectOneMenu>			
 							</div>
 						</div>
