@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Stack;
 
@@ -19,7 +17,6 @@ import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -28,10 +25,10 @@ import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
 import ar.com.tecsat.loans.controller.BasicController;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cliente;
-import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.modelo.TipoPrestamo;
 import ar.com.tecsat.loans.service.ClienteService;
+import ar.com.tecsat.loans.service.CuotaService;
 import ar.com.tecsat.loans.service.PrestamoService;
 
 /**
@@ -43,13 +40,10 @@ import ar.com.tecsat.loans.service.PrestamoService;
 @SessionScoped
 public class PrestamoBean extends BasicController implements Serializable {
 
-	private static final String REFINANCIAR = "refinanciar";
-
 	// Propiedades
 	private Prestamo prestamo;
 	private List<Prestamo> listaPrestamo;
 	private List<Cliente> listaCliente;
-	private TipoPrestamo[] tipoPrestamo;
 
 	private PrestamoFiltro filtro = new PrestamoFiltro();
 	private boolean editPrestamo = false;
@@ -60,6 +54,9 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	@EJB
 	private ClienteService clienteService;
+	
+	@EJB
+	private CuotaService cuotaService;
 
 	// Actions
 	public String init() {
@@ -179,30 +176,6 @@ public class PrestamoBean extends BasicController implements Serializable {
 		return CONFIRM;
 	}
 
-	public String refinan(Prestamo prestamo) {
-		PrestamoFiltro filtro = new PrestamoFiltro();
-		BigDecimal monto = getMonto(prestamo);
-		filtro.setCapital(monto);
-		filtro.setIdCliente(prestamo.getCliente().getCliId());
-		setPrestamo(prestamo);
-		setFiltro(filtro);
-		saveStep();
-		return REFINANCIAR;
-	}
-
-	/**
-	 * @param prestamo
-	 * @return
-	 */
-	private BigDecimal getMonto(Prestamo prestamo) {
-		BigDecimal monto = new BigDecimal(0);
-		List<Cuota> cuotas = prestamo.getCuotas();
-		for (Cuota cuota : cuotas) {
-			monto = monto.add(cuota.getCuoSaldo());
-		}
-		return monto;
-	}
-
 	public String confirm() {
 		try {
 			prestamoService.guardarPrestamo(getPrestamo());
@@ -283,6 +256,17 @@ public class PrestamoBean extends BasicController implements Serializable {
 		}
 		return null;
 	}
+	
+	public String eliminar() {
+		try {
+			prestamoService.borrarPrestamo(this.prestamo);
+			inicializarForm();
+		} catch (AdministrativeException e) {
+			addMessageError(e.getMessage());
+			return null;
+		}
+		return FILTER;
+	}
 
 	private void saveStep() {
 		STEP.push(getCurrentView());
@@ -342,10 +326,6 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	public void setSTEP(Stack<String> sTEP) {
 		STEP = sTEP;
-	}
-
-	public void setTipoPrestamo(TipoPrestamo[] tipoPrestamo) {
-		this.tipoPrestamo = tipoPrestamo;
 	}
 
 }

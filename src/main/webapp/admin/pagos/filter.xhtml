@@ -29,6 +29,7 @@
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{pagoBean.listaClientes}" var="cliente" itemValue="#{cliente.cliId}"
 										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" />
+										<f:ajax listener="#{pagoBean.changeSelectPrestamo()}" render="idPrestamo"/>
 								</h:selectOneMenu>					
 							</div>
 						</div>

@@ -25,8 +25,9 @@
 								<h:selectOneMenu value="#{cuotaBean.filtro.idCliente}" id="idCliente">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{cuotaBean.listaCliente}" var="cliente" itemValue="#{cliente.cliId}"
-										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" />
-									<f:ajax listener="#{cuotaBean.changeSelectPrestamo}" render="idPrestamo"/>
+										itemLabel="#{cliente.cliNombre} - Dni: #{cliente.cliDni}" >
+										</f:selectItems>
+										<f:ajax listener="#{cuotaBean.changeSelectPrestamo()}" render="idPrestamo"/>
 								</h:selectOneMenu>
 							</div>
 						</div>
@@ -38,7 +39,8 @@
 								<h:selectOneMenu value="#{cuotaBean.filtro.idPrestamo}" id="idPrestamo">
 									<f:selectItem itemLabel="Todos..." noSelectionOption="true"/>
 									<f:selectItems value="#{cuotaBean.listaPrestamo}" var="prestamo" itemValue="#{prestamo.id}"
-										itemLabel="#{prestamo.cliente.cliNombre} - #{prestamo.preCapital}" />
+										itemLabel="$ #{prestamo.preCapital}.- #{prestamo.preFechaInicio}">
+									</f:selectItems>
 								</h:selectOneMenu>
 							</div>
 						</div>

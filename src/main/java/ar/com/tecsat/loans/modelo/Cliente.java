@@ -50,7 +50,7 @@ public class Cliente implements Serializable {
 	private String cliEntreCalle;
 	private String cliFacebook;
 	private String cliTipoCuenta;
-	private List<Pago> pagos;
+//	private List<Pago> pagos;
 	private List<Prestamo> prestamos;
 
     public Cliente() {
@@ -178,17 +178,17 @@ public class Cliente implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Pago
-	@OneToMany(mappedBy="cliente")
-	public List<Pago> getPagos() {
-		return this.pagos;
-	}
-
-	public void setPagos(List<Pago> pagos) {
-		this.pagos = pagos;
-	}
-	
-
+//	//bi-directional many-to-one association to Pago
+//	@OneToMany(mappedBy="cliente")
+//	public List<Pago> getPagos() {
+//		return this.pagos;
+//	}
+//
+//	public void setPagos(List<Pago> pagos) {
+//		this.pagos = pagos;
+//	}
+//	
+//
 	//bi-directional many-to-one association to Prestamo
 	@OneToMany(mappedBy="cliente")
 	public List<Prestamo> getPrestamos() {

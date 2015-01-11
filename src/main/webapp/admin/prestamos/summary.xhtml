@@ -216,9 +216,13 @@
 				</div>
 
 				<div class="row-fluid show-grid">
-					<div class="span8"></div>
+					<div class="span7"></div>
 					<div class="span1">
 						<h:commandButton value="Volver" action="#{prestamoBean.stepBack()}" styleClass="btn" />
+					</div>
+					<div class="span1">
+							<h:commandButton action="#{prestamoBean.eliminar()}" styleClass="btn" value="Eliminar" 
+								onclick="if (! confirm('Desea eliminar el prestamo como asi tambien las cuotas y pagos asociados al mismo.') ) { return false;}; return true;" />
 					</div>
 					<div class="span1">
 						<h:commandButton value="Informe" action="#{prestamoBean.exportPdf}" styleClass="btn btn-primary" />
@@ -226,9 +230,7 @@
 					<div class="span1">
 						<h:commandButton value="Refinanciar" action="#{prestamoBean.refinan(prestamoBean.prestamo)}" styleClass="btn btn-primary" />
 					</div>
-					<div class="span1">
-						
-					</div>
+					
 				</div>
 			</h:form>
 		</ui:define>

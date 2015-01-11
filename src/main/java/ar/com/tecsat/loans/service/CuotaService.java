@@ -44,6 +44,9 @@ public class CuotaService {
 
 	@EJB
 	private PagoDao pagoDao;
+	
+	@EJB
+	private PagoService pagoService;
 
 	@EJB
 	private PrestamoDao prestamoDao;
@@ -180,9 +183,10 @@ public class CuotaService {
 	/**
 	 * @param cuota
 	 * @return
+	 * @throws AdministrativeException 
 	 */
-	private boolean debeCancelarPrestamo(Cuota cuota) {
-		List<Cuota> cuotas = cuota.getPrestamo().getCuotas();
+	private boolean debeCancelarPrestamo(Cuota cuota) throws AdministrativeException {
+		List<Cuota> cuotas = cuotaDao.findCuotasByPrestamo(cuota.getPrestamo().getId());
 		for (Cuota obj : cuotas) {
 			if (!obj.isCancelada()) {
 				return false;
@@ -202,9 +206,9 @@ public class CuotaService {
 	}
 
 	public void actualizarCuotaIntereses(Cuota cuota, CuotaFiltro filtro) throws AdministrativeException {
-		cuota.setCuoInteresPunitorio(filtro.getInteresPunitorio());
+		cuota.setCuoInteresPunitorio(cuota.getCuoInteresPunitorio().add(filtro.getInteresPunitorio()));
 		cuota.setCuoImporte(cuota.getCuoImporte().add(filtro.getInteresPunitorio()));
-		cuota.setCuoSaldo(cuota.getCuoImporte().subtract(cuota.getCuoSaldo()));
+		cuota.setCuoSaldo(cuota.getCuoImporte().subtract(cuota.getCuoPagoParcial()));
 		cuotaDao.actualizar(cuota);
 	}
 
@@ -213,7 +217,7 @@ public class CuotaService {
 	}
 
 	public String actualizarEstadoCuotasVencidas() throws AdministrativeException {
-		DateTime hoy = new DateTime();
+		DateTime hoy = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 		List<Cuota> cuotas = cuotaDao.findByFechaVto(hoy);
 		for (Cuota cuota : cuotas) {
 			actualizarEstadoVencido(cuota);
@@ -256,6 +260,13 @@ public class CuotaService {
 			listaRuta.add(ruta);
 		}
 		return listaRuta;
+	}
+
+	public void eliminarCuotas(Prestamo prestamo) throws AdministrativeException {
+		List<Cuota> cuotasByPrestamo = cuotaDao.findCuotasByPrestamo(prestamo.getId());
+		for (Cuota cuota : cuotasByPrestamo) {
+			cuotaDao.eliminarCuota(cuota);
+		}
 	}
 
 }

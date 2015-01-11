@@ -8,7 +8,9 @@ import javax.ejb.Stateless;
 import ar.com.tecsat.loans.bean.utils.PagoFiltro;
 import ar.com.tecsat.loans.dao.interfaces.PagoDao;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
+import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Pago;
+import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.util.OrderList;
 
 /**
@@ -43,5 +45,12 @@ public class PagoService {
 		}
 		return OrderList.sortPagos(pagos);
 	}
-	
+
+	public void eliminarPagos(Prestamo prestamo) throws AdministrativeException {
+		List<Pago> findByPrestamo = pagoDao.findByPrestamo(prestamo.getId());
+		for (Pago pago : findByPrestamo) {
+			pagoDao.eliminarPago(pago);
+		}
+	}
+
 }

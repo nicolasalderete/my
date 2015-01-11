@@ -21,6 +21,10 @@ public interface PagoDao {
 	
 	public Pago findByPk(int pagoId) throws AdministrativeException;
 
-	public void guardar(Pago pago) throws AdministrativeException;;
+	public void guardar(Pago pago) throws AdministrativeException;
+
+	public List<Pago> findByPrestamo(Integer id) throws AdministrativeException;
+
+	public void eliminarPago(Pago pago);
 
 }

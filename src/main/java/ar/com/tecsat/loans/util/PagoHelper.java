@@ -11,7 +11,7 @@ import ar.com.tecsat.loans.modelo.PagoEstado;
  */
 public class PagoHelper {
 	
-	private static PagoHelper INSTANCE = null;
+	private static PagoHelper INSTANCE = new PagoHelper();
 	
 	public static PagoHelper getInstance() {
 		if (INSTANCE == null)
@@ -21,11 +21,11 @@ public class PagoHelper {
 	
 	public Pago crearPago(Cuota cuota, CuotaFiltro filtro) {
 		Pago newPago = new Pago();
-		newPago.setCliente(cuota.getPrestamo().getCliente());
+//		newPago.setCliente(cuota.getPrestamo().getCliente());
 		newPago.setCuota(cuota);
 		newPago.setPagFestado(filtro.getFechaPago());
 		newPago.setPagMonto(filtro.getImportePago());
-		newPago.setPrestamo(cuota.getPrestamo());
+//		newPago.setPrestamo(cuota.getPrestamo());
 		newPago.setPagEstado(PagoEstado.PAGO_CANCELADO.toString());
 		return newPago;
 	}

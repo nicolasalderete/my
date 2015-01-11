@@ -20,7 +20,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Nombre y apellido :" styleClass="control-label" for="idNombre" />
 							<div class="controls">
-								<h:outputText value="#{pagoBean.pago.cliente.cliNombre}" id="idNombre" />
+								<h:outputText value="#{pagoBean.pago.cuota.prestamo.cliente.cliNombre}" id="idNombre" />
 							</div>
 						</div>
 					</div>
@@ -28,7 +28,7 @@
 						<div class="control-group">
 							<h:outputLabel value="Prestamo :" styleClass="control-label" for="idPrestamo" />
 							<div class="controls">
-								<h:outputText id="idPrestamo" value="#{pagoBean.pago.prestamo.preCapital}">
+								<h:outputText id="idPrestamo" value="#{pagoBean.pago.cuota.prestamo.preCapital}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</div>
@@ -101,7 +101,6 @@
 					</div>
 					<div class="span1">
 						<div class="control-group">
-							<h:commandButton value="Recibo" action="#{pagoBean.exportPdf()}" styleClass="btn btn-primary"/>
 						</div>
 					</div>
 					<div class="span1">

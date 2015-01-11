@@ -178,11 +178,7 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	@Override
 	public void actualizar(Cuota cuota) throws AdministrativeException {
-		try {
-			em.merge(cuota);
-		} catch (Exception e) {
-			throw new AdministrativeException("Error al actualizar la cuota");
-		}
+		em.merge(cuota);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -231,7 +227,7 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	@Override
 	public Cuota findCuota(Cuota currentCuota) {
-		return em.find(Cuota.class, currentCuota);
+		return em.find(Cuota.class, currentCuota.getCuoId());
 	}
 
 	@Override
@@ -258,5 +254,10 @@ public class CuotaDaoImpl implements CuotaDao {
 
 	private Predicate estadoIgual(Root<Cuota> root, CriteriaBuilder builder, CuotaEstado cuotaEstado) {
 		return builder.equal(root.get("cuoEstado").as(CuotaEstado.class), cuotaEstado);
+	}
+
+	@Override
+	public void eliminarCuota(Cuota cuota) {
+		em.remove(em.getReference(Cuota.class, cuota.getCuoId()));
 	}
 }

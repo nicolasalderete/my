@@ -1,28 +1,12 @@
 package ar.com.tecsat.loans.bean;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 
 import ar.com.tecsat.loans.bean.utils.PagoFiltro;
 import ar.com.tecsat.loans.controller.BasicController;
@@ -33,6 +17,7 @@ import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.service.ClienteService;
 import ar.com.tecsat.loans.service.PagoService;
 import ar.com.tecsat.loans.service.PrestamoService;
+import ar.com.tecsat.loans.util.OrderList;
 
 /**
  * @author nicolas
@@ -117,42 +102,6 @@ public class PagoBean extends BasicController implements Serializable{
 		return SUMMARY;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void exportPdf() throws JRException, IOException {
-		String path = "/WEB-INF/reportes/reporteCuota.jrxml";
-
-		InputStream jasperTemplate = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(path);
-
-		JasperReport jasperReport = JasperCompileManager.compileReport(jasperTemplate);
-
-		@SuppressWarnings("rawtypes")
-		Map parameters = new HashMap();
-		parameters.put("fechaEmision", Calendar.getInstance().getTime());
-		parameters.put("cliente", pago.getCuota().getPrestamo().getCliente().getCliNombre());
-		parameters.put("mail", pago.getCuota().getPrestamo().getCliente().getCliMail());
-		parameters.put("cuota", pago.getCuota().toString());
-		parameters.put("importe", pago.getCuota().getCuoImporte());
-		parameters.put("total", pago.getCuota().getCuoSaldo());
-		parameters.put("fechaPago", pago.getCuota().getCuoFechaVencimiento());
-		
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-
-		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-				.getResponse();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
-
-		ServletOutputStream outputStream = response.getOutputStream();
-		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-
-		outputStream.flush();
-		outputStream.close();
-		FacesContext.getCurrentInstance().renderResponse();
-		FacesContext.getCurrentInstance().responseComplete();
-	}
-	
-	
 	private void clearCheckPoint() {
 		STEP.clear();
 	}
@@ -206,6 +155,20 @@ public class PagoBean extends BasicController implements Serializable{
 
 	public void setListaPrestamo(List<Prestamo> listaPrestamo) {
 		this.listaPrestamo = listaPrestamo;
+	}
+	
+	public void changeSelectPrestamo() {
+		if (null == filtro.getIdCliente()) {
+			try {
+				this.setListaPrestamo(OrderList.sortPrestamos(prestamoService.findAllPrestamos()));;
+			} catch (AdministrativeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
+			this.setListaPrestamo(OrderList.sortPrestamos(lista));
+		}
 	}
 
 }

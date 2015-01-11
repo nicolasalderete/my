@@ -190,4 +190,10 @@ public class PrestamoDaoImpl implements PrestamoDao {
 			throw new AdministrativeException(e.getMessage());
 		}
 	}
+
+	@Override
+	public void eliminarPrestamo(Prestamo prestamo) {
+		em.remove(em.getReference(Prestamo.class, prestamo.getId()));
+	}
+
 }

@@ -26,4 +26,6 @@ public interface PrestamoDao {
 	public void actualizar(Prestamo prestamo) throws AdministrativeException;
 
 	public List<Prestamo> findByIdCliente(Integer idCliente) throws AdministrativeException;
+	
+	public void eliminarPrestamo(Prestamo prestamo) throws AdministrativeException;
 }

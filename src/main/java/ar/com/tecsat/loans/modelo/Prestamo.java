@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,6 +57,7 @@ public class Prestamo implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "pre_tipo")
 	private TipoPrestamo tipoPrestamo;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "pre_estado")
 	private PrestamoEstado preEstado;
@@ -75,10 +75,10 @@ public class Prestamo implements Serializable {
 	@JoinColumn(name = "cli_id", nullable = false)
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "prestamo")
-	private List<Pago> pagos;
+//	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL)
+//	private List<Pago> pagos;
 	
-	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL)
 	private List<Cuota> cuotas;
 
 	public Prestamo() {
@@ -146,14 +146,14 @@ public class Prestamo implements Serializable {
 		this.preTasa = preTasa;
 	}
 	
-	// bi-directional many-to-one association to Pago
-	public List<Pago> getPagos() {
-		return this.pagos;
-	}
-
-	public void setPagos(List<Pago> pagos) {
-		this.pagos = pagos;
-	}
+//	// bi-directional many-to-one association to Pago
+//	public List<Pago> getPagos() {
+//		return this.pagos;
+//	}
+//
+//	public void setPagos(List<Pago> pagos) {
+//		this.pagos = pagos;
+//	}
 
 	// bi-directional many-to-one association to Cliente
 	public Cliente getCliente() {

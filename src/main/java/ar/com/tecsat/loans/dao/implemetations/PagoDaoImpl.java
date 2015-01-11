@@ -128,4 +128,25 @@ public class PagoDaoImpl implements PagoDao {
 			throw new AdministrativeException(e.getMessage());
 		}
 	}
+
+	@Override
+	public List<Pago> findByPrestamo(Integer id) throws AdministrativeException {
+		List<Pago> pagos = null;
+		try {
+			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+			CriteriaQuery<Pago> query = criteriaBuilder.createQuery(Pago.class);
+			Root<Pago> root = query.from(Pago.class);
+			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("id"), id);
+			query.where(prestamo);
+			pagos = em.createQuery(query).getResultList();
+		} catch (Exception e) {
+			throw new AdministrativeException(e.getMessage());
+		}
+		return pagos;
+	}
+
+	@Override
+	public void eliminarPago(Pago pago) {
+		em.remove(em.getReference(Pago.class, pago.getPagId()));
+	}
 }

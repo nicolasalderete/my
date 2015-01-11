@@ -23,7 +23,7 @@ import ar.com.tecsat.loans.modelo.TipoPrestamo;
  */
 public class PrestamoHelper {
 
-	private static PrestamoHelper INSTANCE = null;
+	private static PrestamoHelper INSTANCE = new PrestamoHelper();
 
 	public static PrestamoHelper getInstance() {
 		if (INSTANCE == null)
@@ -31,7 +31,7 @@ public class PrestamoHelper {
 		return INSTANCE;
 	}
 
-	public static Prestamo createPrestamo(PrestamoFiltro filtro, Cliente cliente) throws AdministrativeException {
+	public Prestamo createPrestamo(PrestamoFiltro filtro, Cliente cliente) throws AdministrativeException {
 		Prestamo nuevoPrestamo = new Prestamo();
 		nuevoPrestamo.setCliente(cliente);
 		nuevoPrestamo.setTipoPrestamo(filtro.getTipoPrestamo());
@@ -39,8 +39,7 @@ public class PrestamoHelper {
 		nuevoPrestamo.setPreCapital(filtro.getCapital());
 		nuevoPrestamo.setPreTasa(filtro.getTasa());
 		nuevoPrestamo.setPreFechaInicio(filtro.getFechaSoli());
-		nuevoPrestamo
-				.setPreCuotaPura(calcularCuotaPura(nuevoPrestamo.getPreCapital(), nuevoPrestamo.getPreCantCuotas()));
+		nuevoPrestamo.setPreCuotaPura(calcularCuotaPura(nuevoPrestamo.getPreCapital(), nuevoPrestamo.getPreCantCuotas()));
 
 		BigDecimal interesTotal = calcularInteresTotal(filtro);
 
@@ -52,17 +51,17 @@ public class PrestamoHelper {
 		return nuevoPrestamo;
 	}
 
-	private static BigDecimal calcularCuotaPura(BigDecimal capital, Integer cantCuotas) {
+	private BigDecimal calcularCuotaPura(BigDecimal capital, Integer cantCuotas) {
 		return capital.divide(BigDecimal.valueOf(cantCuotas), 0, RoundingMode.HALF_UP);
 	}
 
-	private static BigDecimal calcularInteresTotal(PrestamoFiltro filtro) {
+	private BigDecimal calcularInteresTotal(PrestamoFiltro filtro) {
 		Double tasa = filtro.getTasa();
 		return filtro.getCapital().multiply(BigDecimal.valueOf(tasa))
 				.divide(BigDecimal.valueOf(100), 0, RoundingMode.HALF_UP);
 	}
 
-	private static BigDecimal calcularImporteDeLaCuota(int cantidadDeCuotas, BigDecimal interesTotal, BigDecimal capital) {
+	private BigDecimal calcularImporteDeLaCuota(int cantidadDeCuotas, BigDecimal interesTotal, BigDecimal capital) {
 		BigDecimal totalPrestamo = interesTotal.add(capital);
 		return totalPrestamo.divide(BigDecimal.valueOf(Long.valueOf(cantidadDeCuotas)), 0, RoundingMode.HALF_UP);
 	}
@@ -72,7 +71,7 @@ public class PrestamoHelper {
 	 * @return
 	 * @throws AdministrativeException
 	 */
-	private static List<Cuota> getCuotas(Prestamo nuevoPrestamo) throws AdministrativeException {
+	private List<Cuota> getCuotas(Prestamo nuevoPrestamo) throws AdministrativeException {
 		List<Cuota> cuotas = new ArrayList<Cuota>();
 		Integer cantCuotas = nuevoPrestamo.getPreCantCuotas();
 		BigDecimal interesTotal = nuevoPrestamo.getPreInteresTotal();
@@ -98,7 +97,7 @@ public class PrestamoHelper {
 		return cuotas;
 	}
 
-	private static CuotaEstado calcularEstadoDeLaCuota(Date lastVto) {
+	private CuotaEstado calcularEstadoDeLaCuota(Date lastVto) {
 		DateTime ahora = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 		if (lastVto.compareTo(ahora.toDate()) > 0) {
 			return CuotaEstado.VIGENTE;
@@ -116,9 +115,9 @@ public class PrestamoHelper {
 	 * @return
 	 * @throws AdministrativeException
 	 */
-	private static Date calcularFechaVencimiento(Prestamo nuevoPrestamo, int numeroCuota, Date lastVto)
+	private Date calcularFechaVencimiento(Prestamo nuevoPrestamo, int numeroCuota, Date lastVto)
 			throws AdministrativeException {
-		DateTime plus = new DateTime(lastVto).withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
+		DateTime plus = new DateTime(lastVto);
 		DateTime day = null;
 		if (isSunday(plus)) {
 			day = plus.plusDays(1);
@@ -149,7 +148,7 @@ public class PrestamoHelper {
 		}
 	}
 
-	private static boolean isSunday(DateTime result) {
+	private boolean isSunday(DateTime result) {
 		return result.getDayOfWeek() >= DateTimeConstants.SUNDAY;
 	}
 }

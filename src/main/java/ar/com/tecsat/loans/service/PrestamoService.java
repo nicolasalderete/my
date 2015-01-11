@@ -37,7 +37,7 @@ public class PrestamoService {
 
 	@EJB
 	private PrestamoDao prestamoDao;
-
+	
 	@EJB
 	private ClienteService clienteService;
 	
@@ -45,8 +45,11 @@ public class PrestamoService {
 	private CuotaService cuotaService;
 
 	@EJB
+	private PagoService pagoService;
+	
+	@EJB
 	private PerfilService perfilService;
-
+	
 	public List<Prestamo> findAllPrestamos() throws AdministrativeException {
 		List<Prestamo> listaPrestamos = null;
 		try {
@@ -90,7 +93,7 @@ public class PrestamoService {
 
 	public Prestamo crearPrestamo(PrestamoFiltro filtro) throws AdministrativeException {
 		Cliente cliente = getCliente(filtro);
-		Prestamo prestamo = PrestamoHelper.createPrestamo(filtro, cliente);
+		Prestamo prestamo = PrestamoHelper.getInstance().createPrestamo(filtro, cliente);
 		return prestamo;
 
 	}
@@ -107,7 +110,7 @@ public class PrestamoService {
 	}
 
 	public void cancelarPrestamo(Prestamo prestamo) throws AdministrativeException {
-		List<Cuota> cuotas = prestamo.getCuotas();
+		List<Cuota> cuotas = cuotaService.findCuotasByPrestamo(prestamo);
 		for (Cuota cuota : cuotas) {
 			cuota.setCuoEstado(CuotaEstado.REFINANCIADO);
 		}
@@ -119,12 +122,11 @@ public class PrestamoService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public JasperPrint createReport(Prestamo prestamo, InputStream inputStream, BufferedImage image) throws AdministrativeException {
 		JRBeanCollectionDataSource jrBeanDataSource = new JRBeanCollectionDataSource(getDatasource(prestamo));
 		
 		try {
-			Map parameters = new HashMap();
+			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("titulo", "Reporte préstamo");
 			parameters.put("fechaEmision", Calendar.getInstance().getTime());
 
@@ -171,5 +173,14 @@ public class PrestamoService {
 		}
 		return result;
 	}
-
+	
+	public void borrarPrestamo(Prestamo prestamo) throws AdministrativeException {
+		try {
+//			pagoService.eliminarPagos(prestamo);
+			cuotaService.eliminarCuotas(prestamo);
+			prestamoDao.eliminarPrestamo(prestamo);
+		} catch (Exception e) {
+			throw new AdministrativeException(e.getMessage());
+		}
+	}
 }

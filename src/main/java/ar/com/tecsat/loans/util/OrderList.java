@@ -49,7 +49,9 @@ public class OrderList {
 
 			@Override
 			public int compare(Pago o1, Pago o2) {
-				return o1.getPrestamo().getCliente().getCliNombre().compareTo(o2.getPrestamo().getCliente().getCliNombre());
+				return o1.getPagId().compareTo(o2.getPagId());
+				// TODO comentado por el momento
+//				return o1.getPrestamo().getCliente().getCliNombre().compareTo(o2.getPrestamo().getCliente().getCliNombre());
 			}
 		});
 		return pagos;

@@ -7,7 +7,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import javax.ejb.EJB;
@@ -19,7 +22,13 @@ import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -50,7 +59,6 @@ public class CuotaBean extends BasicController implements Serializable {
 	private CuotaFiltro filtro = new CuotaFiltro();
 	private Stack<String> STEP = new Stack<String>();
 	private boolean isVigente = true;
-	private boolean editCuota = true;
 
 	@EJB
 	private ClienteService clienteService;
@@ -97,7 +105,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		saveStep();
 		return PAGO;
 	}
-
+	
 	/**
 	 * @param cuota
 	 * @throws AdministrativeException
@@ -129,7 +137,6 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	public String detail(Cuota cuota) {
 		setCuota(cuota);
-		setEditCuota(false);
 		setVigente(cuota.getCuoSaldo().compareTo(new BigDecimal(0)) > 0);
 		saveStep();
 		return SUMMARY;
@@ -167,24 +174,21 @@ public class CuotaBean extends BasicController implements Serializable {
 	}
 
 	public String modify() {
-		saveStep();
-		setEditCuota(true);
-		return SUMMARY;
+		setCuota(cuota);
+		return INTERESES;
 	}
 
 	public String cancelUpdate() {
-		setEditCuota(false);
 		return stepBack();
 	}
 
 	public String update() {
 		try {
 			cuotaService.actualizarCuotaIntereses(cuota, filtro);
+			setFiltro(new CuotaFiltro());
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 		}
-		setCuota(cuotaService.findCuota(cuota));
-		setEditCuota(false);
 		addMessageInfo("Operación realizada");
 		return SUMMARY;
 	}
@@ -307,20 +311,55 @@ public class CuotaBean extends BasicController implements Serializable {
 		this.isVigente = isVigente;
 	}
 
-	public boolean isEditCuota() {
-		return editCuota;
-	}
 
-	public void setEditCuota(boolean editCuota) {
-		this.editCuota = editCuota;
-	}
-
-	public List<Prestamo> changeSelectPrestamo() {
+	public void changeSelectPrestamo() {
 		if (null == filtro.getIdCliente()) {
-			return listaPrestamo;
+			try {
+				this.setListaPrestamo(OrderList.sortPrestamos(prestamoService.findAllPrestamos()));;
+			} catch (AdministrativeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
+			this.setListaPrestamo(OrderList.sortPrestamos(lista));
 		}
-		List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
-		return OrderList.sortPrestamos(lista);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void exportPdf() throws JRException, IOException {
+		String path = "/WEB-INF/reportes/reporteCuota.jrxml";
+
+		InputStream jasperTemplate = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(path);
+
+		JasperReport jasperReport = JasperCompileManager.compileReport(jasperTemplate);
+
+		@SuppressWarnings("rawtypes")
+		Map parameters = new HashMap();
+		parameters.put("fechaEmision", Calendar.getInstance().getTime());
+		parameters.put("cliente", cuota.getPrestamo().getCliente().getCliNombre());
+		parameters.put("mail", cuota.getPrestamo().getCliente().getCliMail());
+		parameters.put("cuota", cuota.toString());
+		parameters.put("importe", cuota.getCuoImporte());
+		parameters.put("total", cuota.getCuoSaldo());
+		parameters.put("fechaPago", cuota.getCuoFechaVencimiento());
+		
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
+
+		response.setContentType("application/pdf");
+		response.setHeader("Content-Disposition", "attachment; filename=\"report.pdf\"");
+
+		ServletOutputStream outputStream = response.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+
+		outputStream.flush();
+		outputStream.close();
+		FacesContext.getCurrentInstance().renderResponse();
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
 
 }

@@ -32,8 +32,8 @@ public class Pago implements Serializable {
 	private String pagEstado;
 	private Date pagFestado;
 	private BigDecimal pagMonto;
-	private Cliente cliente;
-	private Prestamo prestamo;
+//	private Cliente cliente;
+//	private Prestamo prestamo;
 	private Cuota cuota;
 
     public Pago() {
@@ -77,27 +77,27 @@ public class Pago implements Serializable {
 		this.pagMonto = pagMonto;
 	}
 
-	//bi-directional many-to-one association to Cliente
-    @ManyToOne
-	@JoinColumn(name="cli_id", nullable=false)
-	public Cliente getCliente() {
-		return this.cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+//	//bi-directional many-to-one association to Cliente
+//    @ManyToOne
+//	@JoinColumn(name="cli_id", nullable=false)
+//	public Cliente getCliente() {
+//		return this.cliente;
+//	}
+//
+//	public void setCliente(Cliente cliente) {
+//		this.cliente = cliente;
+//	}
 
 	//bi-directional many-to-one association to Prestamo
-    @ManyToOne
-	@JoinColumn(name="pre_id", nullable=false)
-	public Prestamo getPrestamo() {
-		return this.prestamo;
-	}
-
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
-	}
+//    @ManyToOne
+//	@JoinColumn(name="pre_id", nullable=false)
+//	public Prestamo getPrestamo() {
+//		return this.prestamo;
+//	}
+//
+//	public void setPrestamo(Prestamo prestamo) {
+//		this.prestamo = prestamo;
+//	}
 
 	//bi-directional many-to-one association to Cuota
     @ManyToOne

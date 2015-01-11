@@ -35,5 +35,7 @@ public interface CuotaDao {
 	public Cuota findCuota(Cuota currentCuota);
 
 	public List<Cuota> findByFechaVto(DateTime hoy);
+
+	public void eliminarCuota(Cuota cuota);
 	
 }

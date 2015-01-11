@@ -73,11 +73,11 @@ public class Cuota implements Serializable {
 	@Column(name = "cuo_interes", nullable = false, precision = 2)
 	private BigDecimal cuoInteres;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "pre_id", nullable = false)
 	private Prestamo prestamo;
 
-	@OneToMany(mappedBy = "cuota", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "cuota", cascade = CascadeType.REMOVE)
 	private List<Pago> pagos;
 
 	public Cuota() {

@@ -24,6 +24,7 @@ public class BasicController  {
 	public static final String CONFIRM = "confirm";
 	public static final String CANCELAR = "cancelar";
 	public static final String PAGO = "pago";
+	public static final String INTERESES = "intereses";
 	
 	public void addMessageInfo(String message) {
 		this.addMessage(FacesMessage.SEVERITY_INFO, message);
