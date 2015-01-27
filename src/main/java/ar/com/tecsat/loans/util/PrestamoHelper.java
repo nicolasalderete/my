@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeConstants;
 
 import ar.com.tecsat.loans.bean.CuotaEstado;
@@ -98,10 +99,10 @@ public class PrestamoHelper {
 	}
 
 	private CuotaEstado calcularEstadoDeLaCuota(Date lastVto) {
-		DateTime ahora = new DateTime().withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
-		if (lastVto.compareTo(ahora.toDate()) > 0) {
-			return CuotaEstado.VIGENTE;
-		} else if (lastVto.compareTo(ahora.toDate()) == 0) {
+		DateTime ahora = new DateTime().withTimeAtStartOfDay();
+		DateTime fechaVto = new DateTime(lastVto);
+		int result = DateTimeComparator.getInstance().compare(fechaVto, ahora);
+		if (result >= 0) {
 			return CuotaEstado.VIGENTE;
 		} else {
 			return CuotaEstado.VENCIDA;

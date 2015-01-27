@@ -143,7 +143,7 @@ public class PrestamoService {
 
 			parameters.put("capital", prestamo.getPreCapital());
 			parameters.put("preFechaEntrega", prestamo.getPreFechaInicio());
-			parameters.put("logo", image);
+			parameters.put("logo", null);
 			return JasperFillManager.fillReport(inputStream, parameters, jrBeanDataSource);
 		} catch (JRException e) {
 			throw new AdministrativeException("Error en el servicio de export pdf");

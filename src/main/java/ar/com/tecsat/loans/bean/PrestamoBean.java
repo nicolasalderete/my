@@ -205,13 +205,13 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 		InputStream inputStream = getFile(externalContext, "/WEB-INF/reportes/reportprestamo.jasper");
 		
-		BufferedImage image;
-		try {
-			image = ImageIO.read(externalContext.getResource("/WEB-INF/reportes/logo.jpg"));
-		} catch (IOException e) {
-			addMessageError("Error al cargar la plantilla");
-			return null;
-		}
+		BufferedImage image = null;
+//		try {
+//			image = ImageIO.read(externalContext.getResource("/WEB-INF/reportes/logo.jpg"));
+//		} catch (IOException e) {
+//			addMessageError("Error al cargar la plantilla");
+//			return null;
+//		}
 		
 		if (inputStream == null) {
 			addMessageError("Error al cargar la plantilla");
