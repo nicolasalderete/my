@@ -50,6 +50,7 @@ public class Cliente implements Serializable {
 	private String cliEntreCalle;
 	private String cliFacebook;
 	private String cliTipoCuenta;
+	private String cliBarrio;
 //	private List<Pago> pagos;
 	private List<Prestamo> prestamos;
 
@@ -245,5 +246,14 @@ public class Cliente implements Serializable {
 	@Override
 	public String toString() {
 		return String.format("Cliente: %s - Dni: %s", this.cliNombre, this.cliDni) ;
+	}
+
+	@Column(name="cli_barrio", length=100)
+	public String getCliBarrio() {
+		return cliBarrio;
+	}
+
+	public void setCliBarrio(String cliBarrio) {
+		this.cliBarrio = cliBarrio;
 	}
 }

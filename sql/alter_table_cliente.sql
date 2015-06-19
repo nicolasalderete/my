@@ -1,0 +1,1 @@
+alter table cliente add column cli_barrio varchar(100);

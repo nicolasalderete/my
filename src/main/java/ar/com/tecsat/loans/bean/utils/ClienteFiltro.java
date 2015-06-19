@@ -22,6 +22,7 @@ public class ClienteFiltro implements Serializable {
 	private String cliNombre;
 	private String cliTelefono;
 	private String banco;
+	private String cliBarrio;
 	
 	public String getCliCbu() {
 		return cliCbu;
@@ -94,6 +95,12 @@ public class ClienteFiltro implements Serializable {
 	}
 	public void setBanco(String banco) {
 		this.banco = banco;
+	}
+	public String getCliBarrio() {
+		return cliBarrio;
+	}
+	public void setCliBarrio(String cliBarrio) {
+		this.cliBarrio = cliBarrio;
 	}
 	
 }

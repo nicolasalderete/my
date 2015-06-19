@@ -129,6 +129,7 @@ public class ClienteDaoImpl implements ClienteDao{
 		addCliNombre(filtro, cb, root, predicateList);
 		addCliDni(filtro, cb, root, predicateList);
 		addCliDomicilio(filtro, cb, root, predicateList);
+		addCliBarrio(filtro, cb, root, predicateList);
 		addCliLocalidad(filtro, cb, root, predicateList);
 		addCliTelefono(filtro, cb, root, predicateList);
 		addCliCelular(filtro, cb, root, predicateList);
@@ -140,6 +141,13 @@ public class ClienteDaoImpl implements ClienteDao{
 		Predicate[] predicates = new Predicate[predicateList.size()];
 	    predicateList.toArray(predicates);
 		return predicates;
+	}
+
+	private void addCliBarrio(ClienteFiltro filtro, CriteriaBuilder cb, Root<Cliente> root,
+			List<Predicate> predicateList) {
+		if (!Strings.isNullOrEmpty(filtro.getCliLocalidad())) {
+			predicateList.add(cb.like(root.get("cliBarrio").as(String.class), "%"+filtro.getCliBarrio()+"%"));
+		}		
 	}
 
 	private void addBanco(ClienteFiltro filtro, CriteriaBuilder cb, Root<Cliente> root, List<Predicate> predicateList) {

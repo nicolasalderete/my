@@ -1,32 +1,23 @@
 package ar.com.tecsat.loans.bean;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
 import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import ar.com.tecsat.loans.bean.utils.PrestamoFiltro;
-import ar.com.tecsat.loans.controller.BasicController;
 import ar.com.tecsat.loans.exceptions.AdministrativeException;
 import ar.com.tecsat.loans.modelo.Cliente;
+import ar.com.tecsat.loans.modelo.Cuota;
 import ar.com.tecsat.loans.modelo.Prestamo;
 import ar.com.tecsat.loans.modelo.TipoPrestamo;
+import ar.com.tecsat.loans.pdf.AbstractReportBean;
 import ar.com.tecsat.loans.service.ClienteService;
 import ar.com.tecsat.loans.service.CuotaService;
 import ar.com.tecsat.loans.service.PrestamoService;
@@ -38,7 +29,7 @@ import ar.com.tecsat.loans.service.PrestamoService;
 @SuppressWarnings("serial")
 @Named
 @SessionScoped
-public class PrestamoBean extends BasicController implements Serializable {
+public class PrestamoBean extends AbstractReportBean implements Serializable {
 
 	// Propiedades
 	private Prestamo prestamo;
@@ -196,7 +187,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		saveStep();
 		return SUMMARY;
 	}
-
+/*
 	public String exportPdf() throws IOException {
 
 		byte[] pdf = null;
@@ -267,7 +258,7 @@ public class PrestamoBean extends BasicController implements Serializable {
 		}
 		return FILTER;
 	}
-
+*/
 	private void saveStep() {
 		STEP.push(getCurrentView());
 	}
@@ -326,6 +317,32 @@ public class PrestamoBean extends BasicController implements Serializable {
 
 	public void setSTEP(Stack<String> sTEP) {
 		STEP = sTEP;
+	}
+	
+	private Collection<Cuota> getDatasource(Prestamo prestamo) {
+		Collection<Cuota> lista = new ArrayList<Cuota>();
+		try {
+			lista = cuotaService.findCuotasByPrestamo(prestamo);
+		} catch (AdministrativeException e) {
+			e.printStackTrace();
+		}
+		return lista;
+	}
+	
+	public String exportPdf() throws IOException {
+		Collection<Cuota> cuotas = getDatasource(prestamo);
+		try {
+			super.prepareReport(prestamo, cuotas);
+        } catch (Exception e) {
+            // make your own exception handling
+            e.printStackTrace();
+        }
+        return null;
+	}
+
+	@Override
+	protected String getCompileFileName() {
+		return "reportprestamo";
 	}
 
 }
