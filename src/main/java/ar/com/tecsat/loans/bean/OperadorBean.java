@@ -1,8 +1,9 @@
 package ar.com.tecsat.loans.bean;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import java.io.Serializable;
 
 /**
  * @author nicolas

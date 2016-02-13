@@ -70,16 +70,12 @@ public class CuotaBean extends BasicController implements Serializable {
 	private CuotaService cuotaService;
 
 	public String init() {
-		List<Cuota> cuotas = null;
 		try {
-			cuotas = cuotaService.findCuotas();
 			inicializarForm();
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 			return null;
 		}
-		if (cuotas.isEmpty() || cuotas == null)
-			addMessageWarn("No hay registros");
 		return FILTER;
 	}
 

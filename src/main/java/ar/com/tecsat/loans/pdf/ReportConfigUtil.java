@@ -7,18 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import ar.com.tecsat.loans.exceptions.AdministrativeException;
-import ar.com.tecsat.loans.modelo.Cuota;
-import ar.com.tecsat.loans.modelo.Perfil;
-import ar.com.tecsat.loans.modelo.Prestamo;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -30,6 +24,9 @@ import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import ar.com.tecsat.loans.exceptions.AdministrativeException;
+import ar.com.tecsat.loans.modelo.Cuota;
+import ar.com.tecsat.loans.modelo.Prestamo;
  
 public class ReportConfigUtil {
  

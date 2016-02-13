@@ -27,21 +27,29 @@ import javax.persistence.Table;
 				query="select p from Pago p")
 })
 public class Pago implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="pag_id", unique=true, nullable=false)
 	private Integer pagId;
+
+	@Column(name="pag_estado", nullable=false, length=20)
 	private String pagEstado;
+
+	@Column(name="pag_festado", nullable=false)
 	private Date pagFestado;
+
+	@Column(name="pag_monto", nullable=false)
 	private BigDecimal pagMonto;
-//	private Cliente cliente;
-//	private Prestamo prestamo;
+
+	@ManyToOne
+	@JoinColumn(name="cuo_id", nullable=false)
 	private Cuota cuota;
 
     public Pago() {
     }
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="pag_id", unique=true, nullable=false)
 	public Integer getPagId() {
 		return this.pagId;
 	}
@@ -50,7 +58,6 @@ public class Pago implements Serializable {
 		this.pagId = pagId;
 	}
 
-	@Column(name="pag_estado", nullable=false, length=20)
 	public String getPagEstado() {
 		return this.pagEstado;
 	}
@@ -59,7 +66,6 @@ public class Pago implements Serializable {
 		this.pagEstado = pagEstado;
 	}
 
-	@Column(name="pag_festado", nullable=false)
 	public Date getPagFestado() {
 		return this.pagFestado;
 	}
@@ -68,7 +74,6 @@ public class Pago implements Serializable {
 		this.pagFestado = pagFestado;
 	}
 
-	@Column(name="pag_monto", nullable=false)
 	public BigDecimal getPagMonto() {
 		return this.pagMonto;
 	}
@@ -77,31 +82,6 @@ public class Pago implements Serializable {
 		this.pagMonto = pagMonto;
 	}
 
-//	//bi-directional many-to-one association to Cliente
-//    @ManyToOne
-//	@JoinColumn(name="cli_id", nullable=false)
-//	public Cliente getCliente() {
-//		return this.cliente;
-//	}
-//
-//	public void setCliente(Cliente cliente) {
-//		this.cliente = cliente;
-//	}
-
-	//bi-directional many-to-one association to Prestamo
-//    @ManyToOne
-//	@JoinColumn(name="pre_id", nullable=false)
-//	public Prestamo getPrestamo() {
-//		return this.prestamo;
-//	}
-//
-//	public void setPrestamo(Prestamo prestamo) {
-//		this.prestamo = prestamo;
-//	}
-
-	//bi-directional many-to-one association to Cuota
-    @ManyToOne
-	@JoinColumn(name="cuo_id", nullable=false)
 	public Cuota getCuota() {
 		return cuota;
 	}

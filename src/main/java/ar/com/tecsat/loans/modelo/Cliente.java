@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,213 +35,149 @@ import javax.persistence.Table;
 public class Cliente implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer cliId;
-	private String cliCbu;
-	private String cliCelular;
-	private String cliCuenta;
-	private String cliDireccion;
-	private String cliDni;
-	private String cliEstado;
-	private Date cliFestado;
-	private String cliLocalidad;
-	private String cliMail;
-	private String cliNombre;
-	private String cliTelefono;
-	private String cliBanco;
-	private String cliEntreCalle;
-	private String cliFacebook;
-	private String cliTipoCuenta;
-	private String cliBarrio;
-//	private List<Pago> pagos;
-	private List<Prestamo> prestamos;
-
-    public Cliente() {
-    }
-
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="cli_id", unique=true, nullable=false)
+	private Integer cliId;
+	@Column(name="cli_cbu", length=22)
+	private String cliCbu;
+	@Column(name="cli_celular", length=50)
+	private String cliCelular;
+	@Column(name="cli_cuenta", length=20)	
+	private String cliCuenta;
+	@Column(name="cli_direccion", length=100)
+	private String cliDireccion;
+	@Column(name="cli_dni", nullable=false, length=10)
+	private String cliDni;
+	@Column(name="cli_estado", length=20)
+	private String cliEstado;
+	@Column(name="cli_festado", nullable=false)
+	private Date cliFestado;
+	@Column(name="cli_localidad", length=100)
+	private String cliLocalidad;
+	@Column(name="cli_mail", length=100)
+	private String cliMail;
+	@Column(name="cli_nombre", nullable=false, length=50)
+	private String cliNombre;
+	@Column(name="cli_telefono", length=50)
+	private String cliTelefono;
+	@Column(name="banco", length=50)
+	private String cliBanco;
+	@Column(name="entre_calle", length=100)
+	private String cliEntreCalle;
+	@Column(name="url_facebook", length=100)
+	private String cliFacebook;
+	@Column(name="tipo_cta", length=50)
+	private String cliTipoCuenta;
+	@Column(name="cli_barrio", length=100)
+	private String cliBarrio;
+	@OneToMany(mappedBy = "cliente")
+	private List<Prestamo> prestamos;
+	
+    public Cliente() {
+    }
 	public Integer getCliId() {
 		return this.cliId;
 	}
-
 	public void setCliId(Integer cliId) {
 		this.cliId = cliId;
 	}
-
-
-	@Column(name="cli_cbu", length=22)
 	public String getCliCbu() {
 		return this.cliCbu;
 	}
-
 	public void setCliCbu(String cliCbu) {
 		this.cliCbu = cliCbu;
 	}
-
-
-	@Column(name="cli_celular", length=50)
 	public String getCliCelular() {
 		return this.cliCelular;
 	}
-
 	public void setCliCelular(String cliCelular) {
 		this.cliCelular = cliCelular;
 	}
-
-
-	@Column(name="cli_cuenta", length=20)
 	public String getCliCuenta() {
 		return this.cliCuenta;
 	}
-
 	public void setCliCuenta(String cliCuenta) {
 		this.cliCuenta = cliCuenta;
 	}
-
-
-	@Column(name="cli_direccion", length=100)
 	public String getCliDireccion() {
 		return this.cliDireccion;
 	}
-
 	public void setCliDireccion(String cliDireccion) {
 		this.cliDireccion = cliDireccion;
 	}
-
-
-	@Column(name="cli_dni", nullable=false, length=10)
 	public String getCliDni() {
 		return this.cliDni;
 	}
-
 	public void setCliDni(String cliDni) {
 		this.cliDni = cliDni;
 	}
-
-	@Column(name="cli_estado", length=20)
 	public String getCliEstado() {
 		return this.cliEstado;
 	}
-
 	public void setCliEstado(String cliEstado) {
 		this.cliEstado = cliEstado;
 	}
-
-
-	@Column(name="cli_festado", nullable=false)
 	public Date getCliFestado() {
 		return this.cliFestado;
 	}
-
 	public void setCliFestado(Date cliFestado) {
 		this.cliFestado = cliFestado;
 	}
-
-
-	@Column(name="cli_localidad", length=100)
 	public String getCliLocalidad() {
 		return this.cliLocalidad;
 	}
-
 	public void setCliLocalidad(String cliLocalidad) {
 		this.cliLocalidad = cliLocalidad;
 	}
-
-
-	@Column(name="cli_mail", length=100)
 	public String getCliMail() {
 		return this.cliMail;
 	}
-
 	public void setCliMail(String cliMail) {
 		this.cliMail = cliMail;
 	}
-
-
-	@Column(name="cli_nombre", nullable=false, length=50)
 	public String getCliNombre() {
 		return this.cliNombre;
 	}
-
 	public void setCliNombre(String cliNombre) {
 		this.cliNombre = cliNombre;
 	}
-
-
-	@Column(name="cli_telefono", length=50)
 	public String getCliTelefono() {
 		return this.cliTelefono;
 	}
-
 	public void setCliTelefono(String cliTelefono) {
 		this.cliTelefono = cliTelefono;
 	}
-
-
-//	//bi-directional many-to-one association to Pago
-//	@OneToMany(mappedBy="cliente")
-//	public List<Pago> getPagos() {
-//		return this.pagos;
-//	}
-//
-//	public void setPagos(List<Pago> pagos) {
-//		this.pagos = pagos;
-//	}
-//	
-//
-	//bi-directional many-to-one association to Prestamo
-	@OneToMany(mappedBy="cliente")
-	public List<Prestamo> getPrestamos() {
-		return this.prestamos;
-	}
-
-	public void setPrestamos(List<Prestamo> prestamos) {
-		this.prestamos = prestamos;
-	}
-	
-	@PrePersist
-	public void setEstadoAndFecha(){
-		setCliEstado(ClienteEstado.HABILITADO.toString());
-		setCliFestado(Calendar.getInstance().getTime());
-	}
-
-	@Column(name="banco", length=50)
 	public String getCliBanco() {
 		return cliBanco;
 	}
-
 	public void setCliBanco(String banco) {
 		this.cliBanco = banco;
 	}
-
-	@Column(name="tipo_cta", length=50)
 	public String getCliTipoCuenta() {
 		return cliTipoCuenta;
 	}
-
-
 	public void setCliTipoCuenta(String tipoCuenta) {
 		this.cliTipoCuenta = tipoCuenta;
 	}
-
-	@Column(name="entre_calle", length=100)
 	public String getCliEntreCalle() {
 		return cliEntreCalle;
 	}
-
 	public void setCliEntreCalle(String entreCalle) {
 		this.cliEntreCalle = entreCalle;
 	}
-
-	@Column(name="url_facebook", length=100)
 	public String getCliFacebook() {
 		return cliFacebook;
 	}
-
 	public void setCliFacebook(String facebook) {
 		this.cliFacebook = facebook;
+	}
+	public String getCliBarrio() {
+		return cliBarrio;
+	}
+	public void setCliBarrio(String cliBarrio) {
+		this.cliBarrio = cliBarrio;
 	}
 
 	@Override
@@ -248,12 +185,15 @@ public class Cliente implements Serializable {
 		return String.format("Cliente: %s - Dni: %s", this.cliNombre, this.cliDni) ;
 	}
 
-	@Column(name="cli_barrio", length=100)
-	public String getCliBarrio() {
-		return cliBarrio;
+	@PrePersist
+	public void setEstadoAndFecha(){
+		setCliEstado(ClienteEstado.HABILITADO.toString());
+		setCliFestado(Calendar.getInstance().getTime());
 	}
-
-	public void setCliBarrio(String cliBarrio) {
-		this.cliBarrio = cliBarrio;
+	public List<Prestamo> getPrestamos() {
+		return prestamos;
+	}
+	public void setPrestamos(List<Prestamo> prestamos) {
+		this.prestamos = prestamos;
 	}
 }

@@ -51,18 +51,13 @@ public class PrestamoBean extends AbstractReportBean implements Serializable {
 
 	// Actions
 	public String init() {
-		List<Prestamo> prestamos = null;
 		try {
-			prestamos = prestamoService.findAllPrestamos();
 			inicializarForm();
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 			return null;
 		}
 		cleanStack();
-		if (prestamos.isEmpty() || prestamos == null) {
-			addMessageWarn("No hay registros");
-		}
 		return FILTER;
 	}
 

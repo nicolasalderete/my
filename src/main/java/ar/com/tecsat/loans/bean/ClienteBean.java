@@ -37,16 +37,6 @@ public class ClienteBean extends BasicController implements Serializable{
 	// Actions
 	
 	public String init(){
-		List<Cliente> clientes;
-		try {
-			clientes = clienteService.findClientes();
-		} catch (AdministrativeException e) {
-			addMessageError(e.getMessage());
-			return null;
-		}
-		if (clientes == null || clientes.isEmpty()) {
-			addMessageWarn("No hay registros");
-		}
 		inicializarForm();
 		cleanStack();
 		return FILTER;

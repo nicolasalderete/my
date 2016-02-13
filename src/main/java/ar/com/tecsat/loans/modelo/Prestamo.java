@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,47 +39,32 @@ public class Prestamo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pre_id", unique = true, nullable = false)
 	private Integer id;
-	
 	@Column(name = "pre_capital", nullable = false, precision = 2)
 	private BigDecimal preCapital;
-	
 	@Column(name = "pre_cant_cuotas", nullable = false)
 	private Integer preCantCuotas;
-	
 	@Column(name = "pre_tasa", nullable = false, precision = 2)
 	private Double preTasa;
-	
 	@Column(name = "pre_intereses", nullable = false, precision = 2)
 	private BigDecimal preInteresTotal;
-	
 	@Column(name = "pre_cuota_pura", nullable = false, precision = 2)
 	private BigDecimal preCuotaPura;
-	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "pre_tipo")
 	private TipoPrestamo tipoPrestamo;
-	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, name = "pre_estado")
 	private PrestamoEstado preEstado;
-	
 	@Column(name = "pre_festado", nullable = false)
 	private Date preFechaEstado;
-	
 	@Column(name = "pre_finicio")
 	private Date preFechaInicio;
-	
 	@Column(name = "pre_monto_total")
 	private BigDecimal preMontoTotal;
-
 	@ManyToOne
 	@JoinColumn(name = "cli_id", nullable = false)
 	private Cliente cliente;
-	
-//	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL)
-//	private List<Pago> pagos;
-	
-	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Cuota> cuotas;
 
 	public Prestamo() {
@@ -146,16 +132,6 @@ public class Prestamo implements Serializable {
 		this.preTasa = preTasa;
 	}
 	
-//	// bi-directional many-to-one association to Pago
-//	public List<Pago> getPagos() {
-//		return this.pagos;
-//	}
-//
-//	public void setPagos(List<Pago> pagos) {
-//		this.pagos = pagos;
-//	}
-
-	// bi-directional many-to-one association to Cliente
 	public Cliente getCliente() {
 		return this.cliente;
 	}

@@ -6,7 +6,9 @@
 
 package ar.com.tecsat.loans.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Ejemplo simple de arranque de un programa externo desde java.

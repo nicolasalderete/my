@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,7 +27,7 @@ import ar.com.tecsat.loans.modelo.PrestamoEstado;
 @Stateless
 public class PrestamoDaoImpl implements PrestamoDao {
 
-	@PersistenceContext(unitName = "Prest")
+	@PersistenceContext(unitName = "Prest", type = PersistenceContextType.TRANSACTION)
 	private EntityManager em;
 
 	@SuppressWarnings("unchecked")

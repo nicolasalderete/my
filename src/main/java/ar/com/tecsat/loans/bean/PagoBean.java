@@ -46,16 +46,11 @@ public class PagoBean extends BasicController implements Serializable{
 	private PagoService pagoService;
 	
 	public String init() {
-		List<Pago> pagos = null;
 		try {
-			pagos = pagoService.findPagos();
 			inicializarForm();
 		} catch (AdministrativeException e) {
 			addMessageError(e.getMessage());
 			return null;
-		}
-		if (pagos == null){
-			addMessageWarn("No hay registros");
 		}
 		clearCheckPoint();
 		return FILTER;
