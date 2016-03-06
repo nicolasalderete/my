@@ -160,7 +160,6 @@ public class CuotaBean extends BasicController implements Serializable {
 		setCuota(new Cuota());
 		try {
 			setListaCliente(clienteService.findClientes());
-//			setListaPrestamo(prestamoService.findAllPrestamos());
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
