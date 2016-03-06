@@ -107,7 +107,7 @@ public class PagoDaoImpl implements PagoDao {
 	private void addCliente(PagoFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Pago> root,
 			List<Predicate> predicateList) {
 		if (filtro.getIdCliente() != null) {
-			Predicate cliente = criteriaBuilder.equal(root.get("cliente").get("cliId"), filtro.getIdCliente());
+			Predicate cliente = criteriaBuilder.equal(root.get("cuota").get("prestamo").get("cliente").get("cliId"), filtro.getIdCliente());
 			predicateList.add(cliente);
 		}
 	}
@@ -115,7 +115,7 @@ public class PagoDaoImpl implements PagoDao {
 	private void addPrestamo(PagoFiltro filtro, CriteriaBuilder criteriaBuilder, Root<Pago> root,
 			List<Predicate> predicateList) {
 		if (filtro.getIdPrestamo() != null) {
-			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("id"), filtro.getIdPrestamo());
+			Predicate prestamo = criteriaBuilder.equal(root.get("cuota").get("prestamo").get("id"), filtro.getIdPrestamo());
 			predicateList.add(prestamo);
 		}
 	}
@@ -136,7 +136,7 @@ public class PagoDaoImpl implements PagoDao {
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 			CriteriaQuery<Pago> query = criteriaBuilder.createQuery(Pago.class);
 			Root<Pago> root = query.from(Pago.class);
-			Predicate prestamo = criteriaBuilder.equal(root.get("prestamo").get("id"), id);
+			Predicate prestamo = criteriaBuilder.equal(root.get("cuota").get("prestamo").get("id"), id);
 			query.where(prestamo);
 			pagos = em.createQuery(query).getResultList();
 		} catch (Exception e) {

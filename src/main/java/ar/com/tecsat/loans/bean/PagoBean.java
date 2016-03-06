@@ -1,6 +1,7 @@
 package ar.com.tecsat.loans.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -80,8 +81,6 @@ public class PagoBean extends BasicController implements Serializable{
 	private void inicializarForm() throws AdministrativeException {
 		List<Cliente> clientes = clienteService.findClientes();
 		setListaClientes(clientes);
-		List<Prestamo> prestamos = prestamoService.findAllPrestamos();
-		setListaPrestamo(prestamos);
 		setFiltro(new PagoFiltro());
 		setPago(new Pago());
 	}
@@ -154,12 +153,7 @@ public class PagoBean extends BasicController implements Serializable{
 	
 	public void changeSelectPrestamo() {
 		if (null == filtro.getIdCliente()) {
-			try {
-				this.setListaPrestamo(OrderList.sortPrestamos(prestamoService.findAllPrestamos()));;
-			} catch (AdministrativeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.setListaPrestamo(new ArrayList<Prestamo>());;
 		} else {
 			List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
 			this.setListaPrestamo(OrderList.sortPrestamos(lista));

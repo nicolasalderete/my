@@ -160,7 +160,7 @@ public class CuotaBean extends BasicController implements Serializable {
 		setCuota(new Cuota());
 		try {
 			setListaCliente(clienteService.findClientes());
-			setListaPrestamo(prestamoService.findAllPrestamos());
+//			setListaPrestamo(prestamoService.findAllPrestamos());
 		} catch (AdministrativeException e) {
 			throw new AdministrativeException(e.getMessage());
 		}
@@ -310,12 +310,7 @@ public class CuotaBean extends BasicController implements Serializable {
 
 	public void changeSelectPrestamo() {
 		if (null == filtro.getIdCliente()) {
-			try {
-				this.setListaPrestamo(OrderList.sortPrestamos(prestamoService.findAllPrestamos()));;
-			} catch (AdministrativeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.setListaPrestamo(new ArrayList<Prestamo>());
 		} else {
 			List<Prestamo> lista = prestamoService.findByCliente(filtro.getIdCliente());
 			this.setListaPrestamo(OrderList.sortPrestamos(lista));

@@ -9,6 +9,8 @@ public class Config implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
+    	event.getServletContext().addServlet("pdfServlet", net.sf.jasperreports.j2ee.servlets.PdfServlet.class).addMapping("/servlets/report/PDF");
+    	
         System.setProperty("org.apache.el.parser.COERCE_TO_ZERO", "false");
         System.setProperty("user.timezone", "America/Argentina");
     }
@@ -17,5 +19,7 @@ public class Config implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent event) {
         // NOOP
     }
+    
+    
 
 }

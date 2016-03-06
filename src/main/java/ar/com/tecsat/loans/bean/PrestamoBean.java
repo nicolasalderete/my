@@ -182,78 +182,6 @@ public class PrestamoBean extends AbstractReportBean implements Serializable {
 		saveStep();
 		return SUMMARY;
 	}
-/*
-	public String exportPdf() throws IOException {
-
-		byte[] pdf = null;
-
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-
-		InputStream inputStream = getFile(externalContext, "/WEB-INF/reportes/reportprestamo.jasper");
-		
-		BufferedImage image = null;
-//		try {
-//			image = ImageIO.read(externalContext.getResource("/WEB-INF/reportes/logo.jpg"));
-//		} catch (IOException e) {
-//			addMessageError("Error al cargar la plantilla");
-//			return null;
-//		}
-		
-		if (inputStream == null) {
-			addMessageError("Error al cargar la plantilla");
-			return null;
-		}
-		
-		JasperPrint jasperPrint = null;
-		try {
-			jasperPrint = prestamoService.createReport(prestamo, inputStream, image);
-		} catch (Exception e) {
-			addMessageError("Error al compilar el reporte");
-			return null;
-		} finally {
-			inputStream.close();
-		}
-
-		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ServletOutputStream outputStream = null;
-
-		try {
-			outputStream = response.getOutputStream();
-			JRPdfExporter exporter = new JRPdfExporter();
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			ByteArrayOutputStream pdfByteArray = new ByteArrayOutputStream();
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfByteArray));
-			exporter.exportReport();
-			pdf = pdfByteArray.toByteArray();
-			//JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-			response.setContentType("application/pdf");
-			response.setHeader("Content-Disposition", "attachment; filename=\"reporte.pdf\"");
-
-			pdfByteArray.close();
-		} catch (Exception e) {
-			addMessageError("Error al exportar el pdf");
-			return null;
-		} finally {
-			outputStream.write(pdf);
-			outputStream.flush();
-			outputStream.close();
-			facesContext.responseComplete();
-		}
-		return null;
-	}
-	
-	public String eliminar() {
-		try {
-			prestamoService.borrarPrestamo(this.prestamo);
-			inicializarForm();
-		} catch (AdministrativeException e) {
-			addMessageError(e.getMessage());
-			return null;
-		}
-		return FILTER;
-	}
-*/
 	private void saveStep() {
 		STEP.push(getCurrentView());
 	}
@@ -329,7 +257,6 @@ public class PrestamoBean extends AbstractReportBean implements Serializable {
 		try {
 			super.prepareReport(prestamo, cuotas);
         } catch (Exception e) {
-            // make your own exception handling
             e.printStackTrace();
         }
         return null;
