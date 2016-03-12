@@ -64,7 +64,7 @@ public class Prestamo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "cli_id", nullable = false)
 	private Cliente cliente;
-	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "prestamo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Cuota> cuotas;
 
 	public Prestamo() {

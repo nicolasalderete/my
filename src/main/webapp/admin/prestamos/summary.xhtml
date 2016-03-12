@@ -221,7 +221,7 @@
 						<h:commandButton value="Volver" action="#{prestamoBean.stepBack()}" styleClass="btn" />
 					</div>
 					<div class="span1">
-							<h:commandButton action="#{prestamoBean.eliminar()}" styleClass="btn" value="Eliminar" 
+							<h:commandButton action="#{prestamoBean.eliminar(prestamoBean.prestamo)}" styleClass="btn" value="Eliminar" 
 								onclick="if (! confirm('Desea eliminar el prestamo como asi tambien las cuotas y pagos asociados al mismo.') ) { return false;}; return true;" />
 					</div>
 					<div class="span1">

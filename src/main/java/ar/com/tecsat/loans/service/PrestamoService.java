@@ -177,7 +177,7 @@ public class PrestamoService {
 	public void borrarPrestamo(Prestamo prestamo) throws AdministrativeException {
 		try {
 //			pagoService.eliminarPagos(prestamo);
-			cuotaService.eliminarCuotas(prestamo);
+//			cuotaService.eliminarCuotas(prestamo);
 			prestamoDao.eliminarPrestamo(prestamo);
 		} catch (Exception e) {
 			throw new AdministrativeException(e.getMessage());

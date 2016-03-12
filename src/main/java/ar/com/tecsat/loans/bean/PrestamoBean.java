@@ -182,6 +182,18 @@ public class PrestamoBean extends AbstractReportBean implements Serializable {
 		saveStep();
 		return SUMMARY;
 	}
+	
+	public String eliminar(Prestamo pre) {
+		try {
+			prestamoService.borrarPrestamo(pre);
+		} catch (AdministrativeException e) {
+			addMessageError(e.getMessage());
+			return null;
+		}
+		addMessageInfo("Operación realizada");
+		return init();
+	}
+	
 	private void saveStep() {
 		STEP.push(getCurrentView());
 	}
@@ -193,7 +205,7 @@ public class PrestamoBean extends AbstractReportBean implements Serializable {
 		this.prestamo = new Prestamo();
 		setEditPrestamo(false);
 	}
-
+	
 	public Prestamo getPrestamo() {
 		return prestamo;
 	}
